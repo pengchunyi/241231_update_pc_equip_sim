@@ -52,17 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="20241120_bakcup.cs" />
     <Compile Include="AmqpEndpointManager.cs" />
-    <Compile Include="CalculateCRC.cs" />
     <Compile Include="ModbusHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="send empty resp but read multi switch param without prob%29-testing.cs">
+    <Compile Include="main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="send empty resp but read multi switch param without prob%29-org.cs" />
-    <Compile Include="send_cfx_format_resp%28single switch and save value into param%29.cs" />
-    <Compile Include="send_cfx_format_resp_1119_copy2.cs" />
     <Compile Include="UIInitializer.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -73,11 +68,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="send empty resp but read multi switch param without prob%29-testing.resx">
-      <DependentUpon>send empty resp but read multi switch param without prob%29-testing.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="send empty resp but read multi switch param without prob%29-org.resx">
-      <DependentUpon>send empty resp but read multi switch param without prob%29-org.cs</DependentUpon>
+    <EmbeddedResource Include="main.resx">
+      <DependentUpon>main.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

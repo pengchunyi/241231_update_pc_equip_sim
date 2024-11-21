@@ -19,9 +19,10 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
 
         public SerialPort GetSerialPort() => serialPort;
         public Dictionary<byte, Dictionary<string, int>> GetSlaveData() => slaveData;
+		//public Dictionary<byte, Dictionary<string, double>> GetSlaveData() => slaveData;
 
 
-        private SerialPort serialPort; // 定義一個串口物件，用來與Modbus設備通訊
+		private SerialPort serialPort; // 定義一個串口物件，用來與Modbus設備通訊
         private ComboBox portSelector; // 下拉選單，用於選擇可用的串口COM口
         private TextBox stationNumberTextBox; // 輸入框，用於輸入Modbus站號
         private Button connectButton, readButton, switchButton; // 分別用於連接和讀取數據、新增開關控制按鈕 
@@ -75,9 +76,39 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
         // 定義更多參數變數，用於儲存設備提供的其他數據
         public int powerFactorA, powerFactorB, powerFactorC, activePowerA, activePowerB, activePowerC;
         public int reactivePowerA, reactivePowerB, reactivePowerC, breakerTimes, energyHighByte, energyLowByte;
-        public double energy;
+        public int energy;
         public int switchStatus, apparentPowerA, apparentPowerB, apparentPowerC, totalApparentPower, totalActivePower, totalReactivePower;
         public int combinedPowerFactor, lineFrequency, deviceType, historicalLeakage, historicalCurrentA, historicalCurrentB, historicalCurrentC;
+
+
+        //      // 定義各種變數，用來儲存從設備讀取的各種參數
+        //public int currentStatus1, currentStatus2, currentStatus; // 狀態表: 狀態數值不會太大，int 是合適的
+        //public double leakageCurrent; // 漏電電流: 單位是 mA，範圍是 0-100，需要高精度，建議 double
+        //public int tempA, tempB, tempC, tempN; // 溫度: 單位是攝氏度，範圍 0-127，int 是合適的
+
+        //// 定義更多參數變數，用於儲存電壓和電流
+        //public double voltageA, voltageB, voltageC; // 電壓: 單位 V，數值已乘以 10，建議 double
+        //public double currentA, currentB, currentC; // 電流: 單位 A，數值已乘以 100，建議 double
+
+        //// 定義更多參數變數，用於儲存功率和功率因數
+        //public double powerFactorA, powerFactorB, powerFactorC; // 功率因數: 範圍 0-1，建議 double
+        //public int activePowerA, activePowerB, activePowerC; // 有功功率: 單位 W，範圍是 0-50000，int 是合適的
+        //public int reactivePowerA, reactivePowerB, reactivePowerC; // 無功功率: 單位 W，範圍是 0-50000，int 是合適的
+
+        //// 合計值
+        //public int breakerTimes; // 合閘次數: 整數，範圍不超過 50000，int 是合適的
+        //public double energy; // 電能: 單位 kWh，範圍是高低位組合後除以 100，建議 double
+        //public int switchStatus; // 開關狀態: 0 或 1，int 是合適的
+        //public int apparentPowerA, apparentPowerB, apparentPowerC; // 視在功率: 單位 W，範圍是 0-65536，int 是合適的
+        //public int totalApparentPower, totalActivePower, totalReactivePower; // 總功率: 單位 W，範圍是 0-65536，int 是合適的
+        //public double combinedPowerFactor; // 合相功率因數: 範圍 0-1，建議 double
+        //public double lineFrequency; // 線頻率: 單位 Hz，範圍是 0-100，建議 double
+
+        //// 設備類型和歷史數據
+        //public int deviceType; // 設備類型: 整數代碼（0-6），int 是合適的
+        //public double historicalLeakage; // 歷史漏電值: 單位 mA，範圍 0-100，建議 double
+        //public double historicalCurrentA, historicalCurrentB, historicalCurrentC; // 歷史電流: 單位 A，範圍已乘 100，建議 double
+        //public int energyHighByte, energyLowByte;
 
 
         //public ModbusViewer()
@@ -171,125 +202,111 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
 
 
 
-        //20241119
+        //20241121
         private DataGridView dataGridView; // DataGridView 用於顯示數據
-        private Dictionary<byte, Dictionary<string, int>> slaveData = new Dictionary<byte, Dictionary<string, int>>(); // 存放站號及其參數數據
+		private Dictionary<byte, Dictionary<string, int>> slaveData = new Dictionary<byte, Dictionary<string, int>>(); // 存放站號及其參數數據
+																													   //private Dictionary<byte, Dictionary<string, double>> slaveData = new Dictionary<byte, Dictionary<string, double>>();
 
 
-        //private void UpdateDataGridView()
-        //{
-        //    if (dataGridView.InvokeRequired)
-        //    {
-        //        // 如果需要跨執行緒操作，使用 Invoke 調用
-        //        dataGridView.Invoke(new Action(UpdateDataGridView));
-        //        return;
-        //    }
+		//private void UpdateDataGridView()
+		//{
+		//    if (dataGridView.InvokeRequired)
+		//    {
+		//        // 如果需要跨執行緒操作，使用 Invoke 調用
+		//        dataGridView.Invoke(new Action(UpdateDataGridView));
+		//        return;
+		//    }
 
-        //    // 確保在 UI 執行緒上執行以下代碼
-        //    dataGridView.Columns.Clear();
-        //    dataGridView.Rows.Clear();
+		//    // 確保在 UI 執行緒上執行以下代碼
+		//    dataGridView.Columns.Clear();
+		//    dataGridView.Rows.Clear();
 
-        //    // 添加第一列：參數名稱
-        //    dataGridView.Columns.Add("Parameter", "參數名稱");
+		//    // 添加第一列：參數名稱
+		//    dataGridView.Columns.Add("Parameter", "參數名稱");
 
-        //    // 動態添加站號列
-        //    foreach (var station in slaveData.Keys)
-        //    {
-        //        dataGridView.Columns.Add($"Slave_{station}", $"站號 {station}");
-        //    }
+		//    // 動態添加站號列
+		//    foreach (var station in slaveData.Keys)
+		//    {
+		//        dataGridView.Columns.Add($"Slave_{station}", $"站號 {station}");
+		//    }
 
-        //    // 動態添加行：每個參數及其對應的值
-        //    foreach (var parameter in slaveData.Values.SelectMany(d => d.Keys).Distinct())
-        //    {
-        //        var row = new List<object> { parameter }; // 第一列是參數名稱
-        //        foreach (var station in slaveData.Keys)
-        //        {
-        //            // 如果站號有這個參數，填入數值；否則顯示 "N/A"
-        //            row.Add(slaveData[station].ContainsKey(parameter) ? slaveData[station][parameter].ToString() : "N/A");
-        //        }
-        //        dataGridView.Rows.Add(row.ToArray());
-        //    }
-        //}
-        //private void UpdateDataGridView()
-        //{
-        //    if (dataGridView.InvokeRequired)
-        //    {
-        //        // 如果需要跨執行緒操作，使用 Invoke 調用
-        //        dataGridView.Invoke(new Action(UpdateDataGridView));
-        //        return;
-        //    }
+		//    // 動態添加行：每個參數及其對應的值
+		//    foreach (var parameter in slaveData.Values.SelectMany(d => d.Keys).Distinct())
+		//    {
+		//        var row = new List<object> { parameter }; // 第一列是參數名稱
+		//        foreach (var station in slaveData.Keys)
+		//        {
+		//            // 如果站號有這個參數，填入數值；否則顯示 "N/A"
+		//            row.Add(slaveData[station].ContainsKey(parameter) ? slaveData[station][parameter].ToString() : "N/A");
+		//        }
+		//        dataGridView.Rows.Add(row.ToArray());
+		//    }
+		//}
+		private void UpdateDataGridView()
+		{
+			if (dataGridView.InvokeRequired)
+			{
+				dataGridView.Invoke(new Action(UpdateDataGridView));
+				return;
+			}
 
-        //    // 清空 DataGridView
-        //    dataGridView.Columns.Clear();
-        //    dataGridView.Rows.Clear();
+			// 記錄當前選中行和滾動位置
+			int currentSelectedRowIndex = dataGridView.CurrentRow?.Index ?? -1;
+			int firstDisplayedRowIndex = dataGridView.FirstDisplayedScrollingRowIndex;
 
-        //    // 添加參數名稱列
-        //    dataGridView.Columns.Add("Parameter", "參數名稱");
+			dataGridView.Columns.Clear();
+			dataGridView.Rows.Clear();
 
-        //    // 為每個站號添加一列
-        //    foreach (var station in slaveData.Keys)
-        //    {
-        //        dataGridView.Columns.Add($"Slave_{station}", $"站號 {station}");
-        //    }
+			// 移除行首箭頭
+			dataGridView.RowHeadersVisible = false;
 
-        //    // 收集所有參數名稱
-        //    var allParameters = slaveData.Values
-        //        .SelectMany(d => d.Keys)
-        //        .Distinct()
-        //        .ToList();
+			// 添加參數名稱列
+			dataGridView.Columns.Add("Parameter", "參數名稱");
 
-        //    // 添加每個參數及對應數值
-        //    foreach (var parameter in allParameters)
-        //    {
-        //        var row = new List<object> { parameter }; // 第一列為參數名稱
-        //        foreach (var station in slaveData.Keys)
-        //        {
-        //            // 如果該站號有此參數，填入數值，否則顯示 "N/A"
-        //            row.Add(slaveData[station].TryGetValue(parameter, out var value) ? value.ToString() : "N/A");
-        //        }
-        //        dataGridView.Rows.Add(row.ToArray());
-        //    }
-        //}
-        private void UpdateDataGridView()
-        {
-            if (dataGridView.InvokeRequired)
-            {
-                dataGridView.Invoke(new Action(UpdateDataGridView));
-                return;
-            }
+			// 添加站號列
+			foreach (var station in slaveData.Keys)
+			{
+				dataGridView.Columns.Add($"Slave_{station}", $"站號 {station}");
+			}
 
-            dataGridView.Columns.Clear();
-            dataGridView.Rows.Clear();
+			// 收集所有參數
+			var allParameters = slaveData.Values
+				.SelectMany(d => d.Keys)
+				.Distinct()
+				.ToList();
 
-            dataGridView.Columns.Add("Parameter", "參數名稱");
-            foreach (var station in slaveData.Keys)
-            {
-                dataGridView.Columns.Add($"Slave_{station}", $"站號 {station}");
-            }
+			// 添加行數據
+			foreach (var parameter in allParameters)
+			{
+				var row = new List<object> { parameter }; // 第一列是參數名稱
+				foreach (var station in slaveData.Keys)
+				{
+					row.Add(slaveData[station].TryGetValue(parameter, out var value) ? value.ToString() : "N/A");
+				}
+				dataGridView.Rows.Add(row.ToArray());
+			}
 
-            var allParameters = slaveData.Values
-                .SelectMany(d => d.Keys)
-                .Distinct()
-                .ToList();
+			// 恢復選中行
+			if (currentSelectedRowIndex >= 0 && currentSelectedRowIndex < dataGridView.RowCount)
+			{
+				dataGridView.Rows[currentSelectedRowIndex].Selected = true;
+				dataGridView.CurrentCell = dataGridView.Rows[currentSelectedRowIndex].Cells[0]; // 確保焦點保持在同一行
+			}
 
-            foreach (var parameter in allParameters)
-            {
-                var row = new List<object> { parameter };
-                foreach (var station in slaveData.Keys)
-                {
-                    row.Add(slaveData[station].TryGetValue(parameter, out var value) ? value.ToString() : "N/A");
-                }
-                dataGridView.Rows.Add(row.ToArray());
-            }
-        }
+			// 恢復滾動位置
+			if (firstDisplayedRowIndex >= 0 && firstDisplayedRowIndex < dataGridView.RowCount)
+			{
+				dataGridView.FirstDisplayedScrollingRowIndex = firstDisplayedRowIndex;
+			}
+		}
 
 
 
 
 
-        //updateTimer 每隔 3 秒觸發一次，並執行 UpdateValues()。如果上一次的操作尚未完成，下一次操作可能會重疊，導致執行緒競爭和性能問題。
-        //添加一個 執行鎖（lock） 或標記來避免同時執行多個更新操作
-        private bool isUpdating = false;
+		//updateTimer 每隔 3 秒觸發一次，並執行 UpdateValues()。如果上一次的操作尚未完成，下一次操作可能會重疊，導致執行緒競爭和性能問題。
+		//添加一個 執行鎖（lock） 或標記來避免同時執行多個更新操作
+		private bool isUpdating = false;
         private async void UpdateValues()
         {
             if (isUpdating) return; // 如果已經在更新，直接返回
@@ -325,10 +342,15 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
                 {
                     slaveData[stationNumber] = new Dictionary<string, int>(); // 初始化該站號的數據
                 }
+                //if (byte.TryParse(station.Trim(), out var stationNumber))
+                //{
+                //	slaveData[stationNumber] = new Dictionary<string, int>(); // 修正為 double
+                //}
+
             }
 
-            // 創建串口並連接
-            serialPort = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
+			// 創建串口並連接
+			serialPort = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
             try
             {
                 serialPort.Open();
@@ -369,7 +391,7 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
             breakerTimes = 0;
             energyHighByte = 0;
             energyLowByte = 0;
-            energy = 0.0;
+            energy = 0;
             switchStatus = 0;
             apparentPowerA = 0;
             apparentPowerB = 0;
@@ -407,6 +429,8 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
                 "amqp://127.0.0.1:8888",
                 "amqp://127.0.0.1:6666",
                 "amqp://127.0.0.1:6666",
+                //"amqp://10.181.56.175:30031",
+                //"amqp://10.181.56.175:30031",
                 modbusViewer,
                 serialPort,
                 slaveData

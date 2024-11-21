@@ -43,11 +43,11 @@ namespace AmqpModbusIntegration
             viewer.Controls.Add(readButton);
 
             // 开关控制按钮 - 打开
-            switchOnButton = new Button { Text = "開啟開關", Location = new System.Drawing.Point(300, 50), Width = 80 };
+            switchOnButton = new Button { Text = "合閘", Location = new System.Drawing.Point(300, 50), Width = 80 };
             viewer.Controls.Add(switchOnButton);
 
             // 开关控制按钮 - 关闭
-            switchOffButton = new Button { Text = "關閉開關", Location = new System.Drawing.Point(400, 50), Width = 80 };
+            switchOffButton = new Button { Text = "分閘", Location = new System.Drawing.Point(400, 50), Width = 80 };
             viewer.Controls.Add(switchOffButton);
 
             // 初始化 DataGridView
