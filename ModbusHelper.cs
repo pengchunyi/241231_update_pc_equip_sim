@@ -15,7 +15,9 @@ namespace AmqpModbusIntegration
             {
                 byte[] openCommand = { stationNumber, 0x06, 0x00, 0x31, 0x55, 0x88 };
                 byte[] fullCommand = AppendCRC(openCommand);
-                serialPort.Write(fullCommand, 0, fullCommand.Length);
+				serialPort.DiscardInBuffer(); // 清空輸入緩衝區
+				serialPort.DiscardOutBuffer(); // 清空輸出緩衝區
+				serialPort.Write(fullCommand, 0, fullCommand.Length);
                 Console.WriteLine($"站號 {stationNumber} 的開關已打開");
             }
         }
@@ -26,7 +28,9 @@ namespace AmqpModbusIntegration
             {
                 byte[] closeCommand = { stationNumber, 0x06, 0x00, 0x31, 0x55, 0x66 };
                 byte[] fullCommand = AppendCRC(closeCommand);
-                serialPort.Write(fullCommand, 0, fullCommand.Length);
+				serialPort.DiscardInBuffer(); // 清空輸入緩衝區
+				serialPort.DiscardOutBuffer(); // 清空輸出緩衝區
+				serialPort.Write(fullCommand, 0, fullCommand.Length);
                 Console.WriteLine($"站號 {stationNumber} 的開關已關閉");
             }
         }
@@ -45,10 +49,12 @@ namespace AmqpModbusIntegration
                         // 發送讀取命令
                         byte[] readCommand = { station, 0x03, 0x00, 0x00, 0x00, 0x30 };
                         byte[] fullCommand = AppendCRC(readCommand);
-                        serialPort.Write(fullCommand, 0, fullCommand.Length);
+						serialPort.DiscardInBuffer(); // 清空輸入緩衝區
+						serialPort.DiscardOutBuffer(); // 清空輸出緩衝區
+						serialPort.Write(fullCommand, 0, fullCommand.Length);
 
                         // 延遲等待回應
-                        await Task.Delay(300);
+                        await Task.Delay(200);
 
                         // 讀取回應數據
                         byte[] buffer = new byte[256];
@@ -66,7 +72,7 @@ namespace AmqpModbusIntegration
                         }
 
                         // 適當延遲，避免總線衝突
-                        await Task.Delay(300);
+                        await Task.Delay(200);
                     }
                     catch (Exception ex)
                     {

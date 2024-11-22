@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmqpEndpointManager.cs" />
+    <Compile Include="AmqpEndpointManager_ORG.cs" />
     <Compile Include="ModbusHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="main.cs">

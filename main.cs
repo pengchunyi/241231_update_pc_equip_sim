@@ -199,49 +199,9 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
             }
         }
 
-
-
-
         //20241121
         private DataGridView dataGridView; // DataGridView 用於顯示數據
-		private Dictionary<byte, Dictionary<string, int>> slaveData = new Dictionary<byte, Dictionary<string, int>>(); // 存放站號及其參數數據
-																													   //private Dictionary<byte, Dictionary<string, double>> slaveData = new Dictionary<byte, Dictionary<string, double>>();
-
-
-		//private void UpdateDataGridView()
-		//{
-		//    if (dataGridView.InvokeRequired)
-		//    {
-		//        // 如果需要跨執行緒操作，使用 Invoke 調用
-		//        dataGridView.Invoke(new Action(UpdateDataGridView));
-		//        return;
-		//    }
-
-		//    // 確保在 UI 執行緒上執行以下代碼
-		//    dataGridView.Columns.Clear();
-		//    dataGridView.Rows.Clear();
-
-		//    // 添加第一列：參數名稱
-		//    dataGridView.Columns.Add("Parameter", "參數名稱");
-
-		//    // 動態添加站號列
-		//    foreach (var station in slaveData.Keys)
-		//    {
-		//        dataGridView.Columns.Add($"Slave_{station}", $"站號 {station}");
-		//    }
-
-		//    // 動態添加行：每個參數及其對應的值
-		//    foreach (var parameter in slaveData.Values.SelectMany(d => d.Keys).Distinct())
-		//    {
-		//        var row = new List<object> { parameter }; // 第一列是參數名稱
-		//        foreach (var station in slaveData.Keys)
-		//        {
-		//            // 如果站號有這個參數，填入數值；否則顯示 "N/A"
-		//            row.Add(slaveData[station].ContainsKey(parameter) ? slaveData[station][parameter].ToString() : "N/A");
-		//        }
-		//        dataGridView.Rows.Add(row.ToArray());
-		//    }
-		//}
+		private Dictionary<byte, Dictionary<string, int>> slaveData = new Dictionary<byte, Dictionary<string, int>>(); 
 		private void UpdateDataGridView()
 		{
 			if (dataGridView.InvokeRequired)
@@ -342,10 +302,6 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
                 {
                     slaveData[stationNumber] = new Dictionary<string, int>(); // 初始化該站號的數據
                 }
-                //if (byte.TryParse(station.Trim(), out var stationNumber))
-                //{
-                //	slaveData[stationNumber] = new Dictionary<string, int>(); // 修正為 double
-                //}
 
             }
 
