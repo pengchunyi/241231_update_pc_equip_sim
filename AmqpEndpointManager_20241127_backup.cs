@@ -23,11 +23,6 @@
 //		private readonly Dictionary<byte, Dictionary<string, int>> slaveData;
 
 
-
-
-
-
-
 //		//20241127新增===========================================================================
 //		private static readonly Dictionary<int, (string FaultCode, string Description)> faultDictionary = new Dictionary<int, (string FaultCode, string Description)>
 //	{
@@ -121,8 +116,6 @@
 //				// 遍歷 slaveData 的站號
 //				foreach (var stationNumber in slaveData.Keys)
 //				{
-//					// 發佈 FaultOccurred 消息
-//					PublishFaultOccurredMessages(stationNumber, endpoint);
 //					//var response = CreateEnergyConsumptionResponse(stationNumber);
 //					var response = CreateStationParametersModified(stationNumber);
 
@@ -142,122 +135,125 @@
 //			}
 //		}
 
-//		//20241127_新增=======================================================================
-//		//public void SimulateFaultForTesting(Dictionary<byte, Dictionary<string, int>> simulatedData)
+
+//		//private EnergyConsumptionResponse CreateEnergyConsumptionResponse(byte stationNumber)
 //		//{
-//		//	foreach (var stationData in simulatedData)
-//		//	{
-//		//		byte stationNumber = stationData.Key;
-//		//		if (stationData.Value.TryGetValue("當前狀態", out var statusRegister))
-//		//		{
-//		//			for (int bitPosition = 0; bitPosition <= 27; bitPosition++)
-//		//			{
-//		//				if ((statusRegister & (1 << bitPosition)) != 0 && faultDictionary.ContainsKey(bitPosition))
-//		//				{
-//		//					var (faultCode, description) = faultDictionary[bitPosition];
-//		//					var faultOccurred = new FaultOccurred
-//		//					{
-//		//						Fault = new Fault
-//		//						{
-//		//							Cause = FaultCause.MechanicalFailure,
-//		//							Severity = FaultSeverity.Error,
-//		//							FaultCode = faultCode,
-//		//							FaultOccurrenceId = Guid.NewGuid(),
-//		//							Description = description,
-//		//							OccurredAt = DateTime.UtcNow
-//		//						}
-//		//					};
-//		//					Console.WriteLine($"Simulated FaultOccurred: {faultCode} - {description}");
-//		//				}
-//		//			}
-//		//		}
-//		//	}
-//		//}
-//		//20241127_新增=======================================================================
-//		//private void PublishFaultOccurredMessages(byte stationNumber, AmqpCFXEndpoint endpoint)
-//		//{
+
+//		//	// 從 slaveData 中取得對應站號的資料
 //		//	if (!slaveData.TryGetValue(stationNumber, out var data) || data == null || !data.Any())
 //		//	{
-//		//		Console.WriteLine($"No valid data found for station number {stationNumber}.");
-//		//		return;
+//		//		Console.WriteLine($"無法找到站號 {stationNumber} 的有效資料。");
+//		//		return null; // 無數據返回 null
 //		//	}
 
-//		//	if (data.TryGetValue("當前狀態", out var statusRegister))
+//		//	// 確保至少有一個非零的數據值
+//		//	bool hasValidData = data.Values.Any(value => value != 0);
+//		//	if (!hasValidData)
 //		//	{
-//		//		for (int bitPosition = 0; bitPosition <= 27; bitPosition++)
-//		//		{
-//		//			if ((statusRegister & (1 << bitPosition)) != 0 && faultDictionary.ContainsKey(bitPosition))
-//		//			{
-//		//				var (faultCode, description) = faultDictionary[bitPosition];
-//		//				var faultOccurred = new FaultOccurred
-//		//				{
-//		//					Fault = new Fault
-//		//					{
-//		//						FaultCode = faultCode, // 必帶
-//		//						FaultOccurrenceId = Guid.NewGuid(), // 必帶，唯一識別每個錯誤
-//		//						Description = description, // 必帶，錯誤描述
-//		//						OccurredAt = DateTime.UtcNow, // 必帶，發生錯誤的時間
-//		//						Severity = FaultSeverity.Error, // 必帶，錯誤的嚴重程度，固定為 Error
-//		//						Lane = 0, // 非必填，固定為 0
-//		//						SideLocation = SideLocation.Unknown, // 非必填，默認為 Unknown
-//		//						TransactionID = Guid.NewGuid(), // 必帶，工位事件的唯一 ID
-//		//						Stage = new Stage // 可選
-//		//						{
-//		//							StageName = $"Station_{stationNumber}", // 工位名稱
-//		//							StageSequence = 1, // 假設為第 1 工位
-//		//							StageType = StageType.Processing // 默認為加工站
-//		//						}
-//		//					}
-//		//				};
-
-//		//				// 發佈 FaultOccurred 消息
-//		//				endpoint.Publish(faultOccurred);
-//		//				Console.WriteLine($"Published FaultOccurred message for fault: {faultCode} - {description}");
-//		//			}
-//		//		}
+//		//		Console.WriteLine($"站號 {stationNumber} 的數據全部為默認值（零），跳過處理。");
+//		//		return null;
 //		//	}
+
+
+
+
+
+//		//	// 提取 RYB 電壓值
+//		//	var voltageRYB = new List<double>
+//		//	{
+//		//		data.TryGetValue("A相電壓 (V)", out var voltageA) ? voltageA : 0.0,
+//		//		data.TryGetValue("B相電壓 (V)", out var voltageB) ? voltageB : 0.0,
+//		//		data.TryGetValue("C相電壓 (V)", out var voltageC) ? voltageC : 0.0
+//		//	};
+
+//		//	// 提取 RYB 電流
+//		//	var currentRYB = new List<double>
+//		//	{
+//		//		data.TryGetValue("A相電流 (A)", out var currentA) ? currentA : 0.0,
+//		//		data.TryGetValue("B相電流 (A)", out var currentB) ? currentB : 0.0,
+//		//		data.TryGetValue("C相電流 (A)", out var currentC) ? currentC : 0.0
+//		//	};
+
+//		//	// 提取 RYB 功率
+//		//	var powerRYB = new List<double>
+//		//	{
+//		//		data.TryGetValue("A相有功功率 (W)", out var powerA) ? powerA : 0.0,
+//		//		data.TryGetValue("B相有功功率 (W)", out var powerB) ? powerB : 0.0,
+//		//		data.TryGetValue("C相有功功率 (W)", out var powerC) ? powerC : 0.0
+//		//	};
+
+//		//	// 提取 RYB 功率因數
+//		//	var powerFactorRYB = new List<double>
+//		//	{
+//		//		data.TryGetValue("A相功率因數", out var pfA) ? pfA : 0.0,
+//		//		data.TryGetValue("B相功率因數", out var pfB) ? pfB : 0.0,
+//		//		data.TryGetValue("C相功率因數", out var pfC) ? pfC : 0.0
+//		//	};
+
+//		//	// 單項數值提取
+//		//	var voltageNow = voltageRYB.FirstOrDefault();
+//		//	var currentNow = currentRYB.FirstOrDefault();
+//		//	var powerNow = powerRYB.FirstOrDefault();
+//		//	var frequencyNow = data.TryGetValue("當前線頻率 (Hz)", out var frequency) ? frequency : 0.0;
+
+//		//	// 創建並返回 EnergyConsumptionResponse
+//		//	return new EnergyConsumptionResponse
+//		//	{
+//		//		Result = new CFX.Structures.RequestResult
+//		//		{
+//		//			Result = CFX.Structures.StatusResult.Success,
+//		//			ResultCode = 0,
+//		//			Message = $"Station {stationNumber} Data Retrieved Successfully"
+//		//		},
+//		//		StartTime = DateTimeOffset.Now.DateTime, // 符合格式要求
+//		//		EndTime = DateTimeOffset.Now.DateTime,
+
+
+
+
+//		//		EnergyUsed = data.TryGetValue("電能 (kWh)", out var energy) ? energy : 0.0,
+
+//		//		PeakPower = powerNow,
+//		//		MinimumPower = powerNow,
+//		//		MeanPower = powerNow,
+//		//		PowerNow = powerNow,
+//		//		PowerFactorNow = powerFactorRYB.FirstOrDefault(),
+
+//		//		PeakCurrent = currentNow,
+//		//		MinimumCurrent = currentNow,
+//		//		MeanCurrent = currentNow,
+//		//		CurrentNow = currentNow,
+
+//		//		PeakVoltage = voltageNow,
+//		//		MinimumVoltage = voltageNow,
+//		//		MeanVoltage = voltageNow,
+//		//		VoltageNow = voltageNow,
+
+//		//		PeakFrequency = frequencyNow,
+//		//		MinimumFrequency = frequencyNow,
+//		//		MeanFrequency = frequencyNow,
+//		//		FrequencyNow = frequencyNow,
+
+//		//		PeakPowerRYB = powerRYB,
+//		//		MinimumPowerRYB = powerRYB,
+//		//		MeanPowerRYB = powerRYB,
+//		//		PowerNowRYB = powerRYB,
+
+//		//		PowerFactorNowRYB = powerFactorRYB,
+
+//		//		PeakCurrentRYB = currentRYB,
+//		//		MinimumCurrentRYB = currentRYB,
+//		//		MeanCurrentRYB = currentRYB,
+//		//		CurrentNowRYB = currentRYB,
+
+//		//		PeakVoltageRYB = voltageRYB,
+//		//		MinimumVoltageRYB = voltageRYB,
+//		//		MeanVoltageRYB = voltageRYB,
+//		//		VoltageNowRYB = voltageRYB,
+
+//		//		ThreePhaseNeutralCurrentNow = 0.0
+//		//	};
 //		//}
-
-
-
-//		//20241127_新增=======================================================================
-//		private void PublishFaultOccurredMessages(byte stationNumber, AmqpCFXEndpoint endpoint)
-//		{
-//			if (!slaveData.TryGetValue(stationNumber, out var data) || data == null || !data.Any())
-//			{
-//				Console.WriteLine($"No valid data found for station number {stationNumber}.");
-//				return;
-//			}
-
-//			if (data.TryGetValue("當前狀態", out var statusRegister))
-//			{
-//				for (int bitPosition = 0; bitPosition <= 27; bitPosition++)
-//				{
-//					if ((statusRegister & (1 << bitPosition)) != 0 && faultDictionary.ContainsKey(bitPosition))
-//					{
-//						var (faultCode, description) = faultDictionary[bitPosition];
-//						var faultOccurred = new FaultOccurred
-//						{
-//							Fault = new Fault
-//							{
-//								Cause = FaultCause.MechanicalFailure,
-//								Severity = FaultSeverity.Error,
-//								FaultCode = faultCode,
-//								//FaultOccurrenceId = Guid.NewGuid().ToString(),
-//								FaultOccurrenceId = Guid.NewGuid(),
-//								Description = description,
-//								OccurredAt = DateTime.UtcNow
-//							}
-//						};
-//						endpoint.Publish(faultOccurred);
-//						Console.WriteLine($"Published FaultOccurred message for fault: {faultCode} - {description}");
-//					}
-//				}
-//			}
-
-//		}
-
-
 
 //		private StationParametersModified CreateStationParametersModified(byte stationNumber)
 //		{
@@ -355,7 +351,3 @@
 
 //	}
 //}
-
-
-
-

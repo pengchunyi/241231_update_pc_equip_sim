@@ -26,17 +26,7 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
         private ComboBox portSelector; // 下拉選單，用於選擇可用的串口COM口
         private TextBox stationNumberTextBox; // 輸入框，用於輸入Modbus站號
         private Button connectButton, readButton, switchButton; // 分別用於連接和讀取數據、新增開關控制按鈕 
-		//20241129_新增=============================================
-		private TextBox tempTextBox;
-		private Button tempSetButton;
-        //20241129_新增=============================================
-
-        //20241202_新增=======================================
-        private Button testFaultButton;
-
-
-
-		private byte stationNumber = 0xFF; // 儲存Modbus站號，預設值為0xFF（255）
+        private byte stationNumber = 0xFF; // 儲存Modbus站號，預設值為0xFF（255）
 
         // 顯示參數和數值的 Label 列表
         private List<Label> parameterLabels = new List<Label>();
@@ -89,10 +79,64 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
         public int energy;
         public int switchStatus, apparentPowerA, apparentPowerB, apparentPowerC, totalApparentPower, totalActivePower, totalReactivePower;
         public int combinedPowerFactor, lineFrequency, deviceType, historicalLeakage, historicalCurrentA, historicalCurrentB, historicalCurrentC;
-        public int ProtectionThreshold;
 
 
-		public ModbusViewer()
+        //      // 定義各種變數，用來儲存從設備讀取的各種參數
+        //public int currentStatus1, currentStatus2, currentStatus; // 狀態表: 狀態數值不會太大，int 是合適的
+        //public double leakageCurrent; // 漏電電流: 單位是 mA，範圍是 0-100，需要高精度，建議 double
+        //public int tempA, tempB, tempC, tempN; // 溫度: 單位是攝氏度，範圍 0-127，int 是合適的
+
+        //// 定義更多參數變數，用於儲存電壓和電流
+        //public double voltageA, voltageB, voltageC; // 電壓: 單位 V，數值已乘以 10，建議 double
+        //public double currentA, currentB, currentC; // 電流: 單位 A，數值已乘以 100，建議 double
+
+        //// 定義更多參數變數，用於儲存功率和功率因數
+        //public double powerFactorA, powerFactorB, powerFactorC; // 功率因數: 範圍 0-1，建議 double
+        //public int activePowerA, activePowerB, activePowerC; // 有功功率: 單位 W，範圍是 0-50000，int 是合適的
+        //public int reactivePowerA, reactivePowerB, reactivePowerC; // 無功功率: 單位 W，範圍是 0-50000，int 是合適的
+
+        //// 合計值
+        //public int breakerTimes; // 合閘次數: 整數，範圍不超過 50000，int 是合適的
+        //public double energy; // 電能: 單位 kWh，範圍是高低位組合後除以 100，建議 double
+        //public int switchStatus; // 開關狀態: 0 或 1，int 是合適的
+        //public int apparentPowerA, apparentPowerB, apparentPowerC; // 視在功率: 單位 W，範圍是 0-65536，int 是合適的
+        //public int totalApparentPower, totalActivePower, totalReactivePower; // 總功率: 單位 W，範圍是 0-65536，int 是合適的
+        //public double combinedPowerFactor; // 合相功率因數: 範圍 0-1，建議 double
+        //public double lineFrequency; // 線頻率: 單位 Hz，範圍是 0-100，建議 double
+
+        //// 設備類型和歷史數據
+        //public int deviceType; // 設備類型: 整數代碼（0-6），int 是合適的
+        //public double historicalLeakage; // 歷史漏電值: 單位 mA，範圍 0-100，建議 double
+        //public double historicalCurrentA, historicalCurrentB, historicalCurrentC; // 歷史電流: 單位 A，範圍已乘 100，建議 double
+        //public int energyHighByte, energyLowByte;
+
+
+        //public ModbusViewer()
+        //{
+        //    // 使用 UIInitializer 初始化界面
+        //    UIInitializer.InitializeUI(
+        //        this,
+        //        out portSelector,
+        //        out stationNumberTextBox,
+        //        out connectButton,
+        //        out readButton,
+        //        out var switchOnButton,
+        //        out var switchOffButton,
+        //        out dataGridView);
+
+        //    // 綁定按鈕事件
+        //    connectButton.Click += (s, e) => InitializeSerialPort(portSelector.SelectedItem?.ToString());
+        //    readButton.Click += async (s, e) => await ModbusHelper.ReadAllParametersAsync(serialPort, this);
+
+        //    switchOnButton.Click += (s, e) => ModbusHelper.SwitchON(serialPort, stationNumber);
+        //    switchOffButton.Click += (s, e) => ModbusHelper.SwitchOFF(serialPort, stationNumber);
+
+
+
+        //    InitializeTimer(); // 初始化定时器
+        //    InitializeParameters(); // 初始化参数
+        //}
+        public ModbusViewer()
         {
             // 使用 UIInitializer 初始化界面
             UIInitializer.InitializeUI(
@@ -103,43 +147,48 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
                 out readButton,
                 out var switchOnButton,
                 out var switchOffButton,
-                out tempTextBox,//20241129_新增
-				out tempSetButton, //20241129_新增
-                out testFaultButton,
-
-				out var refreshButton, // 20241204新增
-
-				out dataGridView);
+                out dataGridView);
 
 			// 綁定按鈕事件
 			connectButton.Click += (s, e) => InitializeSerialPort(portSelector.SelectedItem?.ToString());
+            //20241125新增
+			//connectButton.Click += (sender, e) =>
+			//{
+			//	portSelector.Items.Clear();
+			//	portSelector.Items.AddRange(SerialPort.GetPortNames()); // 刷新COM口列表
+
+			//	if (portSelector.SelectedItem != null)
+			//	{
+			//		var selectedPort = portSelector.SelectedItem.ToString();
+			//		try
+			//		{
+			//			serialPort.PortName = selectedPort;
+			//			serialPort.Open();
+			//			MessageBox.Show($"成功連接到 {selectedPort}");
+			//		}
+			//		catch (Exception ex)
+			//		{
+			//			MessageBox.Show($"無法連接到 {selectedPort}: {ex.Message}");
+			//		}
+			//	}
+			//};
+
+
+
+
+
 			readButton.Click += async (s, e) => await ModbusHelper.ReadAllParametersAsync(serialPort, this);
+
+
+
+
             // 綁定開關按鈕的多站號處理邏輯
             switchOnButton.Click += (s, e) => ExecuteSwitchCommand(ModbusHelper.SwitchON);
             switchOffButton.Click += (s, e) => ExecuteSwitchCommand(ModbusHelper.SwitchOFF);
 
-			//20241129_新增===========================================================
-			tempSetButton.Click += (s, e) => ExecuteSetTemperature();
-			//20241129_新增===========================================================
-
-			//20241202_故障測試新增====================================================
-			// 綁定事件處理器
-			testFaultButton.Click += (s, e) => SimulateFaultTest();
-			//20241202_故障測試新增====================================================
-
-			// 添加刷新按鈕的事件處理程序
-			refreshButton.Click += (sender, args) =>
-			{
-				portSelector.Items.Clear();
-				portSelector.Items.AddRange(SerialPort.GetPortNames());
-				MessageBox.Show("COM口已刷新！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			};
-
-			InitializeTimer(); // 初始化定時器
+            InitializeTimer(); // 初始化定時器
             InitializeParameters(); // 初始化參數
         }
-
-
 
         // 添加方法：處理開關開啟/關閉的通用邏輯
         private void ExecuteSwitchCommand(Action<SerialPort, byte> switchCommand)
@@ -179,43 +228,8 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
             }
         }
 
-        //20241129_新增===========================================================
-		private void ExecuteSetTemperature()
-		{
-			if (serialPort == null || !serialPort.IsOpen)
-			{
-				MessageBox.Show("請先連接串口！");
-				return;
-			}
-
-			if (!byte.TryParse(stationNumberTextBox.Text, out var stationNumber))
-			{
-				MessageBox.Show("請輸入有效的站號！");
-				return;
-			}
-
-			if (!ushort.TryParse(tempTextBox.Text, out var temperature))
-			{
-				MessageBox.Show("請輸入有效的溫度數值！");
-				return;
-			}
-
-			try
-			{
-				ModbusHelper.SetTemperature(serialPort, stationNumber, temperature);
-				MessageBox.Show($"已向站號 {stationNumber} 設置溫度：{temperature}°C");
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show($"設置溫度失敗: {ex.Message}");
-			}
-		}
-		//20241129_新增===========================================================
-
-
-
-		//20241121
-		private DataGridView dataGridView; // DataGridView 用於顯示數據
+        //20241121
+        private DataGridView dataGridView; // DataGridView 用於顯示數據
 		private Dictionary<byte, Dictionary<string, int>> slaveData = new Dictionary<byte, Dictionary<string, int>>(); 
 		private void UpdateDataGridView()
 		{
@@ -277,6 +291,9 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
 				dataGridView.FirstDisplayedScrollingRowIndex = firstDisplayedRowIndex;
 			}
 		}
+
+
+
 
 
 		//updateTimer 每隔 3 秒觸發一次，並執行 UpdateValues()。如果上一次的操作尚未完成，下一次操作可能會重疊，導致執行緒競爭和性能問題。
@@ -377,39 +394,8 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
             historicalCurrentA = 0;
             historicalCurrentB = 0;
             historicalCurrentC = 0;
-            ProtectionThreshold = 0;    
         }
-
-
-
-		//20241202新增=======================================
-		// 在 ModbusViewer 類中新增方法
-		private void SimulateFaultTest()
-		{
-			// 模擬故障碼 0xA87
-			int faultCode = 0xA87;
-
-			// 更新 currentStatus 和 currentStatus1, currentStatus2
-			currentStatus = faultCode;
-			currentStatus1 = (faultCode >> 16) & 0xFFFF; // 高16位
-			currentStatus2 = faultCode & 0xFFFF;        // 低16位
-
-			// 更新 slaveData 中的 "當前狀態"
-			foreach (var station in slaveData.Keys)
-			{
-				if (slaveData[station].ContainsKey("當前狀態"))
-				{
-					slaveData[station]["當前狀態"] = currentStatus;
-				}
-			}
-
-			// 更新 DataGridView 顯示
-			UpdateDataGridView();
-
-			// 提示用戶操作成功
-			MessageBox.Show($"已將當前狀態設置為故障碼 {faultCode:X}");
-		}
-	}
+    }
 
     internal class Program
     {
@@ -429,9 +415,11 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
 
             var amqpManager = new AmqpEndpointManager(
                 "amqp://127.0.0.1:8888",
-                "amqp://127.0.0.1:6666",//"amqp://10.181.56.175:30031",
-				"amqp://127.0.0.1:6666",//"amqp://10.181.56.175:30031",
-				modbusViewer,
+                "amqp://127.0.0.1:6666",
+                "amqp://127.0.0.1:6666",
+                //"amqp://10.181.56.175:30031",
+                //"amqp://10.181.56.175:30031",
+                modbusViewer,
                 serialPort,
                 slaveData
             );
@@ -439,14 +427,9 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
             // 啟動 AMQP 端點並指定端點名稱
             amqpManager.StartAmqpEndpoint("CHUNYI_PC");
 
-
-
-			// 啟動 Windows 應用程序
-			Application.Run(modbusViewer);
+            // 啟動 Windows 應用程序
+            Application.Run(modbusViewer);
         }
-
-
-
-	}
+    }
 
 }

@@ -357,5 +357,154 @@
 //}
 
 
+////		private async Task PublishEnergyConsumptionResponses(AmqpCFXEndpoint endpoint)
+////		{
+////			try
+////			{
+////				// 讀取所有站號的參數
+////				await ModbusHelper.ReadAllParametersAsync(serialPort, modbusViewer);
+
+////				// 創建要發佈的訊息列表
+////				var responses = new List<CFXMessage>();
+
+////				// 遍歷 slaveData 的站號
+////				foreach (var stationNumber in slaveData.Keys)
+////				{
+////					//var response = CreateEnergyConsumptionResponse(stationNumber);
+////					var response = CreateStationParametersModified(stationNumber);
+
+////					if (response != null)
+////					{
+////						responses.Add(response);
+////					}
+////				}
+
+////				// 發佈多個訊息
+////				endpoint.PublishMany(responses);
+////				Console.WriteLine("已發佈多個 EnergyConsumptionResponse 訊息。");
+////			}
+////			catch (Exception ex)
+////			{
+////				Console.WriteLine($"發佈 EnergyConsumptionResponse 訊息時發生錯誤：{ex.Message}");
+////			}
+////		}
 
 
+////		//private EnergyConsumptionResponse CreateEnergyConsumptionResponse(byte stationNumber)
+////		//{
+
+////		//	// 從 slaveData 中取得對應站號的資料
+////		//	if (!slaveData.TryGetValue(stationNumber, out var data) || data == null || !data.Any())
+////		//	{
+////		//		Console.WriteLine($"無法找到站號 {stationNumber} 的有效資料。");
+////		//		return null; // 無數據返回 null
+////		//	}
+
+////		//	// 確保至少有一個非零的數據值
+////		//	bool hasValidData = data.Values.Any(value => value != 0);
+////		//	if (!hasValidData)
+////		//	{
+////		//		Console.WriteLine($"站號 {stationNumber} 的數據全部為默認值（零），跳過處理。");
+////		//		return null;
+////		//	}
+
+
+
+
+
+////		//	// 提取 RYB 電壓值
+////		//	var voltageRYB = new List<double>
+////		//	{
+////		//		data.TryGetValue("A相電壓 (V)", out var voltageA) ? voltageA : 0.0,
+////		//		data.TryGetValue("B相電壓 (V)", out var voltageB) ? voltageB : 0.0,
+////		//		data.TryGetValue("C相電壓 (V)", out var voltageC) ? voltageC : 0.0
+////		//	};
+
+////		//	// 提取 RYB 電流
+////		//	var currentRYB = new List<double>
+////		//	{
+////		//		data.TryGetValue("A相電流 (A)", out var currentA) ? currentA : 0.0,
+////		//		data.TryGetValue("B相電流 (A)", out var currentB) ? currentB : 0.0,
+////		//		data.TryGetValue("C相電流 (A)", out var currentC) ? currentC : 0.0
+////		//	};
+
+////		//	// 提取 RYB 功率
+////		//	var powerRYB = new List<double>
+////		//	{
+////		//		data.TryGetValue("A相有功功率 (W)", out var powerA) ? powerA : 0.0,
+////		//		data.TryGetValue("B相有功功率 (W)", out var powerB) ? powerB : 0.0,
+////		//		data.TryGetValue("C相有功功率 (W)", out var powerC) ? powerC : 0.0
+////		//	};
+
+////		//	// 提取 RYB 功率因數
+////		//	var powerFactorRYB = new List<double>
+////		//	{
+////		//		data.TryGetValue("A相功率因數", out var pfA) ? pfA : 0.0,
+////		//		data.TryGetValue("B相功率因數", out var pfB) ? pfB : 0.0,
+////		//		data.TryGetValue("C相功率因數", out var pfC) ? pfC : 0.0
+////		//	};
+
+////		//	// 單項數值提取
+////		//	var voltageNow = voltageRYB.FirstOrDefault();
+////		//	var currentNow = currentRYB.FirstOrDefault();
+////		//	var powerNow = powerRYB.FirstOrDefault();
+////		//	var frequencyNow = data.TryGetValue("當前線頻率 (Hz)", out var frequency) ? frequency : 0.0;
+
+////		//	// 創建並返回 EnergyConsumptionResponse
+////		//	return new EnergyConsumptionResponse
+////		//	{
+////		//		Result = new CFX.Structures.RequestResult
+////		//		{
+////		//			Result = CFX.Structures.StatusResult.Success,
+////		//			ResultCode = 0,
+////		//			Message = $"Station {stationNumber} Data Retrieved Successfully"
+////		//		},
+////		//		StartTime = DateTimeOffset.Now.DateTime, // 符合格式要求
+////		//		EndTime = DateTimeOffset.Now.DateTime,
+
+
+
+
+////		//		EnergyUsed = data.TryGetValue("電能 (kWh)", out var energy) ? energy : 0.0,
+
+////		//		PeakPower = powerNow,
+////		//		MinimumPower = powerNow,
+////		//		MeanPower = powerNow,
+////		//		PowerNow = powerNow,
+////		//		PowerFactorNow = powerFactorRYB.FirstOrDefault(),
+
+////		//		PeakCurrent = currentNow,
+////		//		MinimumCurrent = currentNow,
+////		//		MeanCurrent = currentNow,
+////		//		CurrentNow = currentNow,
+
+////		//		PeakVoltage = voltageNow,
+////		//		MinimumVoltage = voltageNow,
+////		//		MeanVoltage = voltageNow,
+////		//		VoltageNow = voltageNow,
+
+////		//		PeakFrequency = frequencyNow,
+////		//		MinimumFrequency = frequencyNow,
+////		//		MeanFrequency = frequencyNow,
+////		//		FrequencyNow = frequencyNow,
+
+////		//		PeakPowerRYB = powerRYB,
+////		//		MinimumPowerRYB = powerRYB,
+////		//		MeanPowerRYB = powerRYB,
+////		//		PowerNowRYB = powerRYB,
+
+////		//		PowerFactorNowRYB = powerFactorRYB,
+
+////		//		PeakCurrentRYB = currentRYB,
+////		//		MinimumCurrentRYB = currentRYB,
+////		//		MeanCurrentRYB = currentRYB,
+////		//		CurrentNowRYB = currentRYB,
+
+////		//		PeakVoltageRYB = voltageRYB,
+////		//		MinimumVoltageRYB = voltageRYB,
+////		//		MeanVoltageRYB = voltageRYB,
+////		//		VoltageNowRYB = voltageRYB,
+
+////		//		ThreePhaseNeutralCurrentNow = 0.0
+////		//	};
+////		//}
