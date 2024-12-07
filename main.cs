@@ -46,8 +46,23 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
         private System.Windows.Forms.Timer updateTimer; // 明確指定為 Windows Forms Timer
 
 
-        // 當計時器到期時執行的操作
-        private void OnTimerElapsed()
+		public void SetTemperatureTextboxValue(string value)
+		{
+			if (tempTextBox.InvokeRequired)
+			{
+				tempTextBox.Invoke(new Action(() => tempTextBox.Text = value));
+			}
+			else
+			{
+				tempTextBox.Text = value;
+			}
+		}
+
+
+
+
+		// 當計時器到期時執行的操作
+		private void OnTimerElapsed()
         {
             // 必須在 UI 線程上執行 UpdateValues()，否則會拋出跨執行緒操作例外
             this.Invoke(new Action(() => UpdateValues()));
@@ -57,7 +72,7 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
         private void InitializeTimer()
         {
             updateTimer = new System.Windows.Forms.Timer(); // 創建 Windows Forms Timer
-            updateTimer.Interval = 3000; // 設定時間間隔為 3000 毫秒（3 秒）
+            updateTimer.Interval = 1000; // 設定時間間隔為 1000 毫秒（1 秒）
             updateTimer.Tick += (sender, e) => UpdateValues(); // 使用 Tick 事件直接調用 UpdateValues
             updateTimer.Start(); // 啟動計時器
         }
@@ -179,8 +194,46 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
             }
         }
 
-        //20241129_新增===========================================================
-		private void ExecuteSetTemperature()
+		//20241129_新增===========================================================
+		//private void ExecuteSetTemperature()
+		//{
+		//	if (serialPort == null || !serialPort.IsOpen)
+		//	{
+		//		MessageBox.Show("請先連接串口！");
+		//		return;
+		//	}
+
+		//	if (!byte.TryParse(stationNumberTextBox.Text, out var stationNumber))
+		//	{
+		//		MessageBox.Show("請輸入有效的站號！");
+		//		return;
+		//	}
+
+		//	if (!ushort.TryParse(tempTextBox.Text, out var temperature))
+		//	{
+		//		MessageBox.Show("請輸入有效的溫度數值！");
+		//		return;
+		//	}
+
+		//	try
+		//	{
+		//		ModbusHelper.SetTemperature(serialPort, stationNumber, temperature);
+
+		//		//20241206新增=======================
+		//		// 調用 UpdateValues 確保數據更新並刷新 UI
+		//		UpdateValues();
+		//		//20241206新增=======================
+
+
+		//		MessageBox.Show($"已向站號 {stationNumber} 設置溫度：{temperature}°C");
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		MessageBox.Show($"設置溫度失敗: {ex.Message}");
+		//	}
+		//}
+
+		public void ExecuteSetTemperature()
 		{
 			if (serialPort == null || !serialPort.IsOpen)
 			{
@@ -202,7 +255,12 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
 
 			try
 			{
-				ModbusHelper.SetTemperature(serialPort, stationNumber, temperature);
+				// 呼叫 ModbusHelper.SetTemperature，並傳遞 slaveData 作為參數
+				ModbusHelper.SetTemperature(serialPort, stationNumber, temperature, slaveData);
+
+				// 更新 DataGridView
+				UpdateDataGridView();
+
 				MessageBox.Show($"已向站號 {stationNumber} 設置溫度：{temperature}°C");
 			}
 			catch (Exception ex)
@@ -210,14 +268,78 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
 				MessageBox.Show($"設置溫度失敗: {ex.Message}");
 			}
 		}
+
+
+
+
 		//20241129_新增===========================================================
 
 
 
 		//20241121
 		private DataGridView dataGridView; // DataGridView 用於顯示數據
-		private Dictionary<byte, Dictionary<string, int>> slaveData = new Dictionary<byte, Dictionary<string, int>>(); 
-		private void UpdateDataGridView()
+		private Dictionary<byte, Dictionary<string, int>> slaveData = new Dictionary<byte, Dictionary<string, int>>();
+		//public void UpdateDataGridView()
+		//{
+		//	if (dataGridView.InvokeRequired)
+		//	{
+		//		dataGridView.Invoke(new Action(UpdateDataGridView));
+		//		return;
+		//	}
+
+		//	// 記錄當前選中行和滾動位置
+		//	int currentSelectedRowIndex = dataGridView.CurrentRow?.Index ?? -1;
+		//	int firstDisplayedRowIndex = dataGridView.FirstDisplayedScrollingRowIndex;
+
+		//	dataGridView.Columns.Clear();
+		//	dataGridView.Rows.Clear();
+
+		//	// 移除行首箭頭
+		//	dataGridView.RowHeadersVisible = false;
+
+		//	// 添加參數名稱列
+		//	dataGridView.Columns.Add("Parameter", "參數名稱");
+
+		//	// 添加站號列
+		//	foreach (var station in slaveData.Keys)
+		//	{
+		//		dataGridView.Columns.Add($"Slave_{station}", $"站號 {station}");
+		//	}
+
+		//	// 收集所有參數
+		//	var allParameters = slaveData.Values
+		//		.SelectMany(d => d.Keys)
+		//		.Distinct()
+		//		.ToList();
+
+		//	// 添加行數據
+		//	foreach (var parameter in allParameters)
+		//	{
+		//		var row = new List<object> { parameter }; // 第一列是參數名稱
+
+		//		foreach (var station in slaveData.Keys)
+		//		{
+		//			//這段代碼僅僅是從 slaveData 提取數據。如果沒有找到指定的 parameter，返回 "N/A"，
+		//			//但這是顯示層處理，並不改變 slaveData 的內容。
+		//			row.Add(slaveData[station].TryGetValue(parameter, out var value) ? value.ToString() : "N/A");
+		//		}
+		//		dataGridView.Rows.Add(row.ToArray());
+		//	}
+
+		//	// 恢復選中行
+		//	if (currentSelectedRowIndex >= 0 && currentSelectedRowIndex < dataGridView.RowCount)
+		//	{
+		//		dataGridView.Rows[currentSelectedRowIndex].Selected = true;
+		//		dataGridView.CurrentCell = dataGridView.Rows[currentSelectedRowIndex].Cells[0]; // 確保焦點保持在同一行
+		//	}
+
+		//	// 恢復滾動位置
+		//	if (firstDisplayedRowIndex >= 0 && firstDisplayedRowIndex < dataGridView.RowCount)
+		//	{
+		//		dataGridView.FirstDisplayedScrollingRowIndex = firstDisplayedRowIndex;
+		//	}
+		//}
+		public void UpdateDataGridView()
 		{
 			if (dataGridView.InvokeRequired)
 			{
@@ -225,58 +347,46 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
 				return;
 			}
 
-			// 記錄當前選中行和滾動位置
 			int currentSelectedRowIndex = dataGridView.CurrentRow?.Index ?? -1;
 			int firstDisplayedRowIndex = dataGridView.FirstDisplayedScrollingRowIndex;
 
 			dataGridView.Columns.Clear();
 			dataGridView.Rows.Clear();
 
-			// 移除行首箭頭
 			dataGridView.RowHeadersVisible = false;
-
-			// 添加參數名稱列
 			dataGridView.Columns.Add("Parameter", "參數名稱");
 
-			// 添加站號列
 			foreach (var station in slaveData.Keys)
 			{
 				dataGridView.Columns.Add($"Slave_{station}", $"站號 {station}");
 			}
 
-			// 收集所有參數
-			var allParameters = slaveData.Values
-				.SelectMany(d => d.Keys)
-				.Distinct()
-				.ToList();
+			var allParameters = slaveData.Values.SelectMany(d => d.Keys).Distinct().ToList();
 
-			// 添加行數據
 			foreach (var parameter in allParameters)
 			{
-				var row = new List<object> { parameter }; // 第一列是參數名稱
-				
+				var row = new List<object> { parameter };
 				foreach (var station in slaveData.Keys)
 				{
-					//這段代碼僅僅是從 slaveData 提取數據。如果沒有找到指定的 parameter，返回 "N/A"，
-					//但這是顯示層處理，並不改變 slaveData 的內容。
 					row.Add(slaveData[station].TryGetValue(parameter, out var value) ? value.ToString() : "N/A");
 				}
 				dataGridView.Rows.Add(row.ToArray());
 			}
 
-			// 恢復選中行
 			if (currentSelectedRowIndex >= 0 && currentSelectedRowIndex < dataGridView.RowCount)
 			{
 				dataGridView.Rows[currentSelectedRowIndex].Selected = true;
-				dataGridView.CurrentCell = dataGridView.Rows[currentSelectedRowIndex].Cells[0]; // 確保焦點保持在同一行
+				dataGridView.CurrentCell = dataGridView.Rows[currentSelectedRowIndex].Cells[0];
 			}
 
-			// 恢復滾動位置
 			if (firstDisplayedRowIndex >= 0 && firstDisplayedRowIndex < dataGridView.RowCount)
 			{
 				dataGridView.FirstDisplayedScrollingRowIndex = firstDisplayedRowIndex;
 			}
 		}
+
+
+
 
 
 		//updateTimer 每隔 3 秒觸發一次，並執行 UpdateValues()。如果上一次的操作尚未完成，下一次操作可能會重疊，導致執行緒競爭和性能問題。
@@ -301,40 +411,74 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
             }
         }
 
-        private void InitializeSerialPort(string portName)
-        {
-            if (serialPort != null && serialPort.IsOpen)
-            {
-                serialPort.Close();
-                serialPort.Dispose();
-            }
+		//     private void InitializeSerialPort(string portName)
+		//     {
+		//         if (serialPort != null && serialPort.IsOpen)
+		//         {
+		//             serialPort.Close();
+		//             serialPort.Dispose();
+		//         }
 
-            // 將站號拆分，支持多站號
-            slaveData.Clear();
-            foreach (var station in stationNumberTextBox.Text.Split(','))
-            {
-                if (byte.TryParse(station.Trim(), out var stationNumber))
-                {
-                    slaveData[stationNumber] = new Dictionary<string, int>(); // 初始化該站號的數據
-                }
+		//         // 將站號拆分，支持多站號
+		//         slaveData.Clear();
+		//         foreach (var station in stationNumberTextBox.Text.Split(','))
+		//         {
+		//             if (byte.TryParse(station.Trim(), out var stationNumber))
+		//             {
+		//                 slaveData[stationNumber] = new Dictionary<string, int>(); // 初始化該站號的數據
+		//             }
 
-            }
+		//         }
 
-			// 創建串口並連接
+		//// 創建串口並連接
+		//serialPort = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
+		//         try
+		//         {
+		//             serialPort.Open();
+		//             MessageBox.Show($"串口 {portName} 連接成功");
+		//         }
+		//         catch (Exception ex)
+		//         {
+		//             MessageBox.Show($"串口連接失敗: {ex.Message}");
+		//         }
+		//     }
+
+
+		private void InitializeSerialPort(string portName)
+		{
+			if (serialPort != null && serialPort.IsOpen)
+			{
+				serialPort.Close();
+				serialPort.Dispose();
+			}
+
+			slaveData.Clear();
+			foreach (var station in stationNumberTextBox.Text.Split(','))
+			{
+				if (byte.TryParse(station.Trim(), out var stationNumber))
+				{
+					slaveData[stationNumber] = new Dictionary<string, int>();
+				}
+			}
+
 			serialPort = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
-            try
-            {
-                serialPort.Open();
-                MessageBox.Show($"串口 {portName} 連接成功");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"串口連接失敗: {ex.Message}");
-            }
-        }
+			try
+			{
+				serialPort.Open();
+				Console.WriteLine($"串口 {portName} 已成功打開");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"無法打開串口 {portName}: {ex.Message}");
+			}
+		}
 
-        // 初始化所有參數為 0
-        private void InitializeParameters()
+
+
+
+
+		// 初始化所有參數為 0
+		private void InitializeParameters()
         {
             currentStatus1 = 0;
             currentStatus2 = 0;

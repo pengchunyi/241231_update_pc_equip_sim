@@ -9,7 +9,10 @@ namespace AmqpModbusIntegration
     public static class ModbusHelper
     {
 
-        public static void SwitchON(SerialPort serialPort, byte stationNumber)
+		private static readonly object serialPortLock = new object(); // 用於串口操作的執行緒安全鎖
+
+
+		public static void SwitchON(SerialPort serialPort, byte stationNumber)
         {
             if (serialPort != null && serialPort.IsOpen)
             {
@@ -35,36 +38,156 @@ namespace AmqpModbusIntegration
             }
         }
 
-		//20241129新增_還未新增UI輸入窗口==============================================
-		public static void SetTemperature(SerialPort serialPort, byte stationNumber, ushort temperature)
-		{
-			if (serialPort != null && serialPort.IsOpen)
-			{
-				// 溫度設定寄存器地址
-				byte[] command = {
-					stationNumber, // 站號
-					0x06,          // Modbus 功能碼：單寄存器寫入
-					0x00, 0x2B,    // 寄存器地址：假設為 0x002B
-					(byte)(temperature >> 8), // 高字節
-					(byte)(temperature & 0xFF) // 低字節
-				};
+		//20241206_修改==============================================
+		//public static void SetTemperature(SerialPort serialPort, byte stationNumber, ushort temperature)
+		//{
+		//	if (serialPort != null && serialPort.IsOpen)
+		//	{
+		//		// 溫度設定寄存器地址
+		//		byte[] command = {
+		//			stationNumber, // 站號
+		//			0x06,          // Modbus 功能碼：單寄存器寫入
+		//			0x00, 0x2B,    // 寄存器地址：假設為 0x002B
+		//			(byte)(temperature >> 8), // 高字節
+		//			(byte)(temperature & 0xFF) // 低字節
+		//		};
 
-				// 附加 CRC 校驗
+		//		// 附加 CRC 校驗
+		//		byte[] fullCommand = AppendCRC(command);
+
+		//		// 清空緩衝區以確保通訊正常
+		//		serialPort.DiscardInBuffer();
+		//		serialPort.DiscardOutBuffer();
+
+		//		// 發送命令
+		//		serialPort.Write(fullCommand, 0, fullCommand.Length);
+
+		//		Console.WriteLine($"已發送溫度設定命令到站號 {stationNumber}，設定溫度：{temperature}°C");
+		//	}else{
+		//		Console.WriteLine("串口未開啟或無效，無法設定溫度");
+		//	}
+		//}
+
+		//public static void SetTemperature(SerialPort serialPort, byte stationNumber, ushort temperature, Dictionary<byte, Dictionary<string, int>> slaveData)
+		//{
+		//	if (serialPort == null || !serialPort.IsOpen)
+		//	{
+		//		Console.WriteLine("串口未開啟或無效，無法設定溫度");
+		//		return;
+		//	}
+
+		//	// 溫度設定寄存器地址
+		//	byte[] command = {
+		//stationNumber, // 站號
+		//      0x06,          // Modbus 功能碼：單寄存器寫入
+		//      0x00, 0x2B,    // 寄存器地址：假設為 0x002B
+		//      (byte)(temperature >> 8), // 高字節
+		//      (byte)(temperature & 0xFF) // 低字節
+		//  };
+
+		//	// 附加 CRC 校驗
+		//	byte[] fullCommand = AppendCRC(command);
+
+		//	// 清空緩衝區以確保通訊正常
+		//	serialPort.DiscardInBuffer();
+		//	serialPort.DiscardOutBuffer();
+
+		//	// 發送命令
+		//	serialPort.Write(fullCommand, 0, fullCommand.Length);
+		//	Console.WriteLine($"已發送溫度設定命令到站號 {stationNumber}，設定溫度：{temperature}°C");
+
+		//	// 新增：讀取設備回應
+		//	byte[] responseBuffer = new byte[256];
+		//	int bytesRead = 0;
+
+		//	try
+		//	{
+		//		// 讀取回應數據
+		//		bytesRead = serialPort.Read(responseBuffer, 0, responseBuffer.Length);
+
+		//		// 校驗回應的有效性
+		//		if (bytesRead > 5 && ValidateCRC(responseBuffer, bytesRead) && responseBuffer[0] == stationNumber)
+		//		{
+		//			Console.WriteLine($"收到設備回應: {BitConverter.ToString(responseBuffer, 0, bytesRead)}");
+
+		//			// 更新 slaveData
+		//			if (!slaveData.ContainsKey(stationNumber))
+		//				slaveData[stationNumber] = new Dictionary<string, int>();
+
+		//			slaveData[stationNumber]["溫度保護(℃)"] = temperature;
+		//			Console.WriteLine($"更新站號 {stationNumber} 的溫度保護值為：{temperature}°C");
+		//		}
+		//		else
+		//		{
+		//			Console.WriteLine("收到無效回應或 CRC 校驗失敗");
+		//		}
+		//	}
+		//	catch (TimeoutException)
+		//	{
+		//		Console.WriteLine("讀取設備回應超時，可能設備未回應或命令未成功");
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		Console.WriteLine($"讀取設備回應時發生錯誤: {ex.Message}");
+		//	}
+		//}
+
+
+		public static void SetTemperature(SerialPort serialPort, byte stationNumber, ushort temperature, Dictionary<byte, Dictionary<string, int>> slaveData)
+		{
+			if (serialPort == null || !serialPort.IsOpen)
+			{
+				Console.WriteLine("串口未開啟或無效，無法設定溫度");
+				return;
+			}
+
+			lock (serialPortLock)
+			{
+				byte[] command = {
+			stationNumber,
+			0x06,
+			0x00, 0x2B,    // 假設溫度寄存器地址
+            (byte)(temperature >> 8),
+			(byte)(temperature & 0xFF)
+		};
+
 				byte[] fullCommand = AppendCRC(command);
 
-				// 清空緩衝區以確保通訊正常
-				serialPort.DiscardInBuffer();
-				serialPort.DiscardOutBuffer();
+				try
+				{
+					serialPort.DiscardInBuffer();
+					serialPort.DiscardOutBuffer();
+					serialPort.Write(fullCommand, 0, fullCommand.Length);
+					Console.WriteLine($"已發送溫度設定命令到站號 {stationNumber}，設定溫度：{temperature}°C");
 
-				// 發送命令
-				serialPort.Write(fullCommand, 0, fullCommand.Length);
-
-				Console.WriteLine($"已發送溫度設定命令到站號 {stationNumber}，設定溫度：{temperature}°C");
-			}else{
-				Console.WriteLine("串口未開啟或無效，無法設定溫度");
+					// 嘗試讀取設備回應
+					byte[] responseBuffer = new byte[256];
+					int bytesRead = serialPort.Read(responseBuffer, 0, responseBuffer.Length);
+					if (bytesRead > 5 && ValidateCRC(responseBuffer, bytesRead))
+					{
+						Console.WriteLine($"收到設備回應: {BitConverter.ToString(responseBuffer, 0, bytesRead)}");
+						slaveData[stationNumber]["溫度保護(℃)"] = temperature;
+					}
+					else
+					{
+						Console.WriteLine("收到無效回應或 CRC 校驗失敗");
+					}
+				}
+				catch (TimeoutException)
+				{
+					Console.WriteLine("讀取設備回應超時，可能設備未回應或命令未成功");
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine($"設定溫度時發生錯誤: {ex.Message}");
+				}
 			}
 		}
-		//20241129新增_還未新增UI輸入窗口==============================================
+
+
+
+
+		//20241206_修改==============================================
 
 
 
@@ -139,6 +262,18 @@ namespace AmqpModbusIntegration
 				Console.WriteLine($"收到錯誤站號的數據包：{buffer[0]}，預期：{station}");
 				return; // 跳過數據
 			}
+
+
+			//20241206新增=============================================================
+			//var slaveData = modbusViewer.GetSlaveData();
+
+			//if (!slaveData.ContainsKey(station))
+			//{
+			//	Console.WriteLine($"站號 {station} 不存在於設備列表中，跳過更新。");
+			//	return;
+			//}
+			//20241206新增=============================================================
+
 			//20241125===============================================================
 
 
@@ -204,11 +339,6 @@ namespace AmqpModbusIntegration
 
 
 			//20241125===============================================================
-			//// 確保 slaveData 包含對應的站號
-			//if (!modbusViewer.GetSlaveData().ContainsKey(station))
-			//{
-			//	modbusViewer.GetSlaveData()[station] = new Dictionary<string, int>();
-			//}
 			if (!modbusViewer.GetSlaveData().ContainsKey(station))
 			{
 				Console.WriteLine($"站號 {station} 不存在於設備列表中，跳過更新。");
@@ -216,20 +346,14 @@ namespace AmqpModbusIntegration
 			}
 			//20241125===============================================================
 
-
-
 			var slaveData = modbusViewer.GetSlaveData()[station];
-
 			// 更新 slaveData 中的數據結構
 			// 更新 slaveData 中的數據結構，並添加對應單位的註解
 			slaveData["當前狀態"] = modbusViewer.currentStatus; // 無單位
-			//slaveData["漏電電流 (mA)"] = modbusViewer.leakageCurrent; // 單位: mA
 
 			slaveData["A相溫度 (℃)"] = modbusViewer.tempA; // 單位: ℃
 			slaveData["B相溫度 (℃)"] = modbusViewer.tempB; // 單位: ℃
 			slaveData["C相溫度 (℃)"] = modbusViewer.tempC; // 單位: ℃
-			//slaveData["N線溫度 (℃)"] = modbusViewer.tempN; // 單位: ℃
-
 
 			//這個只是測試用的，之後會刪掉=============================================================
 			slaveData["A相電壓 (V)"] = modbusViewer.voltageA; // 單位: V
@@ -241,10 +365,6 @@ namespace AmqpModbusIntegration
 			slaveData["B相電流 (A)"] = modbusViewer.currentB; // 單位: A
 			slaveData["C相電流 (A)"] = modbusViewer.currentC; // 單位: A
 
-			//slaveData["A相功率因數"] = modbusViewer.powerFactorA; // 無單位 (值範圍: 0-1)
-			//slaveData["B相功率因數"] = modbusViewer.powerFactorB; // 無單位 (值範圍: 0-1)
-			//slaveData["C相功率因數"] = modbusViewer.powerFactorC; // 無單位 (值範圍: 0-1)
-
 			slaveData["A相有功功率 (W)"] = modbusViewer.activePowerA; // 單位: W
 			slaveData["B相有功功率 (W)"] = modbusViewer.activePowerB; // 單位: W
 			slaveData["C相有功功率 (W)"] = modbusViewer.activePowerC; // 單位: W
@@ -252,24 +372,39 @@ namespace AmqpModbusIntegration
 			slaveData["電能 (kWh)"] = modbusViewer.energy; // 單位: kWh
 			slaveData["當前總有功功率 (W)"] = modbusViewer.totalActivePower; // 單位: W
 			slaveData["開關狀態"] = modbusViewer.switchStatus;
-			//slaveData["當前線頻率 (Hz)"] = modbusViewer.lineFrequency; // 單位: Hz
 			slaveData["溫度保護(℃)"] = modbusViewer.ProtectionThreshold;
+
+
+			//slaveData[station]["溫度保護(℃)"] = modbusViewer.ProtectionThreshold;
 		}
 
 
 
 
 		// 附加 CRC 校驗碼
+		//private static byte[] AppendCRC(byte[] command)
+		//      {
+		//          ushort crc = CalculateCRC(command);
+		//          byte[] crcBytes = BitConverter.GetBytes(crc);
+		//          byte[] fullCommand = new byte[command.Length + 2];
+		//          Array.Copy(command, fullCommand, command.Length);
+		//          fullCommand[fullCommand.Length - 2] = crcBytes[0];
+		//          fullCommand[fullCommand.Length - 1] = crcBytes[1];
+		//          return fullCommand;
+		//      }
+
 		private static byte[] AppendCRC(byte[] command)
-        {
-            ushort crc = CalculateCRC(command);
-            byte[] crcBytes = BitConverter.GetBytes(crc);
-            byte[] fullCommand = new byte[command.Length + 2];
-            Array.Copy(command, fullCommand, command.Length);
-            fullCommand[fullCommand.Length - 2] = crcBytes[0];
-            fullCommand[fullCommand.Length - 1] = crcBytes[1];
-            return fullCommand;
-        }
+		{
+			ushort crc = CalculateCRC(command);
+			byte[] crcBytes = BitConverter.GetBytes(crc);
+			byte[] fullCommand = new byte[command.Length + 2];
+			Array.Copy(command, fullCommand, command.Length);
+			fullCommand[fullCommand.Length - 2] = crcBytes[0];
+			fullCommand[fullCommand.Length - 1] = crcBytes[1];
+			return fullCommand;
+		}
+
+
 
 
 		public static ushort CalculateCRC(byte[] data)

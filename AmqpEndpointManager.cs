@@ -10,61 +10,61 @@
 
 //namespace AmqpModbusIntegration
 //{
-//    public class AmqpEndpointManager
-//    {
-//        private readonly string endpointUri;
-//        private readonly string publishChannelUri;
-//        private readonly string subscribeChannelUri;
-//        private readonly ModbusViewer modbusViewer;
+//	public class AmqpEndpointManager
+//	{
+//		private readonly string endpointUri;
+//		private readonly string publishChannelUri;
+//		private readonly string subscribeChannelUri;
+//		private readonly ModbusViewer modbusViewer;
 
-//        //20241120
-//        private readonly SerialPort serialPort;
-//        private readonly Dictionary<byte, Dictionary<string, int>> slaveData;
+//		//20241120
+//		private readonly SerialPort serialPort;
+//		private readonly Dictionary<byte, Dictionary<string, int>> slaveData;
 
 //		public AmqpEndpointManager(
-//       string endpointUri,
-//       string publishChannelUri,
-//       string subscribeChannelUri,
-//       ModbusViewer modbusViewer,
-//       SerialPort serialPort,
-//       Dictionary<byte, Dictionary<string, int>> slaveData)
-//        {
-//            this.endpointUri = endpointUri;
-//            this.publishChannelUri = publishChannelUri;
-//            this.subscribeChannelUri = subscribeChannelUri;
-//            this.modbusViewer = modbusViewer;
-//            this.serialPort = serialPort;
-//            this.slaveData = slaveData;
-//        }
+//	   string endpointUri,
+//	   string publishChannelUri,
+//	   string subscribeChannelUri,
+//	   ModbusViewer modbusViewer,
+//	   SerialPort serialPort,
+//	   Dictionary<byte, Dictionary<string, int>> slaveData)
+//		{
+//			this.endpointUri = endpointUri;
+//			this.publishChannelUri = publishChannelUri;
+//			this.subscribeChannelUri = subscribeChannelUri;
+//			this.modbusViewer = modbusViewer;
+//			this.serialPort = serialPort;
+//			this.slaveData = slaveData;
+//		}
 
-//        public void StartAmqpEndpoint(string endpointName)
-//        {
-//            if (string.IsNullOrEmpty(endpointName))
-//                throw new ArgumentException("Endpoint name cannot be null or empty", nameof(endpointName));
+//		public void StartAmqpEndpoint(string endpointName)
+//		{
+//			if (string.IsNullOrEmpty(endpointName))
+//				throw new ArgumentException("Endpoint name cannot be null or empty", nameof(endpointName));
 
-//            AmqpCFXEndpoint endpoint = new AmqpCFXEndpoint(); // 創建CFX端點
-//            endpoint.Open(endpointName, new Uri(endpointUri)); // 打開端點並連接URI
+//			AmqpCFXEndpoint endpoint = new AmqpCFXEndpoint(); // 創建CFX端點
+//			endpoint.Open(endpointName, new Uri(endpointUri)); // 打開端點並連接URI
 
-//            // 添加發布頻道
-//            endpoint.AddPublishChannel(new Uri(publishChannelUri), "event");
+//			// 添加發布頻道
+//			endpoint.AddPublishChannel(new Uri(publishChannelUri), "event");
 
-//            // 發布連接消息
-//            endpoint.Publish(new EndpointConnected());
-//            Console.WriteLine($"AMQP端點 \"{endpointName}\" 已成功連接並發佈消息");
+//			// 發布連接消息
+//			endpoint.Publish(new EndpointConnected());
+//			Console.WriteLine($"AMQP端點 \"{endpointName}\" 已成功連接並發佈消息");
 
-//            // 添加訂閱頻道，用於接收消息
-//            endpoint.AddSubscribeChannel(new AmqpChannelAddress
-//            {
-//                Address = "MessageSource",
-//                Uri = new Uri(subscribeChannelUri)
-//            });
+//			// 添加訂閱頻道，用於接收消息
+//			endpoint.AddSubscribeChannel(new AmqpChannelAddress
+//			{
+//				Address = "MessageSource",
+//				Uri = new Uri(subscribeChannelUri)
+//			});
 
-//            // 註冊接收到請求時的回調
-//            endpoint.OnRequestReceived += (request) =>
-//            {
-//                return OnRequestReceivedAsync(request).GetAwaiter().GetResult();
-//            };
-//        }
+//			// 註冊接收到請求時的回調
+//			endpoint.OnRequestReceived += (request) =>
+//			{
+//				return OnRequestReceivedAsync(request).GetAwaiter().GetResult();
+//			};
+//		}
 
 //		private async Task<CFXEnvelope> OnRequestReceivedAsync(CFXEnvelope request)
 //		{
@@ -163,33 +163,33 @@
 //			double peakFrequency,
 //			double frequencyNow
 //		)
-//		{
-//			var response = new EnergyConsumptionResponse
 //			{
-//				Result = new CFX.Structures.RequestResult
+//				var response = new EnergyConsumptionResponse
 //				{
-//					Result = CFX.Structures.StatusResult.Success,
-//					ResultCode = 0,
-//					Message = "OK"
-//				},
-//				StartTime = startTime,
-//				EndTime = endTime,
-//				EnergyUsed = energyUsed,
-//				PeakPower = peakPower,
-//				PowerNow = powerNow,
+//					Result = new CFX.Structures.RequestResult
+//					{
+//						Result = CFX.Structures.StatusResult.Success,
+//						ResultCode = 0,
+//						Message = "OK"
+//					},
+//					StartTime = startTime,
+//					EndTime = endTime,
+//					EnergyUsed = energyUsed,
+//					PeakPower = peakPower,
+//					PowerNow = powerNow,
 
-//				PowerFactorNow = powerFactorNow,
-//				PeakCurrent = peakCurrent,
-//				CurrentNow = currentNow,
-//				PeakVoltage = peakVoltage,
-//				VoltageNow = voltageNow,
+//					PowerFactorNow = powerFactorNow,
+//					PeakCurrent = peakCurrent,
+//					CurrentNow = currentNow,
+//					PeakVoltage = peakVoltage,
+//					VoltageNow = voltageNow,
 
-//				PeakFrequency = peakFrequency,
-//				FrequencyNow = frequencyNow
-//			};
+//					PeakFrequency = peakFrequency,
+//					FrequencyNow = frequencyNow
+//				};
 
-//			return CFXEnvelope.FromCFXMessage(response);
-//		}
+//				return CFXEnvelope.FromCFXMessage(response);
+//			}
 
 
 
@@ -216,83 +216,83 @@
 //			//}
 
 
-//		//	private EnergyConsumptionResponse GenerateEnergyResponse(
-//		//byte stationId,
-//		//DateTime timestamp,
-//		//Dictionary<string, int> data)
-//		//	{
-//		//		return new EnergyConsumptionResponse
-//		//		{
-//		//			Result = new CFX.Structures.RequestResult
-//		//			{
-//		//				Result = CFX.Structures.StatusResult.Success,
-//		//				ResultCode = 0,
-//		//				Message = $"Station {stationId} Data Retrieved Successfully"
-//		//			},
-//		//			StartTime = timestamp,
-//		//			EndTime = DateTime.UtcNow,
-//		//			EnergyUsed = data.ContainsKey("電能 (kWh)") ? data["電能 (kWh)"] / 1000.0 : 0, // 電能
-//		//			PeakPower = data.ContainsKey("當前總有功功率 (W)") ? data["當前總有功功率 (W)"] / 1000.0 : 0, // 最大功率
-//		//			MinimumPower = 0, // 無對應數據
-//		//			MeanPower = 0, // 無對應數據
-//		//			PowerNow = data.ContainsKey("當前總有功功率 (W)") ? data["當前總有功功率 (W)"] / 1000.0 : 0, // 當前功率
-//		//			PowerFactorNow = data.ContainsKey("A相功率因數") ? data["A相功率因數"] / 100.0 : 0, // 功率因數
-//		//			PeakCurrent = 0, // 無對應數據
-//		//			MinimumCurrent = 0, // 無對應數據
-//		//			MeanCurrent = 0, // 無對應數據
-//		//			CurrentNow = data.ContainsKey("A相電流 (A)") ? data["A相電流 (A)"] / 100.0 : 0, // 當前電流
-//		//			PeakVoltage = 0, // 無對應數據
-//		//			MinimumVoltage = 0, // 無對應數據
-//		//			MeanVoltage = 0, // 無對應數據
-//		//			VoltageNow = data.ContainsKey("A相電壓 (V)") ? data["A相電壓 (V)"] / 10.0 : 0, // 當前電壓
-//		//			PeakFrequency = data.ContainsKey("當前線頻率 (Hz)") ? data["當前線頻率 (Hz)"] : 0, // 最大頻率
-//		//			MinimumFrequency = 0, // 無對應數據
-//		//			MeanFrequency = 0, // 無對應數據
-//		//			FrequencyNow = data.ContainsKey("當前線頻率 (Hz)") ? data["當前線頻率 (Hz)"] : 0, // 當前頻率
-//		//			PeakPowerRYB = new List<double>
-//		//{
-//		//	data.ContainsKey("A相有功功率 (W)") ? data["A相有功功率 (W)"] / 1000.0 : 0,
-//		//	data.ContainsKey("B相有功功率 (W)") ? data["B相有功功率 (W)"] / 1000.0 : 0,
-//		//	data.ContainsKey("C相有功功率 (W)") ? data["C相有功功率 (W)"] / 1000.0 : 0
-//		//},
-//		//			MinimumPowerRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
-//		//			MeanPowerRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
-//		//			PowerNowRYB = new List<double>
-//		//{
-//		//	data.ContainsKey("A相有功功率 (W)") ? data["A相有功功率 (W)"] / 1000.0 : 0,
-//		//	data.ContainsKey("B相有功功率 (W)") ? data["B相有功功率 (W)"] / 1000.0 : 0,
-//		//	data.ContainsKey("C相有功功率 (W)") ? data["C相有功功率 (W)"] / 1000.0 : 0
-//		//},
-//		//			PowerFactorNowRYB = new List<double>
-//		//{
-//		//	data.ContainsKey("A相功率因數") ? data["A相功率因數"] / 100.0 : 0,
-//		//	data.ContainsKey("B相功率因數") ? data["B相功率因數"] / 100.0 : 0,
-//		//	data.ContainsKey("C相功率因數") ? data["C相功率因數"] / 100.0 : 0
-//		//},
-//		//			PeakCurrentRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
-//		//			MinimumCurrentRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
-//		//			MeanCurrentRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
-//		//			CurrentNowRYB = new List<double>
-//		//{
-//		//	data.ContainsKey("A相電流 (A)") ? data["A相電流 (A)"] / 100.0 : 0,
-//		//	data.ContainsKey("B相電流 (A)") ? data["B相電流 (A)"] / 100.0 : 0,
-//		//	data.ContainsKey("C相電流 (A)") ? data["C相電流 (A)"] / 100.0 : 0
-//		//},
-//		//			PeakVoltageRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
-//		//			MinimumVoltageRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
-//		//			MeanVoltageRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
-//		//			VoltageNowRYB = new List<double>
-//		//{
-//		//	data.ContainsKey("A相電壓 (V)") ? data["A相電壓 (V)"] / 10.0 : 0,
-//		//	data.ContainsKey("B相電壓 (V)") ? data["B相電壓 (V)"] / 10.0 : 0,
-//		//	data.ContainsKey("C相電壓 (V)") ? data["C相電壓 (V)"] / 10.0 : 0
+//			//	private EnergyConsumptionResponse GenerateEnergyResponse(
+//			//byte stationId,
+//			//DateTime timestamp,
+//			//Dictionary<string, int> data)
+//			//	{
+//			//		return new EnergyConsumptionResponse
+//			//		{
+//			//			Result = new CFX.Structures.RequestResult
+//			//			{
+//			//				Result = CFX.Structures.StatusResult.Success,
+//			//				ResultCode = 0,
+//			//				Message = $"Station {stationId} Data Retrieved Successfully"
+//			//			},
+//			//			StartTime = timestamp,
+//			//			EndTime = DateTime.UtcNow,
+//			//			EnergyUsed = data.ContainsKey("電能 (kWh)") ? data["電能 (kWh)"] / 1000.0 : 0, // 電能
+//			//			PeakPower = data.ContainsKey("當前總有功功率 (W)") ? data["當前總有功功率 (W)"] / 1000.0 : 0, // 最大功率
+//			//			MinimumPower = 0, // 無對應數據
+//			//			MeanPower = 0, // 無對應數據
+//			//			PowerNow = data.ContainsKey("當前總有功功率 (W)") ? data["當前總有功功率 (W)"] / 1000.0 : 0, // 當前功率
+//			//			PowerFactorNow = data.ContainsKey("A相功率因數") ? data["A相功率因數"] / 100.0 : 0, // 功率因數
+//			//			PeakCurrent = 0, // 無對應數據
+//			//			MinimumCurrent = 0, // 無對應數據
+//			//			MeanCurrent = 0, // 無對應數據
+//			//			CurrentNow = data.ContainsKey("A相電流 (A)") ? data["A相電流 (A)"] / 100.0 : 0, // 當前電流
+//			//			PeakVoltage = 0, // 無對應數據
+//			//			MinimumVoltage = 0, // 無對應數據
+//			//			MeanVoltage = 0, // 無對應數據
+//			//			VoltageNow = data.ContainsKey("A相電壓 (V)") ? data["A相電壓 (V)"] / 10.0 : 0, // 當前電壓
+//			//			PeakFrequency = data.ContainsKey("當前線頻率 (Hz)") ? data["當前線頻率 (Hz)"] : 0, // 最大頻率
+//			//			MinimumFrequency = 0, // 無對應數據
+//			//			MeanFrequency = 0, // 無對應數據
+//			//			FrequencyNow = data.ContainsKey("當前線頻率 (Hz)") ? data["當前線頻率 (Hz)"] : 0, // 當前頻率
+//			//			PeakPowerRYB = new List<double>
+//			//{
+//			//	data.ContainsKey("A相有功功率 (W)") ? data["A相有功功率 (W)"] / 1000.0 : 0,
+//			//	data.ContainsKey("B相有功功率 (W)") ? data["B相有功功率 (W)"] / 1000.0 : 0,
+//			//	data.ContainsKey("C相有功功率 (W)") ? data["C相有功功率 (W)"] / 1000.0 : 0
+//			//},
+//			//			MinimumPowerRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
+//			//			MeanPowerRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
+//			//			PowerNowRYB = new List<double>
+//			//{
+//			//	data.ContainsKey("A相有功功率 (W)") ? data["A相有功功率 (W)"] / 1000.0 : 0,
+//			//	data.ContainsKey("B相有功功率 (W)") ? data["B相有功功率 (W)"] / 1000.0 : 0,
+//			//	data.ContainsKey("C相有功功率 (W)") ? data["C相有功功率 (W)"] / 1000.0 : 0
+//			//},
+//			//			PowerFactorNowRYB = new List<double>
+//			//{
+//			//	data.ContainsKey("A相功率因數") ? data["A相功率因數"] / 100.0 : 0,
+//			//	data.ContainsKey("B相功率因數") ? data["B相功率因數"] / 100.0 : 0,
+//			//	data.ContainsKey("C相功率因數") ? data["C相功率因數"] / 100.0 : 0
+//			//},
+//			//			PeakCurrentRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
+//			//			MinimumCurrentRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
+//			//			MeanCurrentRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
+//			//			CurrentNowRYB = new List<double>
+//			//{
+//			//	data.ContainsKey("A相電流 (A)") ? data["A相電流 (A)"] / 100.0 : 0,
+//			//	data.ContainsKey("B相電流 (A)") ? data["B相電流 (A)"] / 100.0 : 0,
+//			//	data.ContainsKey("C相電流 (A)") ? data["C相電流 (A)"] / 100.0 : 0
+//			//},
+//			//			PeakVoltageRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
+//			//			MinimumVoltageRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
+//			//			MeanVoltageRYB = new List<double> { 0.0, 0.0, 0.0 }, // 無對應數據
+//			//			VoltageNowRYB = new List<double>
+//			//{
+//			//	data.ContainsKey("A相電壓 (V)") ? data["A相電壓 (V)"] / 10.0 : 0,
+//			//	data.ContainsKey("B相電壓 (V)") ? data["B相電壓 (V)"] / 10.0 : 0,
+//			//	data.ContainsKey("C相電壓 (V)") ? data["C相電壓 (V)"] / 10.0 : 0
 
-//		//},
-//		//			ThreePhaseNeutralCurrentNow = 0 // 無對應數據
-//		//		};
-//		//	}
+//			//},
+//			//			ThreePhaseNeutralCurrentNow = 0 // 無對應數據
+//			//		};
+//			//	}
 
 
 
 //		}
-//}
+//	}
