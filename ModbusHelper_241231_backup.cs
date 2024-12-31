@@ -41,46 +41,70 @@ namespace AmqpModbusIntegration
         }
 
 
-		//241231新增================================
 		public static void SetTemperature(SerialPort serialPort, byte stationNumber, ushort temperature, Dictionary<byte, Dictionary<string, int>> slaveData)
 		{
-			// 確保線程安全
+
+			//20241218新增============================================================
 			lock (serialPortLock)
 			{
+
 				if (serialPort == null || !serialPort.IsOpen)
 				{
-					Console.WriteLine("串口未開啟或無效，無法設定溫度");
-					return;
+				Console.WriteLine("串口未開啟或無效，無法設定溫度");
+				return;
 				}
 
-				if (!slaveData.ContainsKey(stationNumber))
-				{
-					Console.WriteLine($"站號 {stationNumber} 不存在，操作中止。");
-					return;
-				}
-
-				// 構建 Modbus 命令
-				byte[] command = {
-			stationNumber,
-			0x06,
-			0x00, 0x2B,    // 假設溫度寄存器地址
-            (byte)(temperature >> 8),
-			(byte)(temperature & 0xFF)
-		};
+				//lock (serialPortLock)
+				//{
+					byte[] command = {
+					stationNumber,
+					0x06,
+					0x00, 0x2B,    // 假設溫度寄存器地址
+					(byte)(temperature >> 8),
+					(byte)(temperature & 0xFF)
+					};
 
 				byte[] fullCommand = AppendCRC(command);
 
+				//try
+				//{
+				//	serialPort.DiscardInBuffer();
+				//	serialPort.DiscardOutBuffer();
+				//	serialPort.Write(fullCommand, 0, fullCommand.Length);
+				//	Console.WriteLine($"已發送溫度設定命令到站號 {stationNumber}，設定溫度：{temperature}°C");
+
+				//	// 嘗試讀取設備回應
+				//	byte[] responseBuffer = new byte[256];
+				//	int bytesRead = serialPort.Read(responseBuffer, 0, responseBuffer.Length);
+				//	if (bytesRead > 5 && ValidateCRC(responseBuffer, bytesRead))
+				//	{
+				//		Console.WriteLine($"收到設備回應: {BitConverter.ToString(responseBuffer, 0, bytesRead)}");
+				//		slaveData[stationNumber]["溫度保護(℃)"] = temperature;
+				//	}
+				//	else
+				//	{
+				//		Console.WriteLine("收到無效回應或 CRC 校驗失敗");
+				//	}
+				//}catch (TimeoutException){
+				//	Console.WriteLine("讀取設備回應超時，可能設備未回應或命令未成功");
+				//}
+				//catch (Exception ex)
+				//{
+				//	Console.WriteLine($"設定溫度時發生錯誤: {ex.Message}");
+				//}
 				try
 				{
-					// 清空緩衝區
+					if (!slaveData.ContainsKey(stationNumber))
+					{
+						Console.WriteLine($"站號 {stationNumber} 不存在，操作中止。");
+						return;
+					}
+
 					serialPort.DiscardInBuffer();
 					serialPort.DiscardOutBuffer();
-
-					// 發送命令
 					serialPort.Write(fullCommand, 0, fullCommand.Length);
-					Console.WriteLine($"已發送溫度設定命令到站號 {stationNumber}，設定溫度：{temperature}°C");
 
-					// 設置超時並嘗試讀取回應
+					// 設置讀取回應的超時
 					serialPort.ReadTimeout = 2000; // 2秒超時
 					byte[] responseBuffer = new byte[256];
 					int bytesRead = serialPort.Read(responseBuffer, 0, responseBuffer.Length);
@@ -103,8 +127,15 @@ namespace AmqpModbusIntegration
 				{
 					Console.WriteLine($"設置溫度時發生錯誤: {ex.Message}");
 				}
+
+
+
 			}
+			//20241218新增============================================================
+
 		}
+
+
 
 
 		//20241206_修改==============================================

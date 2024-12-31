@@ -26,7 +26,7 @@ namespace AmqpModbusIntegration
 		private readonly SerialPort serialPort;
 		private readonly Dictionary<byte, Dictionary<string, int>> slaveData;
 
-		private static readonly object serialPortLock = new object(); // 用於串口操作的執行緒安全鎖
+		public static readonly object serialPortLock = new object(); // 用於串口操作的執行緒安全鎖
 
 
 
@@ -68,7 +68,7 @@ namespace AmqpModbusIntegration
 			string endpointUri,
 			string publishChannelUri,
 			string subscribeChannelUri,
-			ModbusViewer modbusViewer,
+			ModbusViewer modbusViewer,// 傳遞 ModbusViewer 實例
 			SerialPort serialPort,
 			Dictionary<byte, Dictionary<string, int>> slaveData)
 		{
@@ -182,7 +182,7 @@ namespace AmqpModbusIntegration
 
 
 
-		////遠端接收溫度設定請求(目前只有辦法收到回應後回復success)
+		//20241219新增=====================================================
 		//private CFXEnvelope OnRequestReceivedHandler(CFXEnvelope request)
 		//{
 		//	try
@@ -191,7 +191,78 @@ namespace AmqpModbusIntegration
 		//		{
 		//			Console.WriteLine($"收到 ModifyStationParametersRequest: {JsonConvert.SerializeObject(modifyRequest, Formatting.Indented)}");
 
-		//			// 構造回應
+		//			if (modifyRequest.NewParameters != null && modifyRequest.NewParameters.Any())
+		//			{
+		//				foreach (var parameter in modifyRequest.NewParameters)
+		//				{
+		//					if (parameter is GenericParameter genericParam)
+		//					{
+		//						if (genericParam.Name == "保護溫度")
+		//						{
+		//							if (ushort.TryParse(genericParam.Value.ToString(), out var temperature))
+		//							{
+		//								Console.WriteLine($"正在設定保護溫度: {temperature}°C");
+
+		//								// 使用 UI 執行緒執行溫度設置
+		//								modbusViewer.Invoke(new Action(() =>
+		//								{
+		//									modbusViewer.SetTemperatureTextboxValue(temperature.ToString());
+		//									modbusViewer.ExecuteSetTemperature();
+		//								}));
+		//							}
+		//							else
+		//							{
+		//								Console.WriteLine($"無效的溫度值: {genericParam.Value}");
+		//								return CreateErrorResponse(request.RequestID, $"Invalid temperature value: {genericParam.Value}");
+		//							}
+		//						}
+		//						else if (genericParam.Name == "開關操作")
+		//						{
+		//							if (genericParam.Value.ToString() == "開" || genericParam.Value.ToString() == "關")
+		//							{
+		//								bool isSwitchOn = genericParam.Value.ToString() == "開";
+		//								Console.WriteLine($"正在執行開關操作: {(isSwitchOn ? "合閘" : "分閘")}");
+
+		//								// 呼叫開關操作
+		//								byte stationNumber = 1; // 替換為實際站號
+		//								Task.Run(() =>
+		//								{
+		//									if (serialPort != null && serialPort.IsOpen)
+		//									{
+		//										if (isSwitchOn)
+		//										{
+		//											ModbusHelper.SwitchON(serialPort, stationNumber);
+		//										}
+		//										else
+		//										{
+		//											ModbusHelper.SwitchOFF(serialPort, stationNumber);
+		//										}
+		//									}
+		//									else
+		//									{
+		//										Console.WriteLine("串口未打開，無法執行開關操作");
+		//									}
+		//								});
+		//							}
+		//							else
+		//							{
+		//								Console.WriteLine($"無效的開關操作值: {genericParam.Value}");
+		//								return CreateErrorResponse(request.RequestID, $"Invalid switch operation value: {genericParam.Value}");
+		//							}
+		//						}
+		//						else
+		//						{
+		//							Console.WriteLine($"未知的參數名稱或類型: {parameter.GetType().Name}");
+		//							return CreateErrorResponse(request.RequestID, $"Unknown parameter name or type: {parameter.GetType().Name}");
+		//						}
+		//					}
+		//				}
+		//			}
+		//			else
+		//			{
+		//				return CreateErrorResponse(request.RequestID, "No parameters provided.");
+		//			}
+
 		//			var response = new ModifyStationParametersResponse
 		//			{
 		//				Result = new RequestResult
@@ -202,7 +273,6 @@ namespace AmqpModbusIntegration
 		//				}
 		//			};
 
-		//			// 封裝回應到 CFXEnvelope
 		//			var responseEnvelope = CFXEnvelope.FromCFXMessage(response);
 		//			responseEnvelope.RequestID = request.RequestID;
 
@@ -211,33 +281,17 @@ namespace AmqpModbusIntegration
 		//		else
 		//		{
 		//			Console.WriteLine("Received an unsupported request type.");
-		//			return CFXEnvelope.FromCFXMessage(new NotSupportedResponse
-		//			{
-		//				RequestResult = new RequestResult
-		//				{
-		//					Result = StatusResult.Failed,
-		//					ResultCode = -1,
-		//					Message = "Unsupported request type."
-		//				}
-		//			});
+		//			return CreateErrorResponse(request.RequestID, "Unsupported request type.");
 		//		}
 		//	}
 		//	catch (Exception ex)
 		//	{
 		//		Console.WriteLine($"Error processing request: {ex.Message}");
-		//		return CFXEnvelope.FromCFXMessage(new NotSupportedResponse
-		//		{
-		//			RequestResult = new RequestResult
-		//			{
-		//				Result = StatusResult.Failed,
-		//				ResultCode = -1,
-		//				Message = ex.Message
-		//			}
-		//		});
+		//		return CreateErrorResponse(request.RequestID, ex.Message);
 		//	}
 		//}
 
-		// 遠端接收溫度設定請求
+
 		//private CFXEnvelope OnRequestReceivedHandler(CFXEnvelope request)
 		//{
 		//	try
@@ -246,212 +300,161 @@ namespace AmqpModbusIntegration
 		//		{
 		//			Console.WriteLine($"收到 ModifyStationParametersRequest: {JsonConvert.SerializeObject(modifyRequest, Formatting.Indented)}");
 
-		//			// 檢查參數是否存在並有效
-		//			if (modifyRequest.NewParameters == null || !modifyRequest.NewParameters.Any())
+		//			if (modifyRequest.NewParameters != null && modifyRequest.NewParameters.Any())
+		//			{
+		//				foreach (var parameter in modifyRequest.NewParameters)
+		//				{
+		//					if (parameter is GenericParameter genericParam)
+		//					{
+		//						if (genericParam.Name == "保護溫度")
+		//						{
+		//							if (ushort.TryParse(genericParam.Value.ToString(), out var temperature))
+		//							{
+		//								Console.WriteLine($"正在設定保護溫度: {temperature}°C");
+
+		//								// 使用 UI 執行緒執行溫度設置
+		//								modbusViewer.Invoke(new Action(() =>
+		//								{
+		//									modbusViewer.SetTemperatureTextboxValue(temperature.ToString());
+		//									modbusViewer.ExecuteSetTemperature();
+		//								}));
+		//							}
+		//							else
+		//							{
+		//								Console.WriteLine($"無效的溫度值: {genericParam.Value}");
+		//								return CreateErrorResponse(request.RequestID, $"Invalid temperature value: {genericParam.Value}");
+		//							}
+		//						}
+		//						else if (genericParam.Name == "開關操作")
+		//						{
+		//							if (genericParam.Value.ToString() == "開" || genericParam.Value.ToString() == "關")
+		//							{
+		//								bool isSwitchOn = genericParam.Value.ToString() == "開";
+		//								Console.WriteLine($"正在執行開關操作: {(isSwitchOn ? "合閘" : "分閘")}");
+
+		//								//// 呼叫 ExecuteSwitchCommand
+		//								modbusViewer.Invoke(new Action(() =>
+		//								{
+		//									if (isSwitchOn)
+		//									{
+		//										modbusViewer.ExecuteSwitchCommand(ModbusHelper.SwitchON);
+		//									}
+		//									else
+		//									{
+		//										modbusViewer.ExecuteSwitchCommand(ModbusHelper.SwitchOFF);
+		//									}
+		//								}));
+
+
+		//							}
+		//							else
+		//							{
+		//								Console.WriteLine($"無效的開關操作值: {genericParam.Value}");
+		//								return CreateErrorResponse(request.RequestID, $"Invalid switch operation value: {genericParam.Value}");
+		//							}
+		//						}
+		//						else
+		//						{
+		//							Console.WriteLine($"未知的參數名稱或類型: {parameter.GetType().Name}");
+		//							return CreateErrorResponse(request.RequestID, $"Unknown parameter name or type: {parameter.GetType().Name}");
+		//						}
+		//					}
+		//				}
+		//			}
+		//			else
 		//			{
 		//				return CreateErrorResponse(request.RequestID, "No parameters provided.");
+		//			}
+
+		//			var response = new ModifyStationParametersResponse
+		//			{
+		//				Result = new RequestResult
+		//				{
+		//					Result = StatusResult.Success,
+		//					ResultCode = 0,
+		//					Message = "Parameters updated successfully."
+		//				}
+		//			};
+
+		//			var responseEnvelope = CFXEnvelope.FromCFXMessage(response);
+		//			responseEnvelope.RequestID = request.RequestID;
+
+		//			return responseEnvelope;
+		//		}
+		//		else
+		//		{
+		//			Console.WriteLine("Received an unsupported request type.");
+		//			return CreateErrorResponse(request.RequestID, "Unsupported request type.");
+		//		}
+		//	}
+		//	catch (Exception ex)
+		//	{
+		//		Console.WriteLine($"Error processing request: {ex.Message}");
+		//		return CreateErrorResponse(request.RequestID, ex.Message);
+		//	}
+		//}
+
+		//private CFXEnvelope OnRequestReceivedHandler(CFXEnvelope request)
+		//{
+		//	try
+		//	{
+		//		if (request.MessageBody is ModifyStationParametersRequest modifyRequest)
+		//		{
+		//			Console.WriteLine($"收到 ModifyStationParametersRequest: {JsonConvert.SerializeObject(modifyRequest, Formatting.Indented)}");
+
+		//			// 解析站號列表
+		//			var stationNumbers = modifyRequest.NewParameters
+		//				.Where(p => p.Name == "站號")
+		//				.Select(p => byte.TryParse(p.Value.ToString(), out var station) ? station : (byte?)null)
+		//				.Where(p => p.HasValue)
+		//				.Select(p => p.Value)
+		//				.ToList();
+
+		//			if (!stationNumbers.Any())
+		//			{
+		//				Console.WriteLine("無有效的站號列表，請求無法執行。");
+		//				return CreateErrorResponse(request.RequestID, "No valid station numbers provided.");
 		//			}
 
 		//			foreach (var parameter in modifyRequest.NewParameters)
 		//			{
 		//				if (parameter is GenericParameter genericParam)
 		//				{
-		//					// 處理參數邏輯
-		//					if (genericParam.Name == "保護溫度")
+		//					// 處理保護溫度
+		//					if (genericParam.Name == "保護溫度" && ushort.TryParse(genericParam.Value.ToString(), out var temperature))
 		//					{
-		//						if (int.TryParse(genericParam.Value.ToString(), out var temperature))
+		//						Console.WriteLine($"正在設定保護溫度為 {temperature}°C 對站號: {string.Join(",", stationNumbers)}");
+
+		//						foreach (var station in stationNumbers)
 		//						{
-		//							Console.WriteLine($"設定保護溫度為: {temperature}°C");
-
-		//							// 更新對應站號的保護溫度參數（假設 slaveData 包含 "溫度保護(℃)" 鍵）
-		//							foreach (var station in slaveData.Keys)
-		//							{
-		//								if (!slaveData[station].ContainsKey("溫度保護(℃)"))
-		//								{
-		//									slaveData[station].Add("溫度保護(℃)", temperature);
-		//								}
-		//								else
-		//								{
-		//									slaveData[station]["溫度保護(℃)"] = temperature;
-		//								}
-		//							}
-		//							Console.WriteLine($"所有站點的溫度保護參數已更新為: {temperature}°C");
-		//						}
-		//						else
-		//						{
-		//							Console.WriteLine($"無效的溫度值: {genericParam.Value}");
-		//							return CreateErrorResponse(request.RequestID, $"Invalid temperature value: {genericParam.Value}");
-		//						}
-		//					}
-		//					else
-		//					{
-		//						Console.WriteLine($"未知的參數名稱: {genericParam.Name}");
-		//						return CreateErrorResponse(request.RequestID, $"Unknown parameter name: {genericParam.Name}");
-		//					}
-		//				}
-		//				else
-		//				{
-		//					Console.WriteLine($"不支援的參數類型: {parameter.GetType().Name}");
-		//					return CreateErrorResponse(request.RequestID, $"Unsupported parameter type: {parameter.GetType().Name}");
-		//				}
-		//			}
-
-		//			// 構造成功回應
-		//			var response = new ModifyStationParametersResponse
-		//			{
-		//				Result = new RequestResult
-		//				{
-		//					Result = StatusResult.Success,
-		//					ResultCode = 0,
-		//					Message = "Parameters updated successfully."
-		//				}
-		//			};
-
-		//			// 封裝回應到 CFXEnvelope
-		//			var responseEnvelope = CFXEnvelope.FromCFXMessage(response);
-		//			responseEnvelope.RequestID = request.RequestID;
-
-		//			return responseEnvelope;
-		//		}
-		//		else
-		//		{
-		//			Console.WriteLine("Received an unsupported request type.");
-		//			return CreateErrorResponse(request.RequestID, "Unsupported request type.");
-		//		}
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		Console.WriteLine($"Error processing request: {ex.Message}");
-		//		return CreateErrorResponse(request.RequestID, ex.Message);
-		//	}
-		//}
-
-		//private CFXEnvelope OnRequestReceivedHandler(CFXEnvelope request)
-		//{
-		//	try
-		//	{
-		//		if (request.MessageBody is ModifyStationParametersRequest modifyRequest)
-		//		{
-		//			Console.WriteLine($"收到 ModifyStationParametersRequest: {JsonConvert.SerializeObject(modifyRequest, Formatting.Indented)}");
-
-		//			if (modifyRequest.NewParameters != null && modifyRequest.NewParameters.Any())
-		//			{
-		//				foreach (var parameter in modifyRequest.NewParameters)
-		//				{
-		//					// 確保參數是 GenericParameter 類型
-		//					if (parameter is GenericParameter genericParam && genericParam.Name == "保護溫度")
-		//					{
-		//						if (ushort.TryParse(genericParam.Value.ToString(), out var temperature))
-		//						{
-		//							Console.WriteLine($"正在設定保護溫度: {temperature}°C");
-
-		//							// 發送 Modbus 指令設定溫度
-		//							foreach (var stationNumber in slaveData.Keys)
-		//							{
-		//								ModbusHelper.SetTemperature(serialPort, stationNumber, temperature, slaveData);
-		//							}
-		//						}
-		//						else
-		//						{
-		//							Console.WriteLine($"無效的溫度值: {genericParam.Value}");
-		//							return CreateErrorResponse(request.RequestID, $"Invalid temperature value: {genericParam.Value}");
-		//						}
-		//					}
-		//					else
-		//					{
-		//						Console.WriteLine($"未知的參數名稱或類型: {parameter.GetType().Name}");
-		//						return CreateErrorResponse(request.RequestID, $"Unknown parameter name or type: {parameter.GetType().Name}");
-		//					}
-		//				}
-		//			}
-		//			else
-		//			{
-		//				return CreateErrorResponse(request.RequestID, "No parameters provided.");
-		//			}
-
-
-
-
-		//			// 構造成功回應
-		//			var response = new ModifyStationParametersResponse
-		//			{
-		//				Result = new RequestResult
-		//				{
-		//					Result = StatusResult.Success,
-		//					ResultCode = 0,
-		//					Message = "Parameters updated successfully."
-		//				}
-		//			};
-
-		//			var responseEnvelope = CFXEnvelope.FromCFXMessage(response);
-		//			responseEnvelope.RequestID = request.RequestID;
-
-		//			return responseEnvelope;
-		//		}
-		//		else
-		//		{
-		//			Console.WriteLine("Received an unsupported request type.");
-		//			return CreateErrorResponse(request.RequestID, "Unsupported request type.");
-		//		}
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		Console.WriteLine($"Error processing request: {ex.Message}");
-		//		return CreateErrorResponse(request.RequestID, ex.Message);
-		//	}
-		//}
-		//private CFXEnvelope OnRequestReceivedHandler(CFXEnvelope request)
-		//{
-		//	try
-		//	{
-		//		if (request.MessageBody is ModifyStationParametersRequest modifyRequest)
-		//		{
-		//			Console.WriteLine($"收到 ModifyStationParametersRequest: {JsonConvert.SerializeObject(modifyRequest, Formatting.Indented)}");
-
-		//			if (modifyRequest.NewParameters != null && modifyRequest.NewParameters.Any())
-		//			{
-		//				foreach (var parameter in modifyRequest.NewParameters)
-		//				{
-		//					if (parameter is GenericParameter genericParam && genericParam.Name == "保護溫度")
-		//					{
-		//						if (ushort.TryParse(genericParam.Value.ToString(), out var temperature))
-		//						{
-		//							Console.WriteLine($"正在設定保護溫度: {temperature}°C");
-
 		//							modbusViewer.Invoke(new Action(() =>
 		//							{
-		//								foreach (var stationNumber in slaveData.Keys)
-		//								{
-		//									if (!slaveData.ContainsKey(stationNumber))
-		//									{
-		//										Console.WriteLine($"站號 {stationNumber} 不存在於 slaveData 中，跳過操作");
-		//										continue;
-		//									}
-
-		//									ModbusHelper.SetTemperature(serialPort, stationNumber, temperature, slaveData);
-		//								}
-
-		//								modbusViewer.UpdateDataGridView(); // 確保 UI 更新
+		//								modbusViewer.ExecuteSetTemperature(station, temperature);
 		//							}));
 		//						}
-		//						else
+		//					}
+		//					// 處理開關操作
+		//					else if (genericParam.Name == "開關操作" && (genericParam.Value.ToString() == "開" || genericParam.Value.ToString() == "關"))
+		//					{
+		//						bool isSwitchOn = genericParam.Value.ToString() == "開";
+		//						string action = isSwitchOn ? "合閘" : "分閘";
+
+		//						Console.WriteLine($"正在執行開關操作: {action} 對站號: {string.Join(",", stationNumbers)}");
+
+		//						modbusViewer.Invoke(new Action(() =>
 		//						{
-		//							Console.WriteLine($"無效的溫度值: {genericParam.Value}");
-		//							return CreateErrorResponse(request.RequestID, $"Invalid temperature value: {genericParam.Value}");
-		//						}
+		//							modbusViewer.ExecuteSwitchCommand(isSwitchOn ? ModbusHelper.SwitchON : ModbusHelper.SwitchOFF, stationNumbers);
+		//						}));
 		//					}
 		//					else
 		//					{
-		//						Console.WriteLine($"未知的參數名稱或類型: {parameter.GetType().Name}");
-		//						return CreateErrorResponse(request.RequestID, $"Unknown parameter name or type: {parameter.GetType().Name}");
+		//						Console.WriteLine($"未知或無效的參數: {genericParam.Name}");
+		//						return CreateErrorResponse(request.RequestID, $"Unknown or invalid parameter: {genericParam.Name}");
 		//					}
 		//				}
 		//			}
-		//			else
-		//			{
-		//				return CreateErrorResponse(request.RequestID, "No parameters provided.");
-		//			}
 
+		//			// 成功回應
 		//			var response = new ModifyStationParametersResponse
 		//			{
 		//				Result = new RequestResult
@@ -480,82 +483,8 @@ namespace AmqpModbusIntegration
 		//	}
 		//}
 
-		//private CFXEnvelope OnRequestReceivedHandler(CFXEnvelope request)
-		//{
-		//	try
-		//	{
-		//		if (request.MessageBody is ModifyStationParametersRequest modifyRequest)
-		//		{
-		//			Console.WriteLine($"收到 ModifyStationParametersRequest: {JsonConvert.SerializeObject(modifyRequest, Formatting.Indented)}");
 
-		//			if (modifyRequest.NewParameters != null && modifyRequest.NewParameters.Any())
-		//			{
-		//				foreach (var parameter in modifyRequest.NewParameters)
-		//				{
-		//					if (parameter is GenericParameter genericParam && genericParam.Name == "保護溫度")
-		//					{
-		//						if (ushort.TryParse(genericParam.Value.ToString(), out var temperature))
-		//						{
-		//							Console.WriteLine($"正在設定保護溫度: {temperature}°C");
-
-		//							modbusViewer.Invoke(new Action(() =>
-		//							{
-		//								lock (serialPortLock)
-		//								{
-		//									foreach (var stationNumber in slaveData.Keys)
-		//									{
-		//										ModbusHelper.SetTemperature(serialPort, stationNumber, temperature, slaveData);
-		//									}
-		//								}
-
-		//								modbusViewer.UpdateDataGridView(); // 確保 UI 更新
-		//							}));
-		//						}
-		//						else
-		//						{
-		//							Console.WriteLine($"無效的溫度值: {genericParam.Value}");
-		//							return CreateErrorResponse(request.RequestID, $"Invalid temperature value: {genericParam.Value}");
-		//						}
-		//					}
-		//					else
-		//					{
-		//						Console.WriteLine($"未知的參數名稱或類型: {parameter.GetType().Name}");
-		//						return CreateErrorResponse(request.RequestID, $"Unknown parameter name or type: {parameter.GetType().Name}");
-		//					}
-		//				}
-		//			}
-		//			else
-		//			{
-		//				return CreateErrorResponse(request.RequestID, "No parameters provided.");
-		//			}
-
-		//			var response = new ModifyStationParametersResponse
-		//			{
-		//				Result = new RequestResult
-		//				{
-		//					Result = StatusResult.Success,
-		//					ResultCode = 0,
-		//					Message = "Parameters updated successfully."
-		//				}
-		//			};
-
-		//			var responseEnvelope = CFXEnvelope.FromCFXMessage(response);
-		//			responseEnvelope.RequestID = request.RequestID;
-
-		//			return responseEnvelope;
-		//		}
-		//		else
-		//		{
-		//			Console.WriteLine("Received an unsupported request type.");
-		//			return CreateErrorResponse(request.RequestID, "Unsupported request type.");
-		//		}
-		//	}
-		//	catch (Exception ex)
-		//	{
-		//		Console.WriteLine($"Error processing request: {ex.Message}");
-		//		return CreateErrorResponse(request.RequestID, ex.Message);
-		//	}
-		//}
+		//重要，這邊的是專門處理接收到請求消息後做相應動作的地方
 		private CFXEnvelope OnRequestReceivedHandler(CFXEnvelope request)
 		{
 			try
@@ -564,42 +493,96 @@ namespace AmqpModbusIntegration
 				{
 					Console.WriteLine($"收到 ModifyStationParametersRequest: {JsonConvert.SerializeObject(modifyRequest, Formatting.Indented)}");
 
-					if (modifyRequest.NewParameters != null && modifyRequest.NewParameters.Any())
-					{
-						foreach (var parameter in modifyRequest.NewParameters)
-						{
-							if (parameter is GenericParameter genericParam && genericParam.Name == "保護溫度")
-							{
-								if (ushort.TryParse(genericParam.Value.ToString(), out var temperature))
-								{
-									Console.WriteLine($"正在設定保護溫度: {temperature}°C");
+					// 解析站號列表
+					var stationNumbers = modifyRequest.NewParameters
+						.Where(p => p is GenericParameter genericParam && genericParam.Name == "站號")
+						.Select(p => byte.TryParse(((GenericParameter)p).Value.ToString(), out var station) ? station : (byte?)null)
+						.Where(p => p.HasValue)
+						.Select(p => p.Value)
+						.ToList();
 
-									// 使用 Invoke 確保在 UI 執行緒中執行
-									modbusViewer.Invoke(new Action(() =>
-									{
-										// 將溫度值寫入 TextBox 並調用 ExecuteSetTemperature 方法
-										modbusViewer.SetTemperatureTextboxValue(temperature.ToString());
-										modbusViewer.ExecuteSetTemperature();
-									}));
-								}
-								else
+					if (!stationNumbers.Any())
+					{
+						Console.WriteLine("無有效的站號列表，請求無法執行。");
+						return CreateErrorResponse(request.RequestID, "No valid station numbers provided.");
+					}
+
+					foreach (var parameter in modifyRequest.NewParameters)
+					{
+						if (parameter is GenericParameter genericParam)
+						{
+							// 處理接收的保護溫度=========================================
+							//if (genericParam.Name == "保護溫度" && ushort.TryParse(genericParam.Value.ToString(), out var temperature))
+							//{
+							//	Console.WriteLine($"正在設定保護溫度為 {temperature}°C 對站號: {string.Join(",", stationNumbers)}");
+
+							//	foreach (var station in stationNumbers)
+							//	{
+							//		modbusViewer.Invoke(new Action(() =>
+							//		{
+							//			modbusViewer.ExecuteSetTemperature(station, temperature);
+							//		}));
+							//	}
+							//}
+
+
+							if (genericParam.Name == "保護溫度" && ushort.TryParse(genericParam.Value.ToString(), out var temperature))
+							{
+								Console.WriteLine($"正在設定保護溫度為 {temperature}°C 對站號: {string.Join(",", stationNumbers)}");
+
+								foreach (var station in stationNumbers)
 								{
-									Console.WriteLine($"無效的溫度值: {genericParam.Value}");
-									return CreateErrorResponse(request.RequestID, $"Invalid temperature value: {genericParam.Value}");
+									if (!slaveData.ContainsKey(station))
+									{
+										Console.WriteLine($"站號 {station} 不存在，跳過操作。");
+										continue;
+									}
+
+									Task.Run(() =>
+									{
+										try
+										{
+											modbusViewer.ExecuteSetTemperature(station, temperature);
+										}
+										catch (Exception ex)
+										{
+											Console.WriteLine($"設置溫度操作失敗，站號: {station}，錯誤: {ex.Message}");
+										}
+									});
+
 								}
+							}
+
+							// 處理接收的開關操作============================================
+							else if (genericParam.Name == "開關操作" && (genericParam.Value.ToString() == "開" || genericParam.Value.ToString() == "關"))
+							{
+								bool isSwitchOn = genericParam.Value.ToString() == "開";
+								string action = isSwitchOn ? "合閘" : "分閘";
+
+								Console.WriteLine($"正在執行開關操作: {action} 對站號: {string.Join(",", stationNumbers)}");
+
+								//								//// 呼叫 ExecuteSwitchCommand
+								modbusViewer.Invoke(new Action(() =>
+								{
+									if (isSwitchOn)
+									{
+										modbusViewer.ExecuteSwitchCommand(ModbusHelper.SwitchON);
+									}
+									else
+									{
+										modbusViewer.ExecuteSwitchCommand(ModbusHelper.SwitchOFF);
+									}
+								}));
 							}
 							else
 							{
-								Console.WriteLine($"未知的參數名稱或類型: {parameter.GetType().Name}");
-								return CreateErrorResponse(request.RequestID, $"Unknown parameter name or type: {parameter.GetType().Name}");
+								Console.WriteLine($"未知或無效的參數: {genericParam.Name}");
+								return CreateErrorResponse(request.RequestID, $"Unknown or invalid parameter: {genericParam.Name}");
 							}
 						}
 					}
-					else
-					{
-						return CreateErrorResponse(request.RequestID, "No parameters provided.");
-					}
 
+					// 成功回應
 					var response = new ModifyStationParametersResponse
 					{
 						Result = new RequestResult
@@ -628,6 +611,10 @@ namespace AmqpModbusIntegration
 			}
 		}
 
+
+
+
+		//20241219新增=====================================================
 
 
 
@@ -829,7 +816,7 @@ namespace AmqpModbusIntegration
 
 				//20241129新增測試==================================================
 				VoltageNowRYB = voltageRYB // 添加電壓數據
-										   //20241129新增測試==================================================
+				//20241129新增測試==================================================
 			};
 
 			// 發佈訊息
