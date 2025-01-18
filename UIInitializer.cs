@@ -107,9 +107,6 @@ namespace AmqpModbusIntegration
             };
 
             viewer.Controls.Add(dataGridView); // 将 DataGridView 添加到窗口控件
-
-
-
 		}
 	}
 }

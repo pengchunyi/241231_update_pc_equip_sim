@@ -4,41 +4,73 @@ using System.IO.Ports;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+//MessageBox 是屬於 Windows Forms 命名空間的一部分
+using System.Windows.Forms;
+
 
 namespace AmqpModbusIntegration
 {
-    public static class ModbusHelper
-    {
+	public static class ModbusHelper
+	{
 
 		//private static readonly object serialPortLock = new object(); // 用於串口操作的執行緒安全鎖
 		private static readonly SemaphoreSlim serialPortLock = new SemaphoreSlim(1, 1);
 
 
 		public static void SwitchON(SerialPort serialPort, byte stationNumber)
-        {
-            if (serialPort != null && serialPort.IsOpen)
-            {
-                byte[] openCommand = { stationNumber, 0x06, 0x00, 0x31, 0x55, 0x88 };
-                byte[] fullCommand = AppendCRC(openCommand);
+		{
+			if (serialPort != null && serialPort.IsOpen)
+			{
+				byte[] openCommand = { stationNumber, 0x06, 0x00, 0x31, 0x55, 0x88 };
+				byte[] fullCommand = AppendCRC(openCommand);
 				serialPort.DiscardInBuffer(); // 清空輸入緩衝區
 				serialPort.DiscardOutBuffer(); // 清空輸出緩衝區
 				serialPort.Write(fullCommand, 0, fullCommand.Length);
-                Console.WriteLine($"站號 {stationNumber} 的開關已打開");
-            }
-        }
+				Console.WriteLine($"站號 {stationNumber} 的開關已打開");
+			}
+		}
 
-        public static void SwitchOFF(SerialPort serialPort, byte stationNumber)
-        {
-            if (serialPort != null && serialPort.IsOpen)
-            {
-                byte[] closeCommand = { stationNumber, 0x06, 0x00, 0x31, 0x55, 0x66 };
-                byte[] fullCommand = AppendCRC(closeCommand);
+		public static void SwitchOFF(SerialPort serialPort, byte stationNumber)
+		{
+			if (serialPort != null && serialPort.IsOpen)
+			{
+				byte[] closeCommand = { stationNumber, 0x06, 0x00, 0x31, 0x55, 0x66 };
+				byte[] fullCommand = AppendCRC(closeCommand);
 				serialPort.DiscardInBuffer(); // 清空輸入緩衝區
 				serialPort.DiscardOutBuffer(); // 清空輸出緩衝區
 				serialPort.Write(fullCommand, 0, fullCommand.Length);
-                Console.WriteLine($"站號 {stationNumber} 的開關已關閉");
-            }
-        }
+				Console.WriteLine($"站號 {stationNumber} 的開關已關閉");
+			}
+		}
+
+
+		//20241202新增=======================================
+		// 在 ModbusViewer 類中新增方法
+		public static void SimulateFaultTest(ModbusViewer modbusViewer, Dictionary<byte, Dictionary<string, int>> slaveData)
+		{
+			// 模擬故障碼 0xA87
+			int faultCode = 0xA87;
+
+			// 更新 currentStatus 和 currentStatus1, currentStatus2
+			modbusViewer.currentStatus = faultCode;
+			modbusViewer.currentStatus1 = (faultCode >> 16) & 0xFFFF; // 高16位
+			modbusViewer.currentStatus2 = faultCode & 0xFFFF;        // 低16位
+
+			// 更新 slaveData 中的 "當前狀態"
+			foreach (var station in slaveData.Keys)
+			{
+				if (slaveData[station].ContainsKey("當前狀態"))
+				{
+					slaveData[station]["當前狀態"] = modbusViewer.currentStatus;
+				}
+			}
+
+			// 更新 DataGridView 顯示
+			modbusViewer.UpdateDataGridView();
+
+			// 提示用戶操作成功
+			MessageBox.Show($"已將當前狀態設置為故障碼 {faultCode:X}");
+		}
 
 
 		//241231新增================================
@@ -161,18 +193,29 @@ namespace AmqpModbusIntegration
 			}
 		}
 
+
+
+
 		// 校驗 CRC 方法
 		public static bool ValidateCRC(byte[] data, int length)
-        {
-            if (length < 2) return false;
-            ushort receivedCRC = (ushort)(data[length - 2] | (data[length - 1] << 8));
-            ushort calculatedCRC = CalculateCRC(data.Take(length - 2).ToArray());
-            return receivedCRC == calculatedCRC;
-        }
+		{
+			if (length < 2) return false;
+			ushort receivedCRC = (ushort)(data[length - 2] | (data[length - 1] << 8));
+			ushort calculatedCRC = CalculateCRC(data.Take(length - 2).ToArray());
+			return receivedCRC == calculatedCRC;
+		}
 
 
 		private static void ParseResponse(byte[] buffer, byte station, ModbusViewer modbusViewer)
 		{
+
+
+			if (!modbusViewer.GetSlaveData().ContainsKey(station))
+			{
+				Console.WriteLine($"站号 {station} 不存在于设备列表中，跳过更新。");
+				return;
+			}
+
 			//20241125===============================================================
 			// 檢查數據包中的站號
 			if (buffer[0] != station)
@@ -212,7 +255,7 @@ namespace AmqpModbusIntegration
 
 			//20241204_新增================================
 			modbusViewer.ProtectionThreshold = ((buffer[89] << 8) | buffer[90]);//單位: ℃
-			//20241204_新增================================
+																				//20241204_新增================================
 
 
 
