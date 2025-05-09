@@ -1,0 +1,833 @@
+Endpoint 初始化完成
+Listener 綁定到地址: event
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:12.6075632+08:00",
+  "UniqueID": "4452401e-174e-4822-bc68-0fffac7a630f",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "1",
+      "FaultOccurrenceId": "e63e5452-2558-4919-8709-a633b70f58b9",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "A相過壓",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:12.6053858+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:12.6320574+08:00",
+  "UniqueID": "e6218414-c4ea-409a-95ba-403000234355",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "2",
+      "FaultOccurrenceId": "a0607282-0414-404b-bb3e-b6e66718d4d1",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "B相過壓",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:12.6309889+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:12.6349837+08:00",
+  "UniqueID": "cc9933eb-acd1-4e0c-89a3-cea57cbcef72",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "3",
+      "FaultOccurrenceId": "a7d4256c-045d-41dc-a625-3b64bbaf7224",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "C相過壓",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:12.6340187+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:12.6359513+08:00",
+  "UniqueID": "7872c287-3ba1-409f-877b-681c983e6b74",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "8",
+      "FaultOccurrenceId": "937b9437-dea7-4209-b834-7cbe423cb187",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "B相過流",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:12.6359513+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:12.6444052+08:00",
+  "UniqueID": "660ce795-a8ce-4461-87d6-44382b4664f9",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "10",
+      "FaultOccurrenceId": "0e61bcdd-feb9-4fe2-a08a-00b48b7b81d6",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "漏電異常",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:12.637951+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:12.6492185+08:00",
+  "UniqueID": "5fd1519e-a5d5-4fe4-baf3-ba33c0975164",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "12",
+      "FaultOccurrenceId": "5f106165-5c7a-4674-b7f5-88ce5c63d9f3",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "B相出線溫度異常",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:12.6492185+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:20.7620712+08:00",
+  "UniqueID": "76f1f901-9673-4e9f-994e-59428e8e1e6d",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "1",
+      "FaultOccurrenceId": "1967b471-6286-496a-a0ec-3a5a8d4a0a01",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "A相過壓",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:20.7602262+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:20.7630131+08:00",
+  "UniqueID": "4f311276-8fc5-4e38-b03b-537e6b0b71bf",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "2",
+      "FaultOccurrenceId": "699ac1ae-7998-41bc-9ce9-85b3cabbe721",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "B相過壓",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:20.7630131+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:20.7652658+08:00",
+  "UniqueID": "16a1e215-ab90-491d-ae78-42997cdcab05",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "3",
+      "FaultOccurrenceId": "85541eb1-6c58-4b8c-8df4-0def533d43f2",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "C相過壓",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:20.7652658+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:20.7679112+08:00",
+  "UniqueID": "ea326fa1-44ea-43f1-af80-3b9ce099ab63",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "6",
+      "FaultOccurrenceId": "9aa31fcc-ca69-416b-9aae-12c7294d7517",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "C相欠壓",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:20.7668532+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:20.7694234+08:00",
+  "UniqueID": "398bf5f7-ca68-4de5-a850-c2d895025a51",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "7",
+      "FaultOccurrenceId": "f221d999-44d0-4c71-bf67-723de16fa78b",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "A相過流",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:20.7694234+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:20.7710644+08:00",
+  "UniqueID": "7f89044a-d7bd-4bfd-9a05-17f3d5e8a711",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "OV_SwitchStatusMain",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "OV_MainTemperatureA",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "OV_MainTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "OV_MainTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:20.7710644+08:00",
+  "UniqueID": "cf096a84-4a01-4488-90a6-b55b3ade775c",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "8",
+      "FaultOccurrenceId": "d11df027-a83b-4371-b721-c71c9e20b59e",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "B相過流",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:20.7710644+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:20.8010961+08:00",
+  "UniqueID": "b4a3b4d1-71dc-4db2-a879-c11c18a1475b",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "12",
+      "FaultOccurrenceId": "3cbd1e4a-6984-4bb8-8f72-d9bb1ffdcf8e",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "B相出線溫度異常",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:20.8000654+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:20.8010961+08:00",
+  "UniqueID": "25812c50-1990-41ab-a59f-e2e60b63080f",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "16",
+      "FaultOccurrenceId": "8a737874-d9c8-44bd-bd95-9c6a1339b2fb",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "缺相",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:20.8010961+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:20.8020642+08:00",
+  "UniqueID": "d9530459-ad8a-43fd-9c2b-edb59daba652",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-04T10:39:20.8010961+08:00",
+    "EndTime": "2025-03-04T10:39:20.8010961+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:20.8020642+08:00",
+  "UniqueID": "94e9a3a8-50db-47b4-954c-890620fa72e0",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "17",
+      "FaultOccurrenceId": "8d90e53c-5a73-4f84-8236-c6dbb7be81ce",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "斷零",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:20.8020642+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:20.8136391+08:00",
+  "UniqueID": "0f09cbbc-570b-44f6-b54a-3b56d47dca65",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "19",
+      "FaultOccurrenceId": "fac6b9d7-9f39-4e8b-a4c3-89e730a5dafa",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "鎖定",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:20.8126163+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:20.8136391+08:00",
+  "UniqueID": "aafcb0fb-505e-45f2-bbf9-faf836198f85",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "21",
+      "FaultOccurrenceId": "93a14dbb-6bdd-4429-b6f9-6f66a7880303",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "開關狀態異常，提示客戶換設備",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:20.8136391+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:20.8136391+08:00",
+  "UniqueID": "7fa406b5-078f-4719-b844-bf99813fe1e0",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "23",
+      "FaultOccurrenceId": "330de684-a4d8-491a-a4eb-82ec51e48151",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "設備離線",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:20.8136391+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:20.8146106+08:00",
+  "UniqueID": "f1151998-b106-4c89-80e7-91c3636b7691",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "25",
+      "FaultOccurrenceId": "7b5975ce-fcad-4b7e-acf2-c8a293d2a4bd",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "欠壓預警",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-04T10:39:20.8146106+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:35.9577727+08:00",
+  "UniqueID": "1ba6472e-e9c2-416d-9c7d-5c7350a458a0",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "OV_SwitchStatusMain",
+        "Value": "1"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "OV_MainTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "OV_MainTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "OV_MainTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:35.9577727+08:00",
+  "UniqueID": "4e687c97-b1b9-4d5b-9a3b-aada99b9becc",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-04T10:39:35.9577727+08:00",
+    "EndTime": "2025-03-04T10:39:35.9577727+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.Heartbeat",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:50.1237122+08:00",
+  "UniqueID": "26d2e1c8-73fc-415e-aab8-ef3e3d548e76",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.Heartbeat, CFX",
+    "CFXHandle": "CFX.A00.S022057601",
+    "HeartbeatFrequency": "00:01:00",
+    "ActiveFaults": null,
+    "ActiveRecipes": null
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:51.1188395+08:00",
+  "UniqueID": "13c7af34-911f-436f-ac76-a421d9e312f9",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "OV_SwitchStatusMain",
+        "Value": "1"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "OV_MainTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "OV_MainTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "OV_MainTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-04T10:39:51.1197954+08:00",
+  "UniqueID": "01d2dac4-956f-42e1-834c-9c242c44bbd5",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-04T10:39:51.1197954+08:00",
+    "EndTime": "2025-03-04T10:39:51.1197954+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}

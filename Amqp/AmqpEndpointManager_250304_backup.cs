@@ -33,6 +33,7 @@ namespace AmqpModbusIntegration
 		//對應的故障碼
 		private static readonly Dictionary<int, (string FaultCode, string Description)> faultDictionary = new Dictionary<int, (string FaultCode, string Description)>
 				{
+
 					{ 0, ("A_OVERVOLTAGE", "A相過壓") },
 					{ 1, ("B_OVERVOLTAGE", "B相過壓") },
 					{ 2, ("C_OVERVOLTAGE", "C相過壓") },

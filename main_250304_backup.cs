@@ -93,9 +93,25 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
             this.ResumeLayout(false); // 恢復佈局更新
         }
 
+        //250228新增==============================
+		private void UpdateSlaveDataFromTextBox()
+		{
+			slaveData.Clear();
+			// 根據逗號分隔的站號輸入更新 slaveData
+			foreach (var station in stationNumberTextBox.Text.Split(','))
+			{
+				if (byte.TryParse(station.Trim(), out var stationNumber))
+				{
+					// 若該站號不存在，就建立一個新的字典
+					slaveData[stationNumber] = new Dictionary<string, int>();
+				}
+			}
+		}
+		//250228新增==============================
 
-        // 定義各種變數，用來儲存從設備讀取的各種參數
-        public int currentStatus1, currentStatus2, currentStatus, leakageCurrent, tempA, tempB, tempC, tempN;
+
+		// 定義各種變數，用來儲存從設備讀取的各種參數
+		public int currentStatus1, currentStatus2, currentStatus, leakageCurrent, tempA, tempB, tempC, tempN;
         public int voltageA, voltageB, voltageC, currentA, currentB, currentC;
 
         // 定義更多參數變數，用於儲存設備提供的其他數據
@@ -128,9 +144,31 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
 
             // 綁定按鈕事件
             connectButton.Click += (s, e) => InitializeSerialPort(portSelector.SelectedItem?.ToString());
-            readButton.Click += async (s, e) => await ModbusHelper.ReadAllParametersAsync(serialPort, this);
-            // 綁定開關按鈕的多站號處理邏輯
-            switchOnButton.Click += (s, e) => ExecuteSwitchCommand(ModbusHelper.SwitchON);
+			//readButton.Click += async (s, e) => await ModbusHelper.ReadAllParametersAsync(serialPort, this);
+			//250228新增===================================================
+			readButton.Click += async (s, e) =>
+			{
+				// 每次讀取前，先更新 slaveData
+				UpdateSlaveDataFromTextBox();
+
+				// 防止重複讀取
+				if (isUpdating) return;
+				readButton.Enabled = false;
+				try
+				{
+					await ModbusHelper.ReadAllParametersAsync(serialPort, this);
+					UpdateDataGridView();
+				}
+				finally
+				{
+					readButton.Enabled = true;
+				}
+			};
+			//250228新增===================================================
+
+
+			// 綁定開關按鈕的多站號處理邏輯
+			switchOnButton.Click += (s, e) => ExecuteSwitchCommand(ModbusHelper.SwitchON);
             switchOffButton.Click += (s, e) => ExecuteSwitchCommand(ModbusHelper.SwitchOFF);
 
             // 修正 tempSetButton.Click 事件，提供所需參數
@@ -343,8 +381,6 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
             try
             {
                 await ModbusHelper.ReadAllParametersAsync(serialPort, this);
-
-
                 this.Invoke(new Action(() => UpdateDataGridView()));
             }
             finally
@@ -356,41 +392,83 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
 
 
 
-        private void InitializeSerialPort(string portName)
-        {
-            if (serialPort != null && serialPort.IsOpen)
-            {
-                serialPort.Close();
-                serialPort.Dispose();
-            }
+		//     private void InitializeSerialPort(string portName)
+		//     {
+		//         if (serialPort != null && serialPort.IsOpen)
+		//         {
+		//             serialPort.Close();
+		//             serialPort.Dispose();
+		//         }
 
-            slaveData.Clear();
-            foreach (var station in stationNumberTextBox.Text.Split(','))
-            {
-                if (byte.TryParse(station.Trim(), out var stationNumber))
-                {
-                    slaveData[stationNumber] = new Dictionary<string, int>();
-                }
-            }
+		//         //250228新增測試===================================
+		//updateTimer.Stop(); // 先停止計時器，避免連接時立即讀取
+		////250228新增測試===================================
 
-            serialPort = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
-            try
-            {
-                serialPort.Open();
-                Console.WriteLine($"串口 {portName} 已成功打開");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"無法打開串口 {portName}: {ex.Message}");
-            }
-        }
+		//slaveData.Clear();
+		//         foreach (var station in stationNumberTextBox.Text.Split(','))
+		//         {
+		//             if (byte.TryParse(station.Trim(), out var stationNumber))
+		//             {
+		//                 slaveData[stationNumber] = new Dictionary<string, int>();
+		//             }
+		//         }
+
+		//         serialPort = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
+		//         try
+		//         {
+		//             serialPort.Open();
+		//             Console.WriteLine($"串口 {portName} 已成功打開");
 
 
+		//	//250228新增測試===================================
+		//	updateTimer.Start(); // 確保連接成功後再啟動計時器
+		//	//250228新增測試===================================
+		//}
+		//catch (Exception ex)
+		//         {
+		//             Console.WriteLine($"無法打開串口 {portName}: {ex.Message}");
+		//         }
+		//     }
+
+		private void InitializeSerialPort(string portName)
+		{
+			if (serialPort != null && serialPort.IsOpen)
+			{
+				serialPort.Close();
+				serialPort.Dispose();
+			}
+
+			updateTimer.Stop(); // 停止計時器，避免連接後自動讀取
+
+			slaveData.Clear();
+			foreach (var station in stationNumberTextBox.Text.Split(','))
+			{
+				if (byte.TryParse(station.Trim(), out var stationNumber))
+				{
+					slaveData[stationNumber] = new Dictionary<string, int>();
+				}
+			}
+
+			serialPort = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
+			try
+			{
+				serialPort.Open();
+				Console.WriteLine($"串口 {portName} 已成功打開");
+                // 可在此處根據需求選擇是否啟動計時器
+                updateTimer.Start();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"無法打開串口 {portName}: {ex.Message}");
+			}
+		}
 
 
 
-        // 初始化所有參數為 0
-        private void InitializeParameters()
+
+
+		// 初始化所有參數為 0
+		private void InitializeParameters()
         {
             currentStatus1 = 0;
             currentStatus2 = 0;
@@ -464,12 +542,13 @@ namespace AmqpModbusIntegration  // 命名空間，用於AMQP（高級消息隊�
 
             //這邊應該把_PC改成幾個變數，依照站別可以去命名
             // 啟動 AMQP 端點並指定端點名稱
-            amqpManager.StartAmqpEndpoint("CHUNYI_PC");
+            //amqpManager.StartAmqpEndpoint("CHUNYI_PC");
+			amqpManager.StartAmqpEndpoint("CFX.A00.S022057601");//DG2_AMBU插件機
 
 
 
-            // 啟動 Windows 應用程序
-            Application.Run(modbusViewer);
+			// 啟動 Windows 應用程序
+			Application.Run(modbusViewer);
         }
 
 

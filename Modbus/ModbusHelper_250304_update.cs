@@ -56,12 +56,12 @@ namespace AmqpModbusIntegration
 			modbusViewer.currentStatus1 = (faultCode >> 16) & 0xFFFF; // 高16位
 			modbusViewer.currentStatus2 = faultCode & 0xFFFF;        // 低16位
 
-			// 更新 slaveData 中的 "當前狀態"
+			// 更新 slaveData 中的 "Fault_WarningCode"
 			foreach (var station in slaveData.Keys)
 			{
-				if (slaveData[station].ContainsKey("當前狀態"))
+				if (slaveData[station].ContainsKey("Fault_WarningCode"))
 				{
-					slaveData[station]["當前狀態"] = modbusViewer.currentStatus;
+					slaveData[station]["Fault_WarningCode"] = modbusViewer.currentStatus;
 				}
 			}
 
@@ -69,7 +69,7 @@ namespace AmqpModbusIntegration
 			modbusViewer.UpdateDataGridView();
 
 			// 提示用戶操作成功
-			MessageBox.Show($"已將當前狀態設置為故障碼 {faultCode:X}");
+			MessageBox.Show($"已將Fault_WarningCode設置為故障碼 {faultCode:X}");
 		}
 
 
@@ -120,7 +120,7 @@ namespace AmqpModbusIntegration
 					if (bytesRead > 5 && ValidateCRC(responseBuffer, bytesRead))
 					{
 						Console.WriteLine($"收到設備回應: {BitConverter.ToString(responseBuffer, 0, bytesRead)}");
-						slaveData[stationNumber]["溫度保護(℃)"] = temperature;
+						slaveData[stationNumber]["TemperatureSV"] = temperature;
 					}
 					else
 					{
@@ -255,7 +255,7 @@ namespace AmqpModbusIntegration
 
 			//20241204_新增================================
 			modbusViewer.ProtectionThreshold = ((buffer[89] << 8) | buffer[90]);//單位: ℃
-																				//20241204_新增================================
+			//20241204_新增================================
 
 
 
@@ -270,23 +270,29 @@ namespace AmqpModbusIntegration
 			var slaveData = modbusViewer.GetSlaveData()[station];
 			// 更新 slaveData 中的數據結構
 			// 更新 slaveData 中的數據結構，並添加對應單位的註解
-			slaveData["當前狀態"] = modbusViewer.currentStatus; // 無單位
+			//這個是異常狀態
+			slaveData["Fault_WarningCode"] = modbusViewer.currentStatus; // 無單位
 
-			slaveData["A相溫度 (℃)"] = modbusViewer.tempA; // 單位: ℃
-			slaveData["B相溫度 (℃)"] = modbusViewer.tempB; // 單位: ℃
-			slaveData["C相溫度 (℃)"] = modbusViewer.tempC; // 單位: ℃
+			slaveData["PowerTemperatureA"] = modbusViewer.tempA; // 單位: ℃
+			slaveData["PowerTemperatureB"] = modbusViewer.tempB; // 單位: ℃
+			slaveData["PowerTemperatureC"] = modbusViewer.tempC; // 單位: ℃
 
-			slaveData["A相電流 (A)"] = modbusViewer.currentA; // 單位: A
-			slaveData["B相電流 (A)"] = modbusViewer.currentB; // 單位: A
-			slaveData["C相電流 (A)"] = modbusViewer.currentC; // 單位: A
+			slaveData["CurrentNowRYB_A"] = modbusViewer.currentA; // 單位: A
+			slaveData["CurrentNowRYB_B"] = modbusViewer.currentB; // 單位: A
+			slaveData["CurrentNowRYB_C"] = modbusViewer.currentC; // 單位: A
 
-			slaveData["A相有功功率 (W)"] = modbusViewer.activePowerA; // 單位: W
-			slaveData["B相有功功率 (W)"] = modbusViewer.activePowerB; // 單位: W
-			slaveData["C相有功功率 (W)"] = modbusViewer.activePowerC; // 單位: W
+			slaveData["PowerNowRYB_A"] = modbusViewer.activePowerA; // 單位: W
+			slaveData["PowerNowRYB_B"] = modbusViewer.activePowerB; // 單位: W
+			slaveData["PowerNowRYB_C"] = modbusViewer.activePowerC; // 單位: W
 
-			slaveData["電能 (kWh)"] = modbusViewer.energy; // 單位: kWh
-			slaveData["開關狀態"] = modbusViewer.switchStatus;
-			slaveData["溫度保護(℃)"] = modbusViewer.ProtectionThreshold;
+			slaveData["EnergyUsed"] = modbusViewer.energy; // 單位: kWh
+
+			//這個是開關開合閘狀態
+			slaveData["PowerSwitch"] = modbusViewer.switchStatus;//0==開,1==合
+
+			//新增TemperatureSV這個為原本的溫度保護數值，現在改為除了要能修改後回成功，還要能定時上報
+			slaveData["TemperatureSV"] = modbusViewer.ProtectionThreshold;
+
 
 		}
 
