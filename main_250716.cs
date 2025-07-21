@@ -105,7 +105,7 @@
 //			// 建構式最後呼叫
 //			RefreshIniView();
 
-			
+
 
 
 
@@ -217,6 +217,9 @@
 //			switchOffButton.Enabled = false;
 //			switchOffButton.BackColor = System.Drawing.Color.LightGray;
 //			//250710新增=============================
+
+
+
 
 //			// ========================
 //			// 下面這段是自動重啟自己，請一定放最後！
@@ -564,8 +567,8 @@
 //				// ===== 先讀取 CFX.ini 設定 =====
 //				try
 //				{
-//				ConfigHelper.LoadConfiguration();
-//				Console.WriteLine("讀取到的 CFX.ini COM = " + SwitchDeviceConfig.ComPort);
+//					ConfigHelper.LoadConfiguration();
+//					Console.WriteLine("讀取到的 CFX.ini COM = " + SwitchDeviceConfig.ComPort);
 
 //				}
 //				catch (Exception ex)
@@ -600,13 +603,13 @@
 
 
 //				Application.Run(modbusViewer);
-//				 //結束釋放 Mutex
+//				//結束釋放 Mutex
 //				mutex.ReleaseMutex();
+//			}
+
 //		}
 
 //	}
-
-//}
 
 
 
@@ -615,12 +618,15 @@
 //	// 加入在 AmqpModbusIntegration namespace 內
 //	public static class ConfigHelper
 //	{
+
+//		//配置檔路徑
 //		private static readonly string IniPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CFX.ini");
+
 
 //		public static void LoadConfiguration()
 //		{
 
-//			Console.WriteLine("現在要讀的 ini 檔路徑是: " + IniPath );
+//			Console.WriteLine("讀取的配置檔路徑: " + IniPath);
 
 //			if (!File.Exists(IniPath))
 //				throw new FileNotFoundException("找不到配置檔: " + IniPath);
@@ -643,8 +649,11 @@
 //				string key = line.Substring(0, idx).Trim();
 //				string val = line.Substring(idx + 1).Trim();
 
+//				//這邊這樣寫，是為了依照參數去做對應的函數處理
 //				if (section.Equals("Configuration", StringComparison.OrdinalIgnoreCase))
 //					ApplyConfiguration(key, val);
+
+//				//這邊這樣寫，是為了依照參數去做對應的函數處理
 //				else if (section.Equals("SwitchDevice", StringComparison.OrdinalIgnoreCase))
 //					ApplySwitchDevice(key, val);
 //			}
@@ -654,19 +663,10 @@
 //		{
 //			switch (key)
 //			{
-//				//case "Factory": SystemConfig.Factory = value; break;
-//				//case "Line": SystemConfig.Line = value; break;
-//				//case "Station": SystemConfig.Station = value; break;
+//				case "EquipmentName": SystemConfig.EquipmentName = value; break;
 //				case "MachineSN": SystemConfig.MachineSN = value; break;
-//				//case "MC_IP": SystemConfig.IpAddress = value; break;
-//				//case "MC_Port": int port; if (int.TryParse(value, out port)) SystemConfig.Port = port; break;
-//				//case "Remote_IP": SystemConfig.RemoteIp = value; break;
-//				//case "Remote_Port": int rport; if (int.TryParse(value, out rport)) SystemConfig.RemotePort = rport; break;
 //				case "PublishAddress": SystemConfig.PublishAddress = value; break;
 //				case "MyrequestUri": SystemConfig.MyRequestUri = value; break;
-//				//case "ModelName": SystemConfig.ModelName = value; break;
-//				//case "MC_Name": SystemConfig.MachineName = value; break;
-//				//case "UseCFX": bool cfx; if (bool.TryParse(value, out cfx)) SystemConfig.UseCfx = cfx; break;
 //			}
 //		}
 
@@ -676,35 +676,22 @@
 //			{
 //				case "COM": SwitchDeviceConfig.ComPort = value; break;
 //				case "StationNumber": byte stn; if (byte.TryParse(value, out stn)) SwitchDeviceConfig.StationNumber = stn; break;
-//				//case "fTemperature": float ft; if (float.TryParse(value, out ft)) SwitchDeviceConfig.FTemperature = ft; break;
-//				//case "bEnergyConsumption": bool be; if (bool.TryParse(value, out be)) SwitchDeviceConfig.BEnergyConsumption = be; break;
 //			}
 //		}
 //	}
 
 //	public static class SystemConfig
 //	{
-//		//public static string Factory { get; set; }
-//		//public static string Line { get; set; }
-//		//public static string Station { get; set; }
+//		public static string EquipmentName { get; set; }
 //		public static string MachineSN { get; set; }
-//		//public static string IpAddress { get; set; }
-//		//public static int Port { get; set; }
-//		//public static string RemoteIp { get; set; }
-//		//public static int RemotePort { get; set; }
 //		public static string PublishAddress { get; set; }
 //		public static string MyRequestUri { get; set; }
-//		//public static string ModelName { get; set; }
-//		//public static string MachineName { get; set; }
-//		//public static bool UseCfx { get; set; }
 //	}
 
 //	public static class SwitchDeviceConfig
 //	{
 //		public static string ComPort { get; set; }
 //		public static byte StationNumber { get; set; }
-//		//public static float FTemperature { get; set; }
-//		//public static bool BEnergyConsumption { get; set; }
 //	}
 
 

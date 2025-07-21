@@ -249,10 +249,10 @@ namespace AmqpModbusIntegration
 								break;
 
 							case "PowerSwitch":
-								// 1=關機,2=開機
+								// 1=開機,2=關機
 								if (param.Value.ToString() == "1" || param.Value.ToString() == "2")
 								{
-									bool isSwitchOn = param.Value.ToString() == "2";
+									bool isSwitchOn = param.Value.ToString() == "1";
 									foreach (var stn in stationNumbers)
 									{
 										if (!slaveData.ContainsKey(stn))
@@ -437,11 +437,11 @@ namespace AmqpModbusIntegration
 					Name = "PowerSwitch",
 					Value = ConvertPowerSwitchToState(data.ContainsKey("PowerSwitch") ? Convert.ToInt32(data["PowerSwitch"]) : 0).ToString()
 				},
-				new GenericParameter
-				{
-					Name = "TemperatureSV",
-					Value = data.ContainsKey("TemperatureSV") ? data["TemperatureSV"].ToString() : "0"
-				},
+				//new GenericParameter
+				//{
+				//	Name = "TemperatureSV",
+				//	Value = data.ContainsKey("TemperatureSV") ? data["TemperatureSV"].ToString() : "0"
+				//},
 				new GenericParameter
 				{
 					Name = "EnergyMode",
@@ -450,17 +450,17 @@ namespace AmqpModbusIntegration
 				new GenericParameter
 				{
 					Name = "PowerTemperatureA",
-					Value = data.ContainsKey("PowerTemperatureA") ? data["PowerTemperatureA"].ToString() : "0"
+					Value = data.ContainsKey("PowerTemperature_A") ? data["PowerTemperature_A"].ToString() : "0"
 				},
 				new GenericParameter
 				{
 					Name = "PowerTemperatureB",
-					Value = data.ContainsKey("PowerTemperatureB") ? data["PowerTemperatureB"].ToString() : "0"
+					Value = data.ContainsKey("PowerTemperature_B") ? data["PowerTemperature_B"].ToString() : "0"
 				},
 				new GenericParameter
 				{
 					Name = "PowerTemperatureC",
-					Value = data.ContainsKey("PowerTemperatureC") ? data["PowerTemperatureC"].ToString() : "0"
+					Value = data.ContainsKey("PowerTemperature_C") ? data["PowerTemperature_C"].ToString() : "0"
 				}
 			};
 
@@ -493,25 +493,17 @@ namespace AmqpModbusIntegration
 			}
 
 			// 提取 RYB 電流
-			double currentA = ConvertToDouble(data, "CurrentNowRYB_A");
-			double currentB = ConvertToDouble(data, "CurrentNowRYB_B");
-			double currentC = ConvertToDouble(data, "CurrentNowRYB_C");
-
+			double currentA = ConvertToDouble(data, "CurrentRYB_A");
+			double currentB = ConvertToDouble(data, "CurrentRYB_B");
+			double currentC = ConvertToDouble(data, "CurrentRYB_C");
 			var currentRYB = new List<double> { currentA, currentB, currentC };
 
 			// 提取 RYB 功率
-			double powerA = ConvertToDouble(data, "PowerNowRYB_A");
-			double powerB = ConvertToDouble(data, "PowerNowRYB_B");
-			double powerC = ConvertToDouble(data, "PowerNowRYB_C");
-
+			double powerA = ConvertToDouble(data, "PowerRYB_A");
+			double powerB = ConvertToDouble(data, "PowerRYB_B");
+			double powerC = ConvertToDouble(data, "PowerRYB_C");
 			var powerRYB = new List<double> { powerA, powerB, powerC };
 
-			// 提取 RYB 電壓
-			double voltageA = ConvertToDouble(data, "VoltageNowRYB_A");
-			double voltageB = ConvertToDouble(data, "VoltageNowRYB_B");
-			double voltageC = ConvertToDouble(data, "VoltageNowRYB_C");
-
-			var voltageRYB = new List<double> { voltageA, voltageB, voltageC };
 
 			// 提取總電能
 			double energyUsed = ConvertToDouble(data, "EnergyUsed");
@@ -523,11 +515,11 @@ namespace AmqpModbusIntegration
 				EndTime = DateTime.Now,
 				CurrentNowRYB = currentRYB,
 				PowerNowRYB = powerRYB,
-				VoltageNowRYB = voltageRYB
 			};
 
 			endpoint.Publish(energyConsumed);
 			Console.WriteLine($"Published EnergyConsumed message for station {stationNumber}.");
+			modbusViewer.AppendLog($"Publish EnergyConsumed: {energyUsed:F2}kWh to st.{stationNumber}");
 		}
 
 		// 轉換 object -> double (若無法轉換就回傳 0)

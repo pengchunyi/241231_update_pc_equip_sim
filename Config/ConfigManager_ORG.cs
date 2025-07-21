@@ -36,6 +36,8 @@
 //		public static ConfigData Configuration { get; private set; }
 //		public static SwitchDeviceConfig SwitchDevice { get; private set; }
 
+
+
 //		public static void Load(string iniPath)
 //		{
 //			if (!File.Exists(iniPath))
@@ -47,6 +49,7 @@
 
 //			foreach (string raw in File.ReadAllLines(iniPath))
 //			{
+
 //				string line = raw.Trim();
 //				if (line.Length == 0 || line.StartsWith(";")) continue;
 //				if (line.StartsWith("[") && line.EndsWith("]"))
@@ -57,6 +60,7 @@
 
 //				if (section.Equals("Configuration", StringComparison.OrdinalIgnoreCase))
 //				{
+
 //					switch (key)
 //					{
 //						case "Factory": Configuration.Factory = val; break;
@@ -73,9 +77,11 @@
 //						case "MC_Name": Configuration.MC_Name = val; break;
 //						case "UseCFX": Configuration.UseCFX = bool.Parse(val); break;
 //					}
+
 //				}
 //				else if (section.Equals("SwitchDevice", StringComparison.OrdinalIgnoreCase))
 //				{
+
 //					switch (key)
 //					{
 //						case "COM": SwitchDevice.COM = val; break;
@@ -83,8 +89,15 @@
 //						case "fTemperature": SwitchDevice.fTemperature = float.Parse(val); break;
 //						case "bEnergyConsumption": SwitchDevice.bEnergyConsumption = bool.Parse(val); break;
 //					}
+
 //				}
+
 //			}
+
 //		}
+
+
+
+
 //	}
 //}

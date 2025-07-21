@@ -67,26 +67,6 @@ namespace AmqpModbusIntegration
 
 		}
 
-		public static void SimulateFaultTest(ModbusViewer modbusViewer, Dictionary<byte, Dictionary<string, object>> slaveData)
-		{
-			int faultCode = 0xA87;
-			modbusViewer.currentStatus = faultCode;
-			modbusViewer.currentStatus1 = (faultCode >> 16) & 0xFFFF;
-			modbusViewer.currentStatus2 = faultCode & 0xFFFF;
-
-			foreach (var station in slaveData.Keys)
-			{
-				// 若該站已有 key，則更新
-				if (slaveData[station].ContainsKey("Fault_WarningCode"))
-				{
-					slaveData[station]["Fault_WarningCode"] = faultCode;
-				}
-			}
-
-			modbusViewer.UpdateDataGridView();
-			MessageBox.Show($"已將Fault_WarningCode設置為故障碼 {faultCode:X}");
-		}
-
 		public static void SetTemperature(SerialPort serialPort, byte stationNumber, ushort temperature, Dictionary<byte, Dictionary<string, object>> slaveData)
 		{
 			lock (serialPortLock)
@@ -236,8 +216,6 @@ namespace AmqpModbusIntegration
 
 			int energyHighByte = (buffer[49] << 8) | buffer[50];
 			int energyLowByte = (buffer[51] << 8) | buffer[52];
-
-			//電能這邊已經除以100了
 			modbusViewer.energy = ((energyHighByte << 16) | energyLowByte) / 100.0; // kWh
 
 			modbusViewer.switchStatus = (buffer[53] << 8) | buffer[54];

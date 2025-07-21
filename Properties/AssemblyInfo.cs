@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // 組件的一般資訊是由下列的屬性集控制。
 // 變更這些屬性的值即可修改組件的相關
 // 資訊。
-[assembly: AssemblyTitle("C#_windowed_app")]
+[assembly: AssemblyTitle("YI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("delta")]
-[assembly: AssemblyProduct("C#_windowed_app")]
-[assembly: AssemblyCopyright("Copyright © delta 2024")]
+[assembly: AssemblyCompany("by_ChunYi")]
+[assembly: AssemblyProduct("YI")]
+[assembly: AssemblyCopyright("Copyright © ChunYi 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
