@@ -25,7 +25,7 @@ namespace AmqpModbusIntegration
 
 			out DataGridView dataGridView)
         {
-            viewer.Text = "Modbus Control";
+            viewer.Text = "PC Base Equipment Simulator";
             viewer.Width = 900;
             viewer.Height = 600;
 

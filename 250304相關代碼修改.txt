@@ -1,0 +1,1470 @@
+畫布 
+
+下面是要輸出的Log格式:
+//錫爐相關Current、power、EnergyUsed
+//錫爐錫槽==============================================================================================
+{
+	"MessageID": "d4a559b1-8451-404f-9660-e13f8a1c12e4",
+	"TransactionID": null,
+	"MessageType": "DEVICE_CFX",
+	"MessageVersion": 1.0,
+	"MessageTime": "2025-01-18T01:58:36.888608+00:00",
+	"Sender": "DG2",
+	"Data": {
+		"MessageID": "9b344a17-f062-40b9-80dc-0eca766e34ac",
+		"TransactionID": null,
+		"MessageType": "DEVICE_CFX",
+		"MessageVersion": "1.0",
+		"MessageTime": "2025-01-18T01:58:36.885925+00:00",
+		"Sender": "LINEMANAGER",
+		"Data": {
+			"Meta": {
+				"MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+				"DeviceID": "SO20050832",
+				"LineID": "I01",
+				"MfgPlantCode": "IPS",
+				"Factory": "DG2",
+				"Source": "CFX.A00.SO20050832.Trough"
+			},
+			"ProcessedTime": "2025-01-18T01:58:36.885658+00:00",
+			"RawData": {
+				"MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+				"Version": "1.7",
+				"TimeStamp": "2025-01-18T01:58:36.8797454+00:00",
+				"UniqueID": "3660d098-ba4c-4f08-93bd-db8716d763b8",
+				"Source": "CFX.A00.SO20050832.Trough",
+				"Target": "inline-control",
+				"RequestID": "1d5c9442-b040-447e-9a81-b00cdc9d0589",
+				"MessageBody": {
+					"$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+					"StartTime": "2000-01-06T19:28:44Z",
+					"EndTime": "2000-01-06T19:28:54Z",
+					"EnergyUsed": 507.27,
+					"PeakPower": 0.0,
+					"MinimumPower": 0.0,
+					"MeanPower": 0.0,
+					"PowerNow": 0.0,
+					"PowerFactorNow": 0.0,
+					"PeakCurrent": 0.0,
+					"MinimumCurrent": 0.0,
+					"MeanCurrent": 0.0,
+					"CurrentNow": 0.0,
+					"PeakVoltage": 0.0,
+					"MinimumVoltage": 0.0,
+					"MeanVoltage": 0.0,
+					"VoltageNow": 0.0,
+					"PeakFrequency": 0.0,
+					"MinimumFrequency": 0.0,
+					"MeanFrequency": 0.0,
+					"FrequencyNow": 0.0,
+					"PeakPowerRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MinimumPowerRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MeanPowerRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"PowerNowRYB": [
+						679.0,
+						770.0,
+						727.0
+					],
+					"PowerFactorNowRYB": null,
+					"PeakCurrentRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MinimumCurrentRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MeanCurrentRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"CurrentNowRYB": [
+						5.6,
+						5.8,
+						5.8
+					],
+					"PeakVoltageRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MinimumVoltageRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MeanVoltageRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"VoltageNowRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"ThreePhaseNeutralCurrentNow": 0.0
+				}
+			}
+		}
+	},
+	"Transmission": [
+		{
+			"Node": "I01",
+			"SendTime": "2025-01-18T01:58:36.885925+00:00"
+		},
+		{
+			"Node": "DG2",
+			"SendTime": "2025-01-18T01:58:36.888560+00:00"
+		}
+	]
+}
+
+
+//錫爐預熱==============================================================================================
+{
+	"MessageID": "576d18eb-071d-4931-975f-477d56a78007",
+	"TransactionID": null,
+	"MessageType": "DEVICE_CFX",
+	"MessageVersion": 1.0,
+	"MessageTime": "2025-01-17T03:30:58.687246+00:00",
+	"Sender": "DG2",
+	"Data": {
+		"MessageID": "9456a40c-3b85-4e03-8812-cf9aa79cc139",
+		"TransactionID": null,
+		"MessageType": "DEVICE_CFX",
+		"MessageVersion": "1.0",
+		"MessageTime": "2025-01-17T03:30:56.779684+00:00",
+		"Sender": "LINEMANAGER",
+		"Data": {
+			"Meta": {
+				"MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+				"DeviceID": "SO20050832",
+				"LineID": "I01",
+				"MfgPlantCode": "IPS",
+				"Factory": "DG2",
+				"Source": "CFX.A00.SO20050832.Preheat"
+			},
+			"ProcessedTime": "2025-01-17T03:30:56.779531+00:00",
+			"RawData": {
+				"MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+				"Version": "1.7",
+				"TimeStamp": "2025-01-17T03:30:56.7650529+00:00",
+				"UniqueID": "126270de-0fd8-4fd3-9870-ed7462ff3680",
+				"Source": "CFX.A00.SO20050832.Preheat",
+				"Target": "inline-control",
+				"RequestID": "d113b6e9-513d-4b41-8d58-10394dd297da",
+				"MessageBody": {
+					"$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+					"StartTime": "2000-01-05T21:01:15Z",
+					"EndTime": "2000-01-05T21:01:24Z",
+					"EnergyUsed": 917.2,
+					"PeakPower": 0.0,
+					"MinimumPower": 0.0,
+					"MeanPower": 0.0,
+					"PowerNow": 0.0,
+					"PowerFactorNow": 0.0,
+					"PeakCurrent": 0.0,
+					"MinimumCurrent": 0.0,
+					"MeanCurrent": 0.0,
+					"CurrentNow": 0.0,
+					"PeakVoltage": 0.0,
+					"MinimumVoltage": 0.0,
+					"MeanVoltage": 0.0,
+					"VoltageNow": 0.0,
+					"PeakFrequency": 0.0,
+					"MinimumFrequency": 0.0,
+					"MeanFrequency": 0.0,
+					"FrequencyNow": 0.0,
+					"PeakPowerRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MinimumPowerRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MeanPowerRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"PowerNowRYB": [
+						3319.0,
+						3168.0,
+						3288.0
+					],
+					"PowerFactorNowRYB": null,
+					"PeakCurrentRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MinimumCurrentRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MeanCurrentRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"CurrentNowRYB": [
+						19.6,
+						19.4,
+						19.4
+					],
+					"PeakVoltageRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MinimumVoltageRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MeanVoltageRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"VoltageNowRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"ThreePhaseNeutralCurrentNow": 0.0
+				}
+			}
+		}
+	},
+	"Transmission": [
+		{
+			"Node": "I01",
+			"SendTime": "2025-01-17T03:30:56.779684+00:00"
+		},
+		{
+			"Node": "DG2",
+			"SendTime": "2025-01-17T03:30:58.687200+00:00"
+		}
+	]
+}
+
+
+//錫爐總電源==============================================================================================
+{
+	"MessageID": "ba48f089-dd07-40b2-92e7-3ea1714ff26e",
+	"TransactionID": null,
+	"MessageType": "DEVICE_CFX",
+	"MessageVersion": 1.0,
+	"MessageTime": "2025-01-18T01:58:40.451727+00:00",
+	"Sender": "DG2",
+	"Data": {
+		"MessageID": "04942faf-84a5-4501-8501-46c8645e54fb",
+		"TransactionID": null,
+		"MessageType": "DEVICE_CFX",
+		"MessageVersion": "1.0",
+		"MessageTime": "2025-01-18T01:58:40.448858+00:00",
+		"Sender": "LINEMANAGER",
+		"Data": {
+			"Meta": {
+				"MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+				"DeviceID": "SO20050832",
+				"LineID": "I01",
+				"MfgPlantCode": "IPS",
+				"Factory": "DG2",
+				"Source": "CFX.A00.SO20050832.Power"
+			},
+			"ProcessedTime": "2025-01-18T01:58:40.448647+00:00",
+			"RawData": {
+				"MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+				"Version": "1.7",
+				"TimeStamp": "2025-01-18T01:58:40.4445457+00:00",
+				"UniqueID": "ebe6114c-d117-4f11-8779-92636208e284",
+				"Source": "CFX.A00.SO20050832.Power",
+				"Target": "inline-control",
+				"RequestID": "3cc062f8-c749-4661-bacc-9bedff16875d",
+				"MessageBody": {
+					"$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+					"StartTime": "2000-01-06T19:28:54Z",
+					"EndTime": "2000-01-06T19:29:04Z",
+					"EnergyUsed": 1631.19,
+					"PeakPower": 0.0,
+					"MinimumPower": 0.0,
+					"MeanPower": 0.0,
+					"PowerNow": 0.0,
+					"PowerFactorNow": 0.0,
+					"PeakCurrent": 0.0,
+					"MinimumCurrent": 0.0,
+					"MeanCurrent": 0.0,
+					"CurrentNow": 0.0,
+					"PeakVoltage": 0.0,
+					"MinimumVoltage": 0.0,
+					"MeanVoltage": 0.0,
+					"VoltageNow": 0.0,
+					"PeakFrequency": 0.0,
+					"MinimumFrequency": 0.0,
+					"MeanFrequency": 0.0,
+					"FrequencyNow": 0.0,
+					"PeakPowerRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MinimumPowerRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MeanPowerRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"PowerNowRYB": [
+						2637.0,
+						2346.0,
+						2727.0
+					],
+					"PowerFactorNowRYB": null,
+					"PeakCurrentRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MinimumCurrentRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MeanCurrentRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"CurrentNowRYB": [
+						17.8,
+						16.8,
+						17.4
+					],
+					"PeakVoltageRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MinimumVoltageRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"MeanVoltageRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"VoltageNowRYB": [
+						0.0,
+						0.0,
+						0.0
+					],
+					"ThreePhaseNeutralCurrentNow": 0.0
+				}
+			}
+		}
+	},
+	"Transmission": [
+		{
+			"Node": "I01",
+			"SendTime": "2025-01-18T01:58:40.448858+00:00"
+		},
+		{
+			"Node": "DG2",
+			"SendTime": "2025-01-18T01:58:40.451675+00:00"
+		}
+	]
+}
+
+
+
+//錫爐溫度cfx log========================================================================================
+//Main==錫爐主開關===================================================
+//TinBath==錫爐錫槽溫度========================================================
+//PreHeat==錫爐預熱溫度===================================================
+
+
+{
+	"MessageID": "8c7ba15f-0153-4a9a-a86e-8b84682f6285",
+	"TransactionID": null,
+	"MessageType": "DEVICE_CFX",
+	"MessageVersion": 1.0,
+	"MessageTime": "2025-02-17T07:00:50.163290+00:00",
+	"Sender": "DG2",
+	"Data": {
+		"MessageID": "75b558d7-7e4e-4865-a3eb-55bdf53a0270",
+		"TransactionID": null,
+		"MessageType": "DEVICE_CFX",
+		"MessageVersion": "1.0",
+		"MessageTime": "2025-02-17T07:00:50.160267+00:00",
+		"Sender": "LINEMANAGER",
+		"Data": {
+			"Meta": {
+				"MessageName": "CFX.ResourcePerformance.StationParametersModified",
+				"DeviceID": "SO20050832",
+				"LineID": "I01",
+				"MfgPlantCode": "IPS",
+				"Factory": "DG2",
+				"Source": "CFX.A00.SO20050832"
+			},
+			"ProcessedTime": "2025-02-17T07:00:50.159247+00:00",
+			"RawData": {
+				"MessageName": "CFX.ResourcePerformance.StationParametersModified",
+				"Version": "1.7",
+				"TimeStamp": "2025-02-17T07:00:50.1541334+00:00",
+				"UniqueID": "3e86f21f-cf1d-42c8-b556-6179c0d17c30",
+				"Source": "CFX.A00.SO20050832",
+				"Target": "inline-control",
+				"RequestID": "a27ef82f-b74e-407b-9f53-8cd510e062b8",
+				"MessageBody": {
+					"$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+					"ModifiedParameters": [
+						{
+							"$type": "CFX.Structures.GenericParameter, CFX",
+							"Name": "OV_SwitchStatusMain",
+							"Value": "1"
+						},
+						{
+							"$type": "CFX.Structures.GenericParameter, CFX",
+							"Name": "OV_SwitchStatusPreHeat",
+							"Value": "0"
+						},
+						{
+							"$type": "CFX.Structures.GenericParameter, CFX",
+							"Name": "OV_SwitchStatusTinBath",
+							"Value": "0"
+						},
+						{
+							"$type": "CFX.Structures.GenericParameter, CFX",
+							"Name": "OV_MainTemperature",
+							"Value": "100"
+						},
+						{
+							"$type": "CFX.Structures.GenericParameter, CFX",
+							"Name": "OV_PreheatTemperature",
+							"Value": "100"
+						},
+						{
+							"$type": "CFX.Structures.GenericParameter, CFX",
+							"Name": "OV_TinBathTemperature",
+							"Value": "100"
+						},
+						{
+							"$type": "CFX.Structures.GenericParameter, CFX",
+							"Name": "OV_MainTemperatureA",
+							"Value": "40"
+						},
+						{
+							"$type": "CFX.Structures.GenericParameter, CFX",
+							"Name": "OV_MainTemperatureB",
+							"Value": "40"
+						},
+						{
+							"$type": "CFX.Structures.GenericParameter, CFX",
+							"Name": "OV_MainTemperatureC",
+							"Value": "40"
+						},
+						{
+							"$type": "CFX.Structures.GenericParameter, CFX",
+							"Name": "OV_PreheatTemperatureA",
+							"Value": "40"
+						},
+						{
+							"$type": "CFX.Structures.GenericParameter, CFX",
+							"Name": "OV_PreheatTemperatureB",
+							"Value": "1"
+						},
+						{
+							"$type": "CFX.Structures.GenericParameter, CFX",
+							"Name": "OV_PreheatTemperatureC",
+							"Value": "40"
+						},
+						{
+							"$type": "CFX.Structures.GenericParameter, CFX",
+							"Name": "OV_TinBathTemperatureA",
+							"Value": "1"
+						},
+						{
+							"$type": "CFX.Structures.GenericParameter, CFX",
+							"Name": "OV_TinBathTemperatureB",
+							"Value": "1"
+						},
+						{
+							"$type": "CFX.Structures.GenericParameter, CFX",
+							"Name": "OV_TinBathTemperatureC",
+							"Value": "36"
+						}
+					]
+				}
+			}
+		}
+	},
+	"Transmission": [
+		{
+			"Node": "I01",
+			"SendTime": "2025-02-17T07:00:50.160267+00:00"
+		},
+		{
+			"Node": "DG2",
+			"SendTime": "2025-02-17T07:00:50.163242+00:00"
+		}
+	]
+}
+
+
+
+//錫爐報出錯誤================================
+
+{
+	"MessageID": "02cb0b31-b98e-4924-8c71-3903b1b8394c",
+	"TransactionID": null,
+	"MessageType": "DEVICE_CFX",
+	"MessageVersion": 1.0,
+	"MessageTime": "2025-02-24T05:23:13.551034+00:00",
+	"Sender": "DG2",
+	"Data": {
+		"MessageID": "ff43755e-bc14-4e50-a960-953773998f7f",
+		"TransactionID": null,
+		"MessageType": "DEVICE_CFX",
+		"MessageVersion": "1.0",
+		"MessageTime": "2025-02-24T05:23:13.548444+00:00",
+		"Sender": "LINEMANAGER",
+		"Data": {
+			"Meta": {
+				"MessageName": "CFX.ResourcePerformance.FaultOccurred",
+				"DeviceID": "SO20050832",
+				"LineID": "I01",
+				"MfgPlantCode": "IPS",
+				"Factory": "DG2",
+				"Source": "CFX.A00.SO20050832"
+			},
+			"ProcessedTime": "2025-02-24T05:23:13.548382+00:00",
+			"RawData": {
+				"MessageName": "CFX.ResourcePerformance.FaultOccurred",
+				"Version": "1.7",
+				"TimeStamp": "2025-02-24T05:23:13.543307+00:00",
+				"UniqueID": "0a9c5116-4194-470f-8eeb-a9aec9311c78",
+				"Source": "CFX.A00.SO20050832",
+				"Target": "inline-control",
+				"RequestID": "e0fefd24-d4eb-4aad-bd50-91eabf5c090d",
+				"MessageBody": {
+					"$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+					"Fault": {
+						"TransactionID": null,
+						"Cause": "MechanicalFailure",
+						"Severity": "Error",
+						"FaultCode": "11",
+						"FaultOccurrenceId": "61ae060f-7518-4e6d-8396-7ff330f5f2ca",
+						"Lane": null,
+						"Stage": null,
+						"SideLocation": "Unknown",
+						"AccessType": "Unknown",
+						"Description": "上预热器3超温",
+						"DescriptionTranslations": {},
+						"OccurredAt": "2025-02-24T05:23:13.532Z",
+						"DueDateTime": null
+					}
+				}
+			}
+		}
+	},
+	"Transmission": [
+		{
+			"Node": "I01",
+			"SendTime": "2025-02-24T05:23:13.548444+00:00"
+		},
+		{
+			"Node": "DG2",
+			"SendTime": "2025-02-24T05:23:13.550966+00:00"
+		}
+	]
+}
+
+D:\visual_studio_project\C#_windowed_app_250113_modbusTCP_ver\Modbus\ModbusHelper_250304_update.cs
+using System;
+using System.Collections.Generic;
+using System.IO.Ports;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+//MessageBox 是屬於 Windows Forms 命名空間的一部分
+using System.Windows.Forms;
+
+
+namespace AmqpModbusIntegration
+{
+	public static class ModbusHelper
+	{
+
+		//private static readonly object serialPortLock = new object(); // 用於串口操作的執行緒安全鎖
+		private static readonly SemaphoreSlim serialPortLock = new SemaphoreSlim(1, 1);
+
+
+		public static void SwitchON(SerialPort serialPort, byte stationNumber)
+		{
+			if (serialPort != null && serialPort.IsOpen)
+			{
+				byte[] openCommand = { stationNumber, 0x06, 0x00, 0x31, 0x55, 0x88 };
+				byte[] fullCommand = AppendCRC(openCommand);
+				serialPort.DiscardInBuffer(); // 清空輸入緩衝區
+				serialPort.DiscardOutBuffer(); // 清空輸出緩衝區
+				serialPort.Write(fullCommand, 0, fullCommand.Length);
+				Console.WriteLine($"站號 {stationNumber} 的開關已打開");
+			}
+		}
+
+		public static void SwitchOFF(SerialPort serialPort, byte stationNumber)
+		{
+			if (serialPort != null && serialPort.IsOpen)
+			{
+				byte[] closeCommand = { stationNumber, 0x06, 0x00, 0x31, 0x55, 0x66 };
+				byte[] fullCommand = AppendCRC(closeCommand);
+				serialPort.DiscardInBuffer(); // 清空輸入緩衝區
+				serialPort.DiscardOutBuffer(); // 清空輸出緩衝區
+				serialPort.Write(fullCommand, 0, fullCommand.Length);
+				Console.WriteLine($"站號 {stationNumber} 的開關已關閉");
+			}
+		}
+
+
+		//20241202新增=======================================
+		// 在 ModbusViewer 類中新增方法
+		public static void SimulateFaultTest(ModbusViewer modbusViewer, Dictionary<byte, Dictionary<string, int>> slaveData)
+		{
+			// 模擬故障碼 0xA87
+			int faultCode = 0xA87;
+
+			// 更新 currentStatus 和 currentStatus1, currentStatus2
+			modbusViewer.currentStatus = faultCode;
+			modbusViewer.currentStatus1 = (faultCode >> 16) & 0xFFFF; // 高16位
+			modbusViewer.currentStatus2 = faultCode & 0xFFFF;        // 低16位
+
+			// 更新 slaveData 中的 "當前狀態"
+			foreach (var station in slaveData.Keys)
+			{
+				if (slaveData[station].ContainsKey("當前狀態"))
+				{
+					slaveData[station]["當前狀態"] = modbusViewer.currentStatus;
+				}
+			}
+
+			// 更新 DataGridView 顯示
+			modbusViewer.UpdateDataGridView();
+
+			// 提示用戶操作成功
+			MessageBox.Show($"已將當前狀態設置為故障碼 {faultCode:X}");
+		}
+
+
+		//241231新增================================
+		public static void SetTemperature(SerialPort serialPort, byte stationNumber, ushort temperature, Dictionary<byte, Dictionary<string, int>> slaveData)
+		{
+			// 確保線程安全
+			lock (serialPortLock)
+			{
+				if (serialPort == null || !serialPort.IsOpen)
+				{
+					Console.WriteLine("串口未開啟或無效，無法設定溫度");
+					return;
+				}
+
+				if (!slaveData.ContainsKey(stationNumber))
+				{
+					Console.WriteLine($"站號 {stationNumber} 不存在，操作中止。");
+					return;
+				}
+
+				// 構建 Modbus 命令
+				byte[] command = {
+			stationNumber,
+			0x06,
+			0x00, 0x2B,    // 假設溫度寄存器地址
+            (byte)(temperature >> 8),
+			(byte)(temperature & 0xFF)
+		};
+
+				byte[] fullCommand = AppendCRC(command);
+
+				try
+				{
+					// 清空緩衝區
+					serialPort.DiscardInBuffer();
+					serialPort.DiscardOutBuffer();
+
+					// 發送命令
+					serialPort.Write(fullCommand, 0, fullCommand.Length);
+					Console.WriteLine($"已發送溫度設定命令到站號 {stationNumber}，設定溫度：{temperature}°C");
+
+					// 設置超時並嘗試讀取回應
+					serialPort.ReadTimeout = 2000; // 2秒超時
+					byte[] responseBuffer = new byte[256];
+					int bytesRead = serialPort.Read(responseBuffer, 0, responseBuffer.Length);
+
+					if (bytesRead > 5 && ValidateCRC(responseBuffer, bytesRead))
+					{
+						Console.WriteLine($"收到設備回應: {BitConverter.ToString(responseBuffer, 0, bytesRead)}");
+						slaveData[stationNumber]["溫度保護(℃)"] = temperature;
+					}
+					else
+					{
+						Console.WriteLine("收到無效回應或 CRC 校驗失敗");
+					}
+				}
+				catch (TimeoutException)
+				{
+					Console.WriteLine($"讀取站號 {stationNumber} 的設備回應超時，請檢查設備連線。");
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine($"設置溫度時發生錯誤: {ex.Message}");
+				}
+			}
+		}
+
+
+		//20241206_修改==============================================
+
+		public static async Task ReadAllParametersAsync(SerialPort serialPort, ModbusViewer modbusViewer)
+		{
+			if (serialPort != null && serialPort.IsOpen)
+			{
+				foreach (var station in modbusViewer.GetSlaveData().Keys.ToList())
+				{
+					try
+					{
+						// 清空緩衝區
+						serialPort.DiscardInBuffer();
+						serialPort.DiscardOutBuffer();
+
+						// 發送讀取命令
+						byte[] readCommand = { station, 0x03, 0x00, 0x00, 0x00, 0x30 };
+						byte[] fullCommand = AppendCRC(readCommand);
+						serialPort.Write(fullCommand, 0, fullCommand.Length);
+
+						// **延長延遲，確保設備有時間準備回應**
+						await Task.Delay(500); // 延遲從200ms增加到500ms
+
+						// 讀取回應數據
+						byte[] buffer = new byte[256];
+						int bytesRead = 0;
+
+						// **優化緩衝邏輯，確保數據完整**
+						while (bytesRead < buffer.Length && serialPort.BytesToRead > 0)
+						{
+							bytesRead += await serialPort.BaseStream.ReadAsync(buffer, bytesRead, buffer.Length - bytesRead);
+							await Task.Delay(50); // 適當延遲，避免數據未完全準備好
+						}
+
+						// 校驗數據長度和CRC
+						if (bytesRead > 5 && ValidateCRC(buffer, bytesRead))
+						{
+							ParseResponse(buffer, station, modbusViewer);
+						}
+						else
+						{
+							Console.WriteLine($"站號 {station} 收到無效數據或 CRC 校驗失敗");
+						}
+
+						// **增加站號之間的間隔，避免總線衝突**
+						await Task.Delay(300); // 每個站號間增加延遲
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine($"讀取站號 {station} 時發生錯誤: {ex.Message}");
+					}
+				}
+			}
+		}
+
+
+
+
+		// 校驗 CRC 方法
+		public static bool ValidateCRC(byte[] data, int length)
+		{
+			if (length < 2) return false;
+			ushort receivedCRC = (ushort)(data[length - 2] | (data[length - 1] << 8));
+			ushort calculatedCRC = CalculateCRC(data.Take(length - 2).ToArray());
+			return receivedCRC == calculatedCRC;
+		}
+
+
+		private static void ParseResponse(byte[] buffer, byte station, ModbusViewer modbusViewer)
+		{
+
+
+			if (!modbusViewer.GetSlaveData().ContainsKey(station))
+			{
+				Console.WriteLine($"站号 {station} 不存在于设备列表中，跳过更新。");
+				return;
+			}
+
+			//20241125===============================================================
+			// 檢查數據包中的站號
+			if (buffer[0] != station)
+			{
+				Console.WriteLine($"收到錯誤站號的數據包：{buffer[0]}，預期：{station}");
+				return; // 跳過數據
+			}
+
+
+			// 解析數據並存入 ModbusViewer 變數，這邊不想要的數值可以直接註解調，buffer不會需要重新排序
+			modbusViewer.currentStatus1 = (buffer[3] << 8) | buffer[4];
+			modbusViewer.currentStatus2 = (buffer[5] << 8) | buffer[6];
+			modbusViewer.currentStatus = (modbusViewer.currentStatus1 << 16) | modbusViewer.currentStatus2;
+
+			modbusViewer.tempA = (buffer[9] << 8) | buffer[10]; // 單位: ℃
+			modbusViewer.tempB = (buffer[11] << 8) | buffer[12]; // 單位: ℃
+			modbusViewer.tempC = (buffer[13] << 8) | buffer[14]; // 單位: ℃
+
+
+			modbusViewer.currentA = ((buffer[23] << 8) | buffer[24]) / 100; // 單位: A
+			modbusViewer.currentB = ((buffer[25] << 8) | buffer[26]) / 100; // 單位: A
+			modbusViewer.currentC = ((buffer[27] << 8) | buffer[28]) / 100; // 單位: A
+
+
+
+			modbusViewer.activePowerA = (buffer[35] << 8) | buffer[36]; // 單位: W
+			modbusViewer.activePowerB = (buffer[37] << 8) | buffer[38]; // 單位: W
+			modbusViewer.activePowerC = (buffer[39] << 8) | buffer[40]; // 單位: W
+
+
+			int energyHighByte = (buffer[49] << 8) | buffer[50];
+			int energyLowByte = (buffer[51] << 8) | buffer[52];
+			modbusViewer.energy = ((energyHighByte << 16) | energyLowByte) / 100; // 單位: kWh
+
+			modbusViewer.switchStatus = (buffer[53] << 8) | buffer[54]; // 單位: 開關狀態
+
+
+			//20241204_新增================================
+			modbusViewer.ProtectionThreshold = ((buffer[89] << 8) | buffer[90]);//單位: ℃
+			//20241204_新增================================
+
+
+
+			//20241125===============================================================
+			if (!modbusViewer.GetSlaveData().ContainsKey(station))
+			{
+				Console.WriteLine($"站號 {station} 不存在於設備列表中，跳過更新。");
+				return;
+			}
+			//20241125===============================================================
+
+			var slaveData = modbusViewer.GetSlaveData()[station];
+			// 更新 slaveData 中的數據結構
+			// 更新 slaveData 中的數據結構，並添加對應單位的註解
+			slaveData["當前狀態"] = modbusViewer.currentStatus; // 無單位
+
+			slaveData["A相溫度 (℃)"] = modbusViewer.tempA; // 單位: ℃
+			slaveData["B相溫度 (℃)"] = modbusViewer.tempB; // 單位: ℃
+			slaveData["C相溫度 (℃)"] = modbusViewer.tempC; // 單位: ℃
+
+			slaveData["A相電流 (A)"] = modbusViewer.currentA; // 單位: A
+			slaveData["B相電流 (A)"] = modbusViewer.currentB; // 單位: A
+			slaveData["C相電流 (A)"] = modbusViewer.currentC; // 單位: A
+
+			slaveData["A相有功功率 (W)"] = modbusViewer.activePowerA; // 單位: W
+			slaveData["B相有功功率 (W)"] = modbusViewer.activePowerB; // 單位: W
+			slaveData["C相有功功率 (W)"] = modbusViewer.activePowerC; // 單位: W
+
+			slaveData["電能 (kWh)"] = modbusViewer.energy; // 單位: kWh
+			slaveData["開關狀態"] = modbusViewer.switchStatus;
+			slaveData["溫度保護(℃)"] = modbusViewer.ProtectionThreshold;
+
+		}
+
+
+
+		public static byte[] AppendCRC(byte[] command)
+		{
+			ushort crc = CalculateCRC(command);
+			byte[] crcBytes = BitConverter.GetBytes(crc);
+			byte[] fullCommand = new byte[command.Length + 2];
+			Array.Copy(command, fullCommand, command.Length);
+			fullCommand[fullCommand.Length - 2] = crcBytes[0];
+			fullCommand[fullCommand.Length - 1] = crcBytes[1];
+			return fullCommand;
+		}
+
+
+
+
+		public static ushort CalculateCRC(byte[] data)
+		{
+			ushort crc = 0xFFFF; // 設定初始值
+			for (int pos = 0; pos < data.Length; pos++) // 遍歷數據每一位元組
+			{
+				crc ^= (ushort)data[pos]; // 與當前字節異或
+				for (int i = 8; i != 0; i--) // 進行8次迴圈
+				{
+					if ((crc & 0x0001) != 0) // 如果最低位為1
+					{
+						crc >>= 1; // 右移一位
+						crc ^= 0xA001; // 異或0xA001
+					}
+					else
+					{
+						crc >>= 1; // 否則直接右移
+					}
+				}
+			}
+			return crc; // 返回計算結果
+		}
+	}
+}
+D:\visual_studio_project\C#_windowed_app_250113_modbusTCP_ver\Amqp\AmqpEndpointManager_250304_update.cs
+using System;
+using System.Collections.Generic;
+using System.IO.Ports;
+using System.Linq;
+using System.Threading.Tasks;
+using CFX;
+using CFX.Production;
+using CFX.ResourcePerformance;
+using CFX.Structures;
+using CFX.Transport;
+using Newtonsoft.Json;
+
+
+namespace AmqpModbusIntegration
+{
+
+
+	public class AmqpEndpointManager
+	{
+
+
+		private readonly string endpointUri;
+		private readonly string publishChannelUri;
+		private readonly string subscribeChannelUri;
+		private readonly ModbusViewer modbusViewer;
+		private readonly SerialPort serialPort;
+		private readonly Dictionary<byte, Dictionary<string, int>> slaveData;
+
+		public static readonly object serialPortLock = new object(); // 用於串口操作的執行緒安全鎖
+
+
+
+		//對應的故障碼
+		private static readonly Dictionary<int, (string FaultCode, string Description)> faultDictionary = new Dictionary<int, (string FaultCode, string Description)>
+				{
+
+					{ 0, ("A_OVERVOLTAGE", "A相過壓") },
+					{ 1, ("B_OVERVOLTAGE", "B相過壓") },
+					{ 2, ("C_OVERVOLTAGE", "C相過壓") },
+					{ 3, ("A_UNDERVOLTAGE", "A相欠壓") },
+					{ 4, ("B_UNDERVOLTAGE", "B相欠壓") },
+					{ 5, ("C_UNDERVOLTAGE", "C相欠壓") },
+					{ 6, ("A_OVERCURRENT", "A相過流") },
+					{ 7, ("B_OVERCURRENT", "B相過流") },
+					{ 8, ("C_OVERCURRENT", "C相過流") },
+					{ 9, ("LEAKAGE_FAULT", "漏電異常") },
+					{ 10, ("A_OVERHEAT", "A相出線溫度異常") },
+					{ 11, ("B_OVERHEAT", "B相出線溫度異常") },
+					{ 12, ("C_OVERHEAT", "C相出線溫度異常") },
+					{ 13, ("N_OVERHEAT", "N相出線溫度異常") },
+					{ 14, ("SHORT_CIRCUIT", "短路") },
+					{ 15, ("ARC_FAULT", "電弧") },
+					{ 16, ("PHASE_LOSS", "缺相") },
+					{ 17, ("NEUTRAL_DISCONNECT", "斷零") },
+					{ 18, ("VOLTAGE_IMBALANCE", "三相電壓不平衡") },
+					{ 19, ("LOCKOUT", "鎖定") },
+					{ 20, ("MAINTENANCE_MODE", "進入維修或手動模式") },
+					{ 21, ("SWITCH_FAULT", "開關狀態異常，提示客戶換設備") },
+					{ 22, ("LEAKAGE_FAILURE", "漏電功能壞，提示客戶換設備") },
+					{ 23, ("DEVICE_OFFLINE", "設備離線") },
+					{ 24, ("OVERVOLTAGE_WARNING", "過壓預警") },
+					{ 25, ("UNDERVOLTAGE_WARNING", "欠壓預警") },
+					{ 26, ("OVERCURRENT_WARNING", "過流預警") },
+					{ 27, ("OVERHEAT_WARNING", "過溫預警") }
+				};
+
+
+		public AmqpEndpointManager(
+			string endpointUri,
+			string publishChannelUri,
+			string subscribeChannelUri,
+			ModbusViewer modbusViewer,// 傳遞 ModbusViewer 實例
+			SerialPort serialPort,
+			Dictionary<byte, Dictionary<string, int>> slaveData)
+		{
+			this.endpointUri = endpointUri;
+			this.publishChannelUri = publishChannelUri;
+			this.subscribeChannelUri = subscribeChannelUri;
+			this.modbusViewer = modbusViewer;
+			this.serialPort = serialPort;
+			this.slaveData = slaveData;
+		}
+
+		public void StartAmqpEndpoint(string endpointName)
+		{
+			if (string.IsNullOrEmpty(endpointName))
+				throw new ArgumentException("Endpoint name cannot be null or empty", nameof(endpointName));
+
+			var endpoint = new AmqpCFXEndpoint();
+			endpoint.Open(endpointName, new Uri(endpointUri));
+			endpoint.AddPublishChannel(new Uri(publishChannelUri), "event");
+
+			// 發布連接消息
+			endpoint.Publish(new EndpointConnected());
+			Console.WriteLine($"AMQP endpoint \"{endpointName}\" connected.");
+
+			// Request/Response 處理邏輯
+			endpoint.OnRequestReceived += (request) =>
+			{
+				return OnRequestReceivedHandler(request);
+			};
+
+			// Publish 模式處理非請求消息
+			endpoint.OnCFXMessageReceived += async (sender, e) =>
+			{
+				try
+				{
+					// 提取消息類型
+					if (e.GetMessage<FaultOccurred>() is FaultOccurred faultOccurredMessage)
+					{
+						Console.WriteLine($"Received FaultOccurred message: {JsonConvert.SerializeObject(faultOccurredMessage, Formatting.Indented)}");
+						// 根據需要處理 FaultOccurred 消息
+					}
+					else if (e.GetMessage<EnergyConsumed>() is EnergyConsumed energyConsumedMessage)
+					{
+						Console.WriteLine($"Received EnergyConsumed message: {JsonConvert.SerializeObject(energyConsumedMessage, Formatting.Indented)}");
+						// 根據需要處理 EnergyConsumed 消息
+					}
+					else
+					{
+						Console.WriteLine("Received an unsupported message type.");
+					}
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine($"Error processing received message: {ex.Message}");
+				}
+			};
+
+			// 狀態檢查過程（用於定期發佈消息）
+			Task.Run(async () =>
+			{
+				Dictionary<byte, int> lastStatus = new Dictionary<byte, int>();
+				DateTime lastEnergyPublishTime = DateTime.MinValue; // 記錄上次能源消耗發佈的時間
+
+				while (true)
+				{
+					try
+					{
+						List<Task> tasks = new List<Task>();
+
+						// 發佈故障狀態
+						foreach (var stationNumber in slaveData.Keys)
+						{
+							if (slaveData.TryGetValue(stationNumber, out var data) && data.ContainsKey("當前狀態"))
+							{
+								var currentStatus = data["當前狀態"];
+
+								if (lastStatus.ContainsKey(stationNumber) && lastStatus[stationNumber] != currentStatus)
+								{
+									tasks.Add(PublishFaultOccurredMessages(stationNumber, endpoint));
+								}
+
+								lastStatus[stationNumber] = currentStatus;
+							}
+						}
+
+						// 每 15 秒發佈一次能源消耗訊息
+						if ((DateTime.Now - lastEnergyPublishTime).TotalSeconds >= 15)
+						{
+							foreach (var stationNumber in slaveData.Keys)
+							{
+								//PublishReadingsRecordedMessages(stationNumber, endpoint);
+								PublishStationParametersModifiedMessages(stationNumber, endpoint);
+								PublishEnergyConsumedMessages(stationNumber, endpoint);
+							}
+							lastEnergyPublishTime = DateTime.Now;
+						}
+
+						// 等待所有發佈任務完成
+						await Task.WhenAll(tasks);
+
+						// 延遲 1 秒後再進行下一次檢查
+						await Task.Delay(1000);
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine($"Error in publish task: {ex.Message}");
+					}
+				}
+			});
+		}
+
+
+		//重要，這邊的是專門處理接收到請求消息後做相應動作的地方
+		private CFXEnvelope OnRequestReceivedHandler(CFXEnvelope request)
+		{
+			try
+			{
+				if (request.MessageBody is ModifyStationParametersRequest modifyRequest)
+				{
+					Console.WriteLine($"收到 ModifyStationParametersRequest: {JsonConvert.SerializeObject(modifyRequest, Formatting.Indented)}");
+
+					// 解析站號列表
+					var stationNumbers = modifyRequest.NewParameters
+						.Where(p => p is GenericParameter genericParam && genericParam.Name == "站號")
+						.Select(p =>
+						{
+							var genericParam = (GenericParameter)p;
+							if (byte.TryParse(genericParam.Value.ToString(), out var station))
+							{
+								Console.WriteLine($"成功轉換站號為: {station}");
+								return (byte?)station;
+							}
+							else
+							{
+								Console.WriteLine($"站號轉換失敗: {genericParam.Value}");
+								return null;
+							}
+						})
+						.Where(p => p.HasValue)
+						.Select(p => p.Value)
+						.ToList();
+
+					if (!stationNumbers.Any())
+					{
+						Console.WriteLine("無有效的站號列表，請求無法執行。");
+						return CreateErrorResponse(request.RequestID, "No valid station numbers provided.");
+					}
+
+					bool hasProcessed = false; // 用於標記是否成功處理任何參數
+					bool hasError = false;     // 用於標記是否出現錯誤
+
+					foreach (var parameter in modifyRequest.NewParameters)
+					{
+						if (parameter is GenericParameter genericParam)
+						{
+							// 處理保護溫度
+							if (genericParam.Name == "保護溫度" && ushort.TryParse(genericParam.Value.ToString(), out var temperature))
+							{
+								Console.WriteLine($"正在設定保護溫度為 {temperature}°C 對站號: {string.Join(",", stationNumbers)}");
+
+								foreach (var station in stationNumbers)
+								{
+									if (!slaveData.ContainsKey(station))
+									{
+										Console.WriteLine($"站號 {station} 不存在，跳過操作。");
+										hasError = true;
+										continue;
+									}
+
+									try
+									{
+										modbusViewer.ExecuteSetTemperature(station, temperature);
+										Console.WriteLine($"溫度設定成功: 站號 {station}, 溫度 {temperature}");
+										hasProcessed = true;
+									}
+									catch (Exception ex)
+									{
+										Console.WriteLine($"設置溫度操作失敗，站號: {station}，錯誤: {ex.Message}");
+										hasError = true;
+									}
+								}
+							}
+							else if (genericParam.Name == "開關操作" && (genericParam.Value.ToString() == "開" || genericParam.Value.ToString() == "關"))
+							{
+								bool isSwitchOn = genericParam.Value.ToString() == "開";
+								string action = isSwitchOn ? "合閘" : "分閘";
+
+								Console.WriteLine($"正在執行開關操作: {action} 對站號: {string.Join(",", stationNumbers)}");
+
+								foreach (var station in stationNumbers)
+								{
+									if (!slaveData.ContainsKey(station))
+									{
+										Console.WriteLine($"站號 {station} 不存在，跳過操作。");
+										hasError = true;
+										continue;
+									}
+
+									try
+									{
+										if (isSwitchOn)
+										{
+											modbusViewer.ExecuteSwitchCommand(ModbusHelper.SwitchON, new List<byte> { station });
+										}
+										else
+										{
+											modbusViewer.ExecuteSwitchCommand(ModbusHelper.SwitchOFF, new List<byte> { station });
+										}
+										Console.WriteLine($"開關操作成功: {action}, 站號: {station}");
+										hasProcessed = true;
+									}
+									catch (Exception ex)
+									{
+										Console.WriteLine($"開關操作失敗，站號: {station}，錯誤: {ex.Message}");
+										hasError = true;
+									}
+								}
+							}
+							else
+							{
+								Console.WriteLine($"未知或無效的參數: {genericParam.Name}");
+								hasError = true;
+							}
+						}
+					}
+
+					if (hasError && !hasProcessed)
+					{
+						return CreateErrorResponse(request.RequestID, "No parameters were processed successfully.");
+					}
+
+					if (!hasProcessed)
+					{
+						return CreateErrorResponse(request.RequestID, "No valid actions were performed.");
+					}
+
+					// 返回成功響應
+					return CreateSuccessResponse(request.RequestID, "Parameters updated successfully.");
+				}
+				else
+				{
+					Console.WriteLine("Received an unsupported request type.");
+					return CreateErrorResponse(request.RequestID, "Unsupported request type.");
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error processing request: {ex.Message}");
+				return CreateErrorResponse(request.RequestID, ex.Message);
+			}
+		}
+
+
+		// 創建成功響應
+		private CFXEnvelope CreateSuccessResponse(string requestId, string message)
+		{
+			var response = new ModifyStationParametersResponse
+			{
+				Result = new RequestResult
+				{
+					Result = StatusResult.Success,
+					ResultCode = 0,
+					Message = message
+				}
+			};
+
+			var responseEnvelope = CFXEnvelope.FromCFXMessage(response);
+			responseEnvelope.RequestID = requestId;
+
+			return responseEnvelope;
+		}
+
+		// 創建錯誤響應
+		private CFXEnvelope CreateErrorResponse(string requestId, string errorMessage)
+		{
+			var response = new NotSupportedResponse
+			{
+				RequestResult = new RequestResult
+				{
+					Result = StatusResult.Failed,
+					ResultCode = -1,
+					Message = errorMessage
+				}
+			};
+
+			var responseEnvelope = CFXEnvelope.FromCFXMessage(response);
+			responseEnvelope.RequestID = requestId;
+
+			return responseEnvelope;
+		}
+
+
+
+
+
+
+
+
+
+		//報故障狀態
+		private async Task PublishFaultOccurredMessages(byte stationNumber, AmqpCFXEndpoint endpoint)
+		{
+			if (!slaveData.TryGetValue(stationNumber, out var data) || !data.ContainsKey("當前狀態"))
+				return;
+
+			var statusRegister = data["當前狀態"];
+			for (int bitPosition = 0; bitPosition <= 27; bitPosition++)
+			{
+				if ((statusRegister & (1 << bitPosition)) != 0 && faultDictionary.ContainsKey(bitPosition))
+				{
+					var (faultCode, description) = faultDictionary[bitPosition];
+					var faultOccurred = new FaultOccurred
+					{
+						Fault = new Fault
+						{
+							FaultCode = faultCode,
+							FaultOccurrenceId = Guid.NewGuid(),
+							Description = faultCode,
+							DescriptionTranslations = new Dictionary<string, string>
+							{
+								{ "zh-TW", description } // 如果需要，添加多語言對應描述
+		                    },
+							OccurredAt = DateTime.Now,
+							Severity = FaultSeverity.Error
+						}
+					};
+
+					// 使用 Task.Run 將同步操作包裝成異步執行
+					await Task.Run(() => endpoint.Publish(faultOccurred));
+				}
+			}
+		}
+
+
+		//報開關狀態及三相溫度最大值
+		private void PublishStationParametersModifiedMessages(byte stationNumber, AmqpCFXEndpoint endpoint)
+		{
+			// 檢查是否有可用數據
+			if (!slaveData.TryGetValue(stationNumber, out var data) || data == null || !data.Any())
+			{
+				Console.WriteLine($"No data available for station {stationNumber}.");
+				return;
+			}
+
+			// 確保至少有一個非零數據值
+			if (!data.Values.Any(value => value != 0))
+			{
+				Console.WriteLine($"All data for station {stationNumber} is default (zero), skipping.");
+				return;
+			}
+
+			// 提取三相溫度的最大值
+			int maxTemperature = 0; // 預設為0
+			if (data.ContainsKey("A相溫度 (℃)") || data.ContainsKey("B相溫度 (℃)") || data.ContainsKey("C相溫度 (℃)"))
+			{
+				maxTemperature = new[]
+				{
+			data.ContainsKey("A相溫度 (℃)") ? data["A相溫度 (℃)"] : 0,
+			data.ContainsKey("B相溫度 (℃)") ? data["B相溫度 (℃)"] : 0,
+			data.ContainsKey("C相溫度 (℃)") ? data["C相溫度 (℃)"] : 0
+		}.Max();
+			}
+
+			// 構建報文
+			var parameters = new List<Parameter>
+	{
+		// 開關狀態
+		new GenericParameter
+		{
+			Name = "MSP_SwitchStatus",
+			Value = data.ContainsKey("開關狀態") ? data["開關狀態"].ToString() : "0"
+		},
+		// 三相溫度最大值
+		new GenericParameter
+		{
+			Name = "MSP_Temperature_Max",
+			Value = maxTemperature.ToString()
+		}
+	};
+
+			// 發布報文
+			endpoint.Publish(new StationParametersModified { ModifiedParameters = parameters });
+			Console.WriteLine($"Published StationParametersModified message for station {stationNumber}.");
+		}
+
+
+
+
+		//報使用的電流、功率等等
+		private void PublishEnergyConsumedMessages(byte stationNumber, AmqpCFXEndpoint endpoint)
+		{
+			if (!slaveData.TryGetValue(stationNumber, out var data) || data == null || !data.Any())
+			{
+				Console.WriteLine($"No data available for station {stationNumber}.");
+				return;
+			}
+
+			// 確保至少有一個非零數據值
+			if (!data.Values.Any(value => value != 0))
+			{
+				Console.WriteLine($"All data for station {stationNumber} is default (zero), skipping.");
+				return;
+			}
+
+			// 提取 RYB 電流
+			var currentRYB = new List<double>
+					{
+						data.TryGetValue("A相電流 (A)", out var currentA) ? currentA : 0.0,
+						data.TryGetValue("B相電流 (A)", out var currentB) ? currentB : 0.0,
+						data.TryGetValue("C相電流 (A)", out var currentC) ? currentC : 0.0
+					};
+
+			// 提取 RYB 功率
+			var powerRYB = new List<double>
+					{
+						data.TryGetValue("A相有功功率 (W)", out var powerA) ? powerA : 0.0,
+						data.TryGetValue("B相有功功率 (W)", out var powerB) ? powerB : 0.0,
+						data.TryGetValue("C相有功功率 (W)", out var powerC) ? powerC : 0.0
+					};
+
+			// 提取 RYB 電壓
+			var voltageRYB = new List<double>
+					{
+						data.TryGetValue("A相電壓 (V)", out var voltageA) ? voltageA : 0.0,
+						data.TryGetValue("B相電壓 (V)", out var voltageB) ? voltageB : 0.0,
+						data.TryGetValue("C相電壓 (V)", out var voltageC) ? voltageC : 0.0
+					};
+
+			// 提取總電能
+			var energyUsed = data.TryGetValue("電能 (kWh)", out var energy) ? energy : 0.0;
+
+			// 創建 EnergyConsumed 訊息
+			var energyConsumed = new EnergyConsumed
+			{
+				EnergyUsed = energyUsed,
+				StartTime = DateTime.Now,
+				EndTime = DateTime.Now,
+				CurrentNowRYB = currentRYB,
+				PowerNowRYB = powerRYB,
+
+				//20241129新增測試==================================================
+				VoltageNowRYB = voltageRYB // 添加電壓數據
+				//20241129新增測試==================================================
+			};
+
+			// 發佈訊息
+			endpoint.Publish(energyConsumed);
+			Console.WriteLine($"Published EnergyConsumed message for station {stationNumber}.");
+		}
+
+	}
+
+}
+
+能幫我先把這上面的代碼改成我一開始提供的log那個樣子嗎?
+

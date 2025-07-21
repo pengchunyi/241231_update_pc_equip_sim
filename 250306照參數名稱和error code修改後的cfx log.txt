@@ -1,0 +1,3055 @@
+Endpoint 初始化完成
+Listener 綁定到地址: event
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.Heartbeat",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:22:04.1588272+08:00",
+  "UniqueID": "6251be81-21b5-4644-9ebc-749ac4ad721f",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.Heartbeat, CFX",
+    "CFXHandle": "CFX.A00.S022057601",
+    "HeartbeatFrequency": "00:01:00",
+    "ActiveFaults": null,
+    "ActiveRecipes": null
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.EndpointConnected",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:22:04.6942016+08:00",
+  "UniqueID": "28f541e9-3d7a-4aba-ab78-a726d4045193",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.EndpointConnected, CFX",
+    "CFXHandle": null,
+    "RequestNetworkUri": null,
+    "RequestTargetAddress": null
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:22:19.8726127+08:00",
+  "UniqueID": "1384a944-900c-41f5-bab5-e9c1348d13af",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "70"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:22:19.8768865+08:00",
+  "UniqueID": "b4b00a29-a077-410d-9cd7-54e31f20b2b6",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:22:19.8768865+08:00",
+    "EndTime": "2025-03-06T17:22:19.8768865+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+請輸入有效的站號。
+[EnergyMode] 請求已發送: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersRequest",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:22:25.1943159+08:00",
+  "UniqueID": "7b36c77c-fd15-4e12-b141-029a2384cc6f",
+  "Source": "LineManager",
+  "Target": "CFX.A00.S022057601",
+  "RequestID": "REQUEST-2db5d1b1-ae13-4df1-8066-42803fe98be2",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersRequest, CFX",
+    "NewParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "1"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "站號",
+        "Value": "1"
+      }
+    ]
+  }
+}
+[EnergyMode] 回應: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:22:25.2819412+08:00",
+  "UniqueID": "f1aea2e8-36ef-4d68-8b4d-3989b3723590",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-2db5d1b1-ae13-4df1-8066-42803fe98be2",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersResponse, CFX",
+    "Result": {
+      "Result": "Success",
+      "ResultCode": 1,
+      "Message": "Parameters updated successfully."
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:22:35.0383897+08:00",
+  "UniqueID": "b55ec5a5-8d7b-4f78-985a-d58d4c9c7357",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "70"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "1"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:22:35.0392791+08:00",
+  "UniqueID": "6c1e78cf-cbad-4d87-9b87-5deb57e6608b",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:22:35.0392791+08:00",
+    "EndTime": "2025-03-06T17:22:35.0392791+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+[EnergyMode] 請求已發送: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersRequest",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:22:38.7166526+08:00",
+  "UniqueID": "b4271ad5-5850-4005-9339-4b08489133e8",
+  "Source": "LineManager",
+  "Target": "CFX.A00.S022057601",
+  "RequestID": "REQUEST-4df0f481-3b5b-42c1-a81f-a8556b0b69c9",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersRequest, CFX",
+    "NewParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "站號",
+        "Value": "1"
+      }
+    ]
+  }
+}
+[EnergyMode] 回應: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:22:38.7519191+08:00",
+  "UniqueID": "8072c95d-de73-451c-ade3-c081793f64b8",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-4df0f481-3b5b-42c1-a81f-a8556b0b69c9",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersResponse, CFX",
+    "Result": {
+      "Result": "Success",
+      "ResultCode": 1,
+      "Message": "Parameters updated successfully."
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:22:50.21353+08:00",
+  "UniqueID": "792b03a0-4923-490c-867c-039b5e67f465",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "70"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:22:50.214544+08:00",
+  "UniqueID": "b3696178-8c1b-4c9a-bfcd-270ac47ce782",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:22:50.214544+08:00",
+    "EndTime": "2025-03-06T17:22:50.214544+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.Heartbeat",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:23:04.0002006+08:00",
+  "UniqueID": "30018c1a-7768-49fb-8e8a-874578cdfd8a",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.Heartbeat, CFX",
+    "CFXHandle": "CFX.A00.S022057601",
+    "HeartbeatFrequency": "00:01:00",
+    "ActiveFaults": null,
+    "ActiveRecipes": null
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:23:05.3958131+08:00",
+  "UniqueID": "b4d0a0e3-becd-473c-ab1c-c34d94a63abb",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "70"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:23:05.3958131+08:00",
+  "UniqueID": "e7a3e652-619f-49a6-b2f0-8fa9d2d11b42",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:23:05.3958131+08:00",
+    "EndTime": "2025-03-06T17:23:05.3958131+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:23:20.56261+08:00",
+  "UniqueID": "3cd0c176-fe09-4db5-a084-b123533070dd",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "70"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:23:20.5636962+08:00",
+  "UniqueID": "5b1b9e1c-f195-426f-849a-075f0950d8a0",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:23:20.5636962+08:00",
+    "EndTime": "2025-03-06T17:23:20.5636962+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:23:35.717318+08:00",
+  "UniqueID": "798693ba-b82e-4ff3-be87-6864275b08eb",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "70"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:23:35.717318+08:00",
+  "UniqueID": "58b37109-6d3c-408e-ac14-95bf007dce31",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:23:35.717318+08:00",
+    "EndTime": "2025-03-06T17:23:35.717318+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:23:50.8962393+08:00",
+  "UniqueID": "c3e72428-f211-4443-90c8-fcca6dddd9e1",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "70"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:23:50.8962393+08:00",
+  "UniqueID": "de9fc89c-a34c-4fac-bb9b-f19c3d366553",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:23:50.8962393+08:00",
+    "EndTime": "2025-03-06T17:23:50.8962393+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+請求已發送: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersRequest",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:01.1460425+08:00",
+  "UniqueID": "f00a9014-53f3-4970-abbc-3444140a0cd8",
+  "Source": "LineManager",
+  "Target": "CFX.A00.S022057601",
+  "RequestID": "REQUEST-146f19e4-6ba8-4aec-83b2-4e16d2fdafa6",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersRequest, CFX",
+    "NewParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "1"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "站號",
+        "Value": "1"
+      }
+    ]
+  }
+}
+回應: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:01.1789889+08:00",
+  "UniqueID": "2c23dd47-f72b-4434-a830-b8a313ebc2f6",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-146f19e4-6ba8-4aec-83b2-4e16d2fdafa6",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersResponse, CFX",
+    "Result": {
+      "Result": "Success",
+      "ResultCode": 1,
+      "Message": "Parameters updated successfully."
+    }
+  }
+}
+請求已發送: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersRequest",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:01.460717+08:00",
+  "UniqueID": "b205edc2-fea3-44d3-a158-d7ed423301ee",
+  "Source": "LineManager",
+  "Target": "CFX.A00.S022057601",
+  "RequestID": "REQUEST-ba0784f4-a9b8-4501-ae1d-3b663a11b3cd",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersRequest, CFX",
+    "NewParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "12"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "站號",
+        "Value": "1"
+      }
+    ]
+  }
+}
+回應: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:01.4885976+08:00",
+  "UniqueID": "28c00525-02ba-40d9-b62d-7810de6bb18a",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-ba0784f4-a9b8-4501-ae1d-3b663a11b3cd",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersResponse, CFX",
+    "Result": {
+      "Result": "Success",
+      "ResultCode": 1,
+      "Message": "Parameters updated successfully."
+    }
+  }
+}
+請輸入有效的站號和溫度值。
+請求已發送: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersRequest",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:03.5156554+08:00",
+  "UniqueID": "28e7ec23-73d9-4d79-992c-296f20bcfedf",
+  "Source": "LineManager",
+  "Target": "CFX.A00.S022057601",
+  "RequestID": "REQUEST-e266d2b0-84b2-46aa-b4e0-f051927493c7",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersRequest, CFX",
+    "NewParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "12"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "站號",
+        "Value": "1"
+      }
+    ]
+  }
+}
+回應: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:03.5584671+08:00",
+  "UniqueID": "14fe9b3c-03fb-4f4f-a6a5-5a617ba6c501",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-e266d2b0-84b2-46aa-b4e0-f051927493c7",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersResponse, CFX",
+    "Result": {
+      "Result": "Success",
+      "ResultCode": 1,
+      "Message": "Parameters updated successfully."
+    }
+  }
+}
+請求已發送: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersRequest",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:03.6598461+08:00",
+  "UniqueID": "e475e71b-3fe5-4bd7-9b7b-c7550db0bb8c",
+  "Source": "LineManager",
+  "Target": "CFX.A00.S022057601",
+  "RequestID": "REQUEST-b6cf0034-68c2-4d23-9a1a-698f0a4b4596",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersRequest, CFX",
+    "NewParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "1"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "站號",
+        "Value": "1"
+      }
+    ]
+  }
+}
+回應: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:03.6830852+08:00",
+  "UniqueID": "5d2740ed-b381-4f5d-b0a1-e22ee8486b69",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-b6cf0034-68c2-4d23-9a1a-698f0a4b4596",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersResponse, CFX",
+    "Result": {
+      "Result": "Success",
+      "ResultCode": 1,
+      "Message": "Parameters updated successfully."
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.Heartbeat",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:04.0094663+08:00",
+  "UniqueID": "ca2cc155-fcde-4746-ad9f-80485a0e67ee",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.Heartbeat, CFX",
+    "CFXHandle": "CFX.A00.S022057601",
+    "HeartbeatFrequency": "00:01:00",
+    "ActiveFaults": null,
+    "ActiveRecipes": null
+  }
+}
+請求已發送: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersRequest",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:04.1478887+08:00",
+  "UniqueID": "59b8f3e9-b173-41ce-bd67-d80379e09437",
+  "Source": "LineManager",
+  "Target": "CFX.A00.S022057601",
+  "RequestID": "REQUEST-c23b5354-ae28-4271-8a1e-545a63d4b5dd",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersRequest, CFX",
+    "NewParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "11"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "站號",
+        "Value": "1"
+      }
+    ]
+  }
+}
+回應: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:04.1660105+08:00",
+  "UniqueID": "8ef441e3-d3a9-4860-b117-eb6b66cda297",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-c23b5354-ae28-4271-8a1e-545a63d4b5dd",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersResponse, CFX",
+    "Result": {
+      "Result": "Success",
+      "ResultCode": 1,
+      "Message": "Parameters updated successfully."
+    }
+  }
+}
+請求已發送: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersRequest",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:05.1721945+08:00",
+  "UniqueID": "36d24d7f-9e11-4293-9ca3-dfc999fcc57f",
+  "Source": "LineManager",
+  "Target": "CFX.A00.S022057601",
+  "RequestID": "REQUEST-651bd266-4e4a-4954-9e0a-a8f2f9318d7e",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersRequest, CFX",
+    "NewParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "1"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "站號",
+        "Value": "1"
+      }
+    ]
+  }
+}
+回應: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:05.1925132+08:00",
+  "UniqueID": "27cb2afa-4c5f-4bd3-a03e-f5d62d1b123b",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-651bd266-4e4a-4954-9e0a-a8f2f9318d7e",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersResponse, CFX",
+    "Result": {
+      "Result": "Success",
+      "ResultCode": 1,
+      "Message": "Parameters updated successfully."
+    }
+  }
+}
+請輸入有效的站號和溫度值。
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:06.0246388+08:00",
+  "UniqueID": "baa1ee08-1d03-497e-9891-ecf2e310aa37",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "40"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:06.0246388+08:00",
+  "UniqueID": "46005396-c4f3-4e2d-ab20-398ce1ace3b5",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:24:06.0246388+08:00",
+    "EndTime": "2025-03-06T17:24:06.0246388+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+請求已發送: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersRequest",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:20.0669778+08:00",
+  "UniqueID": "2de5656c-f613-40bd-a1ba-f502d99adf08",
+  "Source": "LineManager",
+  "Target": "CFX.A00.S022057601",
+  "RequestID": "REQUEST-00ac37df-8bc1-4fac-927b-1da4736ec15b",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersRequest, CFX",
+    "NewParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "1"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "站號",
+        "Value": "1"
+      }
+    ]
+  }
+}
+回應: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:20.102967+08:00",
+  "UniqueID": "ee5ef40c-15c3-4285-9898-53b71aaf75d8",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-00ac37df-8bc1-4fac-927b-1da4736ec15b",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersResponse, CFX",
+    "Result": {
+      "Result": "Success",
+      "ResultCode": 1,
+      "Message": "Parameters updated successfully."
+    }
+  }
+}
+請求已發送: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersRequest",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:20.4928831+08:00",
+  "UniqueID": "9997d0ad-6b1b-47c1-937b-c13bd2ff2ee7",
+  "Source": "LineManager",
+  "Target": "CFX.A00.S022057601",
+  "RequestID": "REQUEST-7cae6e0b-0be1-4699-94e5-fc756942a3c1",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersRequest, CFX",
+    "NewParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "10"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "站號",
+        "Value": "1"
+      }
+    ]
+  }
+}
+回應: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:20.5334483+08:00",
+  "UniqueID": "a550e449-bff5-4b5c-a47d-7a49fc89a83c",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-7cae6e0b-0be1-4699-94e5-fc756942a3c1",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersResponse, CFX",
+    "Result": {
+      "Result": "Success",
+      "ResultCode": 1,
+      "Message": "Parameters updated successfully."
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:21.2228018+08:00",
+  "UniqueID": "dcb2324c-3847-4631-a898-09c6e4bb9287",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "40"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:21.2234163+08:00",
+  "UniqueID": "2cd01fd9-8d7c-4e18-b198-929a5d952261",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:24:21.2234163+08:00",
+    "EndTime": "2025-03-06T17:24:21.2234163+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+請求已發送: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersRequest",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:21.4244375+08:00",
+  "UniqueID": "5cad0406-47a2-4eb0-afc3-6e874f0cf3cb",
+  "Source": "LineManager",
+  "Target": "CFX.A00.S022057601",
+  "RequestID": "REQUEST-d38d4280-cb0e-473c-834e-c29bbb6609b5",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersRequest, CFX",
+    "NewParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "100"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "站號",
+        "Value": "1"
+      }
+    ]
+  }
+}
+回應: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:21.4499257+08:00",
+  "UniqueID": "85fd7f33-1301-464a-a995-dd6f1151aa7f",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-d38d4280-cb0e-473c-834e-c29bbb6609b5",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersResponse, CFX",
+    "Result": {
+      "Result": "Success",
+      "ResultCode": 1,
+      "Message": "Parameters updated successfully."
+    }
+  }
+}
+請求已發送: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersRequest",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:24.4395416+08:00",
+  "UniqueID": "9aec6598-41cd-4a82-ada5-9f96ef3ec8a4",
+  "Source": "LineManager",
+  "Target": "CFX.A00.S022057601",
+  "RequestID": "REQUEST-e66abd1d-3ed9-4c3a-b53c-59370fab77fd",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersRequest, CFX",
+    "NewParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "100"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "站號",
+        "Value": "1"
+      }
+    ]
+  }
+}
+回應: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:24.4718987+08:00",
+  "UniqueID": "8b0f9ce0-ab9f-4d22-81cf-421076bc3841",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-e66abd1d-3ed9-4c3a-b53c-59370fab77fd",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersResponse, CFX",
+    "Result": {
+      "Result": "Success",
+      "ResultCode": 1,
+      "Message": "Parameters updated successfully."
+    }
+  }
+}
+[EnergyMode] 請求已發送: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersRequest",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:36.2720542+08:00",
+  "UniqueID": "7070d4dd-52aa-4d9a-ab01-76814d190005",
+  "Source": "LineManager",
+  "Target": "CFX.A00.S022057601",
+  "RequestID": "REQUEST-f44e344a-9b6c-48d7-8006-b8f05f1835e6",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersRequest, CFX",
+    "NewParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "3"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "站號",
+        "Value": "1"
+      }
+    ]
+  }
+}
+[EnergyMode] 回應: {
+  "MessageName": "CFX.NotSupportedResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:36.2926649+08:00",
+  "UniqueID": "d14dea28-db2b-4d99-963f-e91723146218",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-f44e344a-9b6c-48d7-8006-b8f05f1835e6",
+  "MessageBody": {
+    "$type": "CFX.NotSupportedResponse, CFX",
+    "RequestResult": {
+      "Result": "Failed",
+      "ResultCode": 2,
+      "Message": "No valid actions were performed."
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:36.4339988+08:00",
+  "UniqueID": "0231248c-a32e-4126-b0ff-d7037979395b",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "100"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:36.4349548+08:00",
+  "UniqueID": "d9581d2f-2df4-4bf8-bb25-1d42efec2424",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:24:36.4349548+08:00",
+    "EndTime": "2025-03-06T17:24:36.4349548+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:51.6197103+08:00",
+  "UniqueID": "6657a16c-6ca3-4997-b121-ae5d592f6188",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "100"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:51.6207261+08:00",
+  "UniqueID": "fa8c0426-7090-4f7d-abb3-aa21190c193c",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:24:51.6197103+08:00",
+    "EndTime": "2025-03-06T17:24:51.6197103+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+[EnergyMode] 請求已發送: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersRequest",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:54.1218214+08:00",
+  "UniqueID": "3c467482-f3d2-40b5-8ca2-bb68659d2f92",
+  "Source": "LineManager",
+  "Target": "CFX.A00.S022057601",
+  "RequestID": "REQUEST-c20ca1f2-b174-4ea5-ac6a-9986be320e6a",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersRequest, CFX",
+    "NewParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "3"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "站號",
+        "Value": "1"
+      }
+    ]
+  }
+}
+[EnergyMode] 回應: {
+  "MessageName": "CFX.NotSupportedResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:24:54.1393504+08:00",
+  "UniqueID": "0971b761-b97b-4b7e-a1cb-5f5ef134ed13",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-c20ca1f2-b174-4ea5-ac6a-9986be320e6a",
+  "MessageBody": {
+    "$type": "CFX.NotSupportedResponse, CFX",
+    "RequestResult": {
+      "Result": "Failed",
+      "ResultCode": 2,
+      "Message": "No valid actions were performed."
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.Heartbeat",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:04.0287309+08:00",
+  "UniqueID": "b792766a-f1f2-4ff4-a611-b072196e5737",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.Heartbeat, CFX",
+    "CFXHandle": "CFX.A00.S022057601",
+    "HeartbeatFrequency": "00:01:00",
+    "ActiveFaults": null,
+    "ActiveRecipes": null
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:06.790653+08:00",
+  "UniqueID": "9ccdc7a1-8c42-4f4f-9dde-c4271702274e",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "100"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:06.7911651+08:00",
+  "UniqueID": "d5952164-1162-42ce-8e3f-0240e04f56f0",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:25:06.7911651+08:00",
+    "EndTime": "2025-03-06T17:25:06.7911651+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+[EnergyMode] 請求已發送: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersRequest",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:13.0829754+08:00",
+  "UniqueID": "5afe6b4e-0dfb-45b4-b281-9ec1727e17c1",
+  "Source": "LineManager",
+  "Target": "CFX.A00.S022057601",
+  "RequestID": "REQUEST-00b8ae45-047b-48fd-bd58-a1e228b2515b",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersRequest, CFX",
+    "NewParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "站號",
+        "Value": "1"
+      }
+    ]
+  }
+}
+[EnergyMode] 回應: {
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:13.1031428+08:00",
+  "UniqueID": "e7ea24f5-302d-4e59-872a-d63481b12ea9",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-00b8ae45-047b-48fd-bd58-a1e228b2515b",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersResponse, CFX",
+    "Result": {
+      "Result": "Success",
+      "ResultCode": 1,
+      "Message": "Parameters updated successfully."
+    }
+  }
+}
+已向站號 1 發送 分閘 指令。回應：{
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:18.7187763+08:00",
+  "UniqueID": "6a21ee88-a0f9-4ce0-ac9d-173ac1ca6666",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-494ed8ff-dca6-43b6-a7c6-d8e3eaabefd2",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersResponse, CFX",
+    "Result": {
+      "Result": "Success",
+      "ResultCode": 1,
+      "Message": "Parameters updated successfully."
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:19.9327122+08:00",
+  "UniqueID": "7ede1d4c-2635-485f-976f-dd9e095c38e6",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN1",
+      "FaultOccurrenceId": "01824017-e6f2-4430-b4f1-8bf9123d3554",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "A相過壓",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:25:19.9310455+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:19.9568645+08:00",
+  "UniqueID": "c116a73f-e63c-4a86-b934-1eba50f6e518",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN2",
+      "FaultOccurrenceId": "5fcc0c80-9afd-4ddc-b816-8b9cdffbbe6b",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "B相過壓",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:25:19.9557895+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:19.9568645+08:00",
+  "UniqueID": "6cc67881-05c1-436b-b5a2-0a0f00f9cc67",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN3",
+      "FaultOccurrenceId": "02756982-14b7-4e51-97b4-4854cdbc88cc",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "C相過壓",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:25:19.9568645+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:19.9576731+08:00",
+  "UniqueID": "2192002a-f676-4973-8267-d9a5c3bbd36c",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN6",
+      "FaultOccurrenceId": "79f16ac6-fcb1-4758-95dd-005ad99a1c04",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "C相欠壓",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:25:19.9576731+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:19.9581025+08:00",
+  "UniqueID": "59282776-695e-45f6-a993-3cf8b8af91de",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN7",
+      "FaultOccurrenceId": "04dd3399-5d25-4cc1-b004-1532435bf9c8",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "A相過流",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:25:19.9581025+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:19.9591485+08:00",
+  "UniqueID": "480f11f0-aca4-49d0-9419-c44afb8e9b6a",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN8",
+      "FaultOccurrenceId": "ca7bd7da-a142-4013-ad59-0569bfcd2989",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "B相過流",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:25:19.9591485+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:19.9601536+08:00",
+  "UniqueID": "7487c359-34be-4c41-89d8-3b379712169a",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN12",
+      "FaultOccurrenceId": "8c37c631-38be-4f18-90f2-56dfca252aea",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "B相出線溫度異常",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:25:19.9601536+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:19.9611051+08:00",
+  "UniqueID": "107b4c34-7b98-4dca-b7d6-743fff631366",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN16",
+      "FaultOccurrenceId": "f573514c-4f2c-402b-bdc4-770fb151ff54",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "缺相",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:25:19.9611051+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:19.9621048+08:00",
+  "UniqueID": "acf4b9b2-b7c0-4e17-b879-e4d15f62b5ea",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN17",
+      "FaultOccurrenceId": "ba13511c-88a3-4123-a856-92054334ee84",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "斷零",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:25:19.9611051+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:19.9621048+08:00",
+  "UniqueID": "63406b86-ec4b-46e8-99fb-d7171798d0d4",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN19",
+      "FaultOccurrenceId": "a8603412-6068-466f-b0ae-273511419a90",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "鎖定",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:25:19.9621048+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:19.96363+08:00",
+  "UniqueID": "6210146a-63f9-43f3-9ce5-64ee69828db0",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN21",
+      "FaultOccurrenceId": "8339f0db-d029-4ea3-b975-652aaefd6d70",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "開關狀態異常，提示客戶換設備",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:25:19.96363+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:19.96363+08:00",
+  "UniqueID": "626d7e76-32fd-4489-9b03-55c09facded5",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN23",
+      "FaultOccurrenceId": "d8ca6fd2-ac76-4653-86f3-effad6a08bf9",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "設備離線",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:25:19.96363+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:19.9656784+08:00",
+  "UniqueID": "38944b2e-2638-40d0-b92b-17b3de915057",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN25",
+      "FaultOccurrenceId": "7934b9a0-0e22-477d-a56b-272590f91cf3",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "欠壓預警",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:25:19.9656784+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:21.9845288+08:00",
+  "UniqueID": "8dca6fae-de31-4d51-a8c1-c9d8191a0396",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "1"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "100"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:21.9845288+08:00",
+  "UniqueID": "f0550206-60a7-4552-8eca-be7a38970afa",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:25:21.9845288+08:00",
+    "EndTime": "2025-03-06T17:25:21.9845288+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+已向站號 1 發送 合閘 指令。回應：{
+  "MessageName": "CFX.ResourcePerformance.ModifyStationParametersResponse",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:25.0137226+08:00",
+  "UniqueID": "4f5f0028-08a8-4ac9-a14e-913233dd6c14",
+  "Source": "CFX.A00.S022057601",
+  "Target": "LineManager",
+  "RequestID": "REQUEST-22333e34-b2f2-4f11-924e-548f09dc3429",
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.ModifyStationParametersResponse, CFX",
+    "Result": {
+      "Result": "Success",
+      "ResultCode": 1,
+      "Message": "Parameters updated successfully."
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:37.1871245+08:00",
+  "UniqueID": "78d73e72-d34d-4b3c-a4b0-556f3232e741",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "100"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:37.1871245+08:00",
+  "UniqueID": "1adbf0fd-cef3-46cd-9caf-e4a7e9c39e67",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:25:37.1871245+08:00",
+    "EndTime": "2025-03-06T17:25:37.1871245+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:52.315255+08:00",
+  "UniqueID": "97b7848b-75cb-4250-9717-8c80ea59613b",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "100"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:25:52.315255+08:00",
+  "UniqueID": "d95c0102-e3e8-4ee2-b935-949c6e01c5cf",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:25:52.315255+08:00",
+    "EndTime": "2025-03-06T17:25:52.315255+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.Heartbeat",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:26:04.0452981+08:00",
+  "UniqueID": "c816b99f-13c1-4cd7-88c1-047a007633d3",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.Heartbeat, CFX",
+    "CFXHandle": "CFX.A00.S022057601",
+    "HeartbeatFrequency": "00:01:00",
+    "ActiveFaults": null,
+    "ActiveRecipes": null
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:26:07.4530382+08:00",
+  "UniqueID": "18f62502-8313-4957-b893-d63d646de9c4",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "100"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:26:07.4530382+08:00",
+  "UniqueID": "bc1c4b0f-b22f-43b7-a76a-139fa9143854",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:26:07.4530382+08:00",
+    "EndTime": "2025-03-06T17:26:07.4530382+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.StationParametersModified",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:26:22.5867946+08:00",
+  "UniqueID": "e3281cf0-d11e-4775-aaad-1489fcbe0b70",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.StationParametersModified, CFX",
+    "ModifiedParameters": [
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerSwitch",
+        "Value": "2"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "TemperatureSV",
+        "Value": "100"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "EnergyMode",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureA",
+        "Value": "24"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureB",
+        "Value": "0"
+      },
+      {
+        "$type": "CFX.Structures.GenericParameter, CFX",
+        "Name": "PowerTemperatureC",
+        "Value": "0"
+      }
+    ]
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.EnergyConsumed",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:26:22.5867946+08:00",
+  "UniqueID": "8351cd5d-65fc-4704-9b27-1ae7040766d5",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.EnergyConsumed, CFX",
+    "StartTime": "2025-03-06T17:26:22.5867946+08:00",
+    "EndTime": "2025-03-06T17:26:22.5867946+08:00",
+    "EnergyUsed": 0.0,
+    "PeakPower": 0.0,
+    "MinimumPower": 0.0,
+    "MeanPower": 0.0,
+    "PowerNow": 0.0,
+    "PowerFactorNow": 0.0,
+    "PeakCurrent": 0.0,
+    "MinimumCurrent": 0.0,
+    "MeanCurrent": 0.0,
+    "CurrentNow": 0.0,
+    "PeakVoltage": 0.0,
+    "MinimumVoltage": 0.0,
+    "MeanVoltage": 0.0,
+    "VoltageNow": 0.0,
+    "PeakFrequency": 0.0,
+    "MinimumFrequency": 0.0,
+    "MeanFrequency": 0.0,
+    "FrequencyNow": 0.0,
+    "PeakPowerRYB": null,
+    "MinimumPowerRYB": null,
+    "MeanPowerRYB": null,
+    "PowerNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PowerFactorNowRYB": null,
+    "PeakCurrentRYB": null,
+    "MinimumCurrentRYB": null,
+    "MeanCurrentRYB": null,
+    "CurrentNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "PeakVoltageRYB": null,
+    "MinimumVoltageRYB": null,
+    "MeanVoltageRYB": null,
+    "VoltageNowRYB": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "ThreePhaseNeutralCurrentNow": 0.0
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:26:24.6101914+08:00",
+  "UniqueID": "f2192f3b-129e-49b3-891b-191402b4aede",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN1",
+      "FaultOccurrenceId": "64ca3171-d16c-47cf-bd7f-f7afafcfebd5",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "A相過壓",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:26:24.6092243+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:26:24.6121917+08:00",
+  "UniqueID": "24d7e119-649f-4db2-98f7-8c459d161b3d",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN2",
+      "FaultOccurrenceId": "770332b5-e069-4752-b5fc-f706c8b3e512",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "B相過壓",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:26:24.6111916+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:26:24.6135138+08:00",
+  "UniqueID": "a56803df-a8a3-49b3-876e-5d4aa3281c70",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN3",
+      "FaultOccurrenceId": "f7ee37bf-9f7f-4c5f-8c90-b434d91a559d",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "C相過壓",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:26:24.6121917+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:26:24.6141787+08:00",
+  "UniqueID": "33b97aba-c16f-4672-8b4f-50756086561b",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN8",
+      "FaultOccurrenceId": "2fb96c0f-ade6-46d6-8826-c84cd40f826e",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "B相過流",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:26:24.6135138+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:26:24.6152022+08:00",
+  "UniqueID": "af85f8fd-b8a0-4f4e-8e8d-e32673bfeda0",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN10",
+      "FaultOccurrenceId": "af08cadf-78d0-4439-b001-75ea3329eacc",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "漏電異常",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:26:24.6141787+08:00",
+      "DueDateTime": null
+    }
+  }
+}
+收到來自 event 的消息:
+{
+  "MessageName": "CFX.ResourcePerformance.FaultOccurred",
+  "Version": "1.7",
+  "TimeStamp": "2025-03-06T17:26:24.6161804+08:00",
+  "UniqueID": "ebe60b5e-d7ae-4e15-84aa-df2d1e8d1492",
+  "Source": "CFX.A00.S022057601",
+  "Target": null,
+  "RequestID": null,
+  "MessageBody": {
+    "$type": "CFX.ResourcePerformance.FaultOccurred, CFX",
+    "Fault": {
+      "TransactionID": null,
+      "Cause": "MechanicalFailure",
+      "Severity": "Error",
+      "FaultCode": "EGY_1_WARN12",
+      "FaultOccurrenceId": "0075e835-65bf-4359-a4c8-743534df2fed",
+      "Lane": null,
+      "Stage": null,
+      "SideLocation": "Unknown",
+      "AccessType": "Unknown",
+      "Description": "B相出線溫度異常",
+      "DescriptionTranslations": {},
+      "OccurredAt": "2025-03-06T17:26:24.6152022+08:00",
+      "DueDateTime": null
+    }
+  }
+}
