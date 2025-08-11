@@ -1,0 +1,174 @@
+根據提供的MQTT協議文檔，現有基於Modbus TCP的代碼需要進行以下主要調整：
+
+一、通信模式轉換
+1. 移除Modbus TCP相關代碼
+```csharp
+// 刪除所有TcpClient和NetworkStream相關代碼
+// 移除ModbusHelper中的SwitchON/SwitchOFF等方法
+// 註解或刪除AmqpEndpointManager中的Modbus請求邏輯
+```
+
+2. 引入MQTT客戶端庫
+```bash
+# 使用NuGet安裝MQTTnet
+Install-Package MQTTnet
+```
+
+二、MQTT連接配置
+```csharp
+// 新增MQTT配置類
+public class MqttConfig {
+    public string Broker { get; set; } = "mqtt.suntree.com";
+    public int Port { get; set; } = 1883;
+    public string ClientId { get; set; } = "DTMCBNT2100DEV4DNN";
+    public string Username { get; set; } = "suntree_user";
+    public string Password { get; set; } = "suntree@123";
+    public bool CleanSession { get; set; } = true;
+    public bool UseTls { get; set; } = false;
+}
+```
+
+三、數據格式轉換
+1. 實時數據上報結構
+```csharp
+public class DeviceData {
+    public int lineNumber { get; set; }
+    public string device_datetime { get; set; }
+    public string modelType { get; set; } // 根據型號映射
+    public bool online { get; set; }
+    public bool switchState { get; set; }
+    
+    // 單相/三相公共字段
+    public double frequency { get; set; }
+    public double current_leakage { get; set; }
+    
+    // 單相特有
+    public double ul { get; set; }
+    public double il { get; set; }
+    
+    // 三相特有
+    public double ua { get; set; }
+    public double ub { get; set; }
+    public double uc { get; set; }
+    public double ia { get; set; }
+    
+    // 溫度字段轉換
+    [JsonProperty("Temp_a")]
+    public double tempA { get; set; }
+    
+    // 功率因數字段轉換
+    [JsonProperty("pfa")]
+    public double powerFactorA { get; set; }
+}
+```
+
+四、主題發布邏輯
+```csharp
+// MQTT發布管理器
+public class MqttPublisher {
+    private IMqttClient _mqttClient;
+    
+    public async Task PublishDeviceData(DeviceData data) {
+        var topic = $"SUNTREE/{DeviceId}/DEVICE/Data";
+        var payload = JsonConvert.SerializeObject(data);
+        await _mqttClient.PublishAsync(topic, payload);
+    }
+
+    // 故障發布示例
+    public async Task PublishFault(int lineNumber, int faultType) {
+        var faultTopic = $"SUNTREE/{DeviceId}/DEVICE/Fault";
+        var faultData = new {
+            lineNumber,
+            id = Guid.NewGuid().GetHashCode() % 256,
+            type = faultType,
+            datetime = DateTime.Now.ToString("yyyy/MM/dd,HH:mm:ss"),
+            almvalue = GetAlarmValue(faultType) 
+        };
+        await _mqttClient.PublishAsync(faultTopic, JsonConvert.SerializeObject(faultData));
+    }
+}
+```
+
+五、命令訂閱處理
+```csharp
+// 命令訂閱管理器
+public class MqttCommandHandler {
+    public void SubscribeCommands() {
+        _mqttClient.SubscribeAsync($"PROJECT/{DeviceId}/CONTROL/#");
+    }
+
+    // 處理開關命令
+    private void HandleSwitchCommand(string payload) {
+        dynamic cmd = JsonConvert.DeserializeObject(payload);
+        if (cmd.targetType == 1) {
+            ExecuteSingleDeviceSwitch(cmd.lineNumber, cmd.action);
+        }
+        // 發送ACK
+        var ackTopic = $"PROJECT/{DeviceId}/CONTROL/Action/ACK";
+        var ackPayload = new {
+            id = cmd.id,
+            lineNumber = cmd.lineNumber,
+            switchState = (cmd.action == 1)  
+        };
+        _mqttClient.PublishAsync(ackTopic, JsonConvert.SerializeObject(ackPayload));
+    }
+}
+```
+
+六、字段映射關係
+| Modbus字段          | MQTT JSON字段       | 轉換邏輯                  |
+|---------------------|---------------------|-------------------------|
+| currentA           | ia                 | 直接映射，單位轉換(A保留小數點後2位) |
+| voltageA           | ua                 | 電壓值直接映射               |
+| tempA              | Temp_a             | 溫度字段名稱變化              |
+| powerFactorA       | pfa                | 功率因數字段名稱變化            |
+| switchStatus       | switchState        | 狀態轉換：1->true, 0->false |
+| currentStatus      | type               | 根據錯誤碼映射到對應的故障類型       |
+
+七、關鍵協議差異處理
+1. 定時上報機制改造
+```csharp
+// 原Modbus輪詢改為MQTT定時發布
+var timer = new System.Timers.Timer(TimeSpan.FromMinutes(config.DataInterval));
+timer.Elapsed += async (s,e) => {
+    foreach(var device in connectedDevices){
+        await PublishDeviceData(device.GetMqttData());
+    }
+};
+```
+
+2. 三相/單相設備類型判斷
+```csharp
+// 根據型號判斷數據結構
+private string MapModelType(string modbusType) {
+    return modbusType switch {
+        "MCB_W3P" => "MCB_W3P_1PN_LE",
+        "MCCB_3PN" => "MCCB_SMLC_3PN_LE",
+        _ => "Unknown"
+    };
+}
+```
+
+八、安全增強
+```csharp
+// SSL配置示例
+var options = new MqttClientOptionsBuilder()
+    .WithTcpServer(config.Broker, config.Port)
+    .WithCredentials(config.Username, config.Password)
+    .WithTls(o => {
+        o.UseTls = config.UseTls;
+        o.IgnoreCertificateChainErrors = true; // 測試環境可放寬
+    })
+    .Build();
+```
+
+建議採用分階段遷移：
+1. 先實現數據上報功能，保留原有Modbus作為備用
+2. 逐步替換控制命令處理邏輯
+3. 最後移除所有Modbus依賴
+
+需要重點測試的項目：
+1. 大規模設備同時上報時的QoS處理
+2. 斷線重連機制穩定性
+3. 與第三方Broker的兼容性驗證
+4. 時序數據的時間同步問題
