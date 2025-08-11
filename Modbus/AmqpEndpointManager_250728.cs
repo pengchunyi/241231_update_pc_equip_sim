@@ -1,16 +1,16 @@
-﻿
-//using System;
-//using System.Collections.Generic;
-//using System.IO.Ports;
-//using System.Linq;
-//using System.Net;
-//using System.Threading.Tasks;
-//using CFX;
+﻿//using CFX;
 //using CFX.Production;
 //using CFX.ResourcePerformance;
 //using CFX.Structures;
 //using CFX.Transport;
 //using Newtonsoft.Json;
+//using System;
+//using System.Collections.Concurrent;
+//using System.Collections.Generic;
+//using System.IO.Ports;
+//using System.Linq;
+//using System.Threading;
+//using System.Threading.Tasks;
 
 //namespace AmqpModbusIntegration
 //{
@@ -19,14 +19,26 @@
 //		private readonly string endpointUri;
 //		private readonly string publishChannelUri;
 //		private readonly string subscribeChannelUri;
+
 //		private readonly ModbusViewer modbusViewer;
 //		private readonly SerialPort serialPort;
 //		private readonly Dictionary<byte, Dictionary<string, object>> slaveData;
 
-//		// 供其他方法共用
-//		private AmqpCFXEndpoint endpoint;
+//		// === 重連 LM 機制 ===
+//		private bool _amqpConnected = false;
+//		private int _retryCount = 0;
+//		private const int _maxAttempts = 9999;
+//		private readonly TimeSpan _retryInterval = TimeSpan.FromMinutes(1);
+//		private CancellationTokenSource _amqpRetryCts;
 
-//		public static readonly object serialPortLock = new object(); // 用於串口操作的執行緒安全鎖
+//		// Endpoint / 狀態
+//		private AmqpCFXEndpoint endpoint;
+//		private readonly HashSet<string> _expectedUris = new HashSet<string>();
+//		private readonly ConcurrentDictionary<string, bool> _uriState = new ConcurrentDictionary<string, bool>();
+//		private bool _publishLoopStarted = false;   // ★ 防止重複啟動 PublishLoop
+
+//		// 用於串口操作的鎖
+//		public static readonly object serialPortLock = new object();
 
 //		private static readonly Dictionary<int, (string Code, string ErrorDescription)> faultDictionary = new Dictionary<int, (string Code, string ErrorDescription)>
 //		{
@@ -59,96 +71,241 @@
 //			{ 26, ("EGY_1_WARN27", "過溫預警") }
 //		};
 
+//		// --------- ctor ---------
 //		public AmqpEndpointManager(
-
 //			string endpointUri,
 //			string publishChannelUri,
 //			string subscribeChannelUri,
-
 //			ModbusViewer modbusViewer,
 //			SerialPort serialPort,
-//			Dictionary<byte, Dictionary<string, object>> slaveData
-
-//			){
+//			Dictionary<byte, Dictionary<string, object>> slaveData)
+//		{
 //			this.endpointUri = endpointUri;
 //			this.publishChannelUri = publishChannelUri;
 //			this.subscribeChannelUri = subscribeChannelUri;
+
 //			this.modbusViewer = modbusViewer;
 //			this.serialPort = serialPort;
 //			this.slaveData = slaveData;
 
+//			// 先把可能會用到的 URI 全部正規化後放進 expected（後面 StartAmqpEndpoint 會再清一次）
+//			AddExpectedUri(endpointUri);
+//			AddExpectedUri(publishChannelUri);
+//			AddExpectedUri(subscribeChannelUri);
 //		}
 
-//		public void StartAmqpEndpoint(string endpointName)
+//		// 統一 URI 字串（避免 / 差異）
+//		private static string Normalize(string u)
 //		{
-//			if (string.IsNullOrEmpty(endpointName))
-//				throw new ArgumentException("Endpoint name cannot be null or empty", nameof(endpointName));
+//			if (string.IsNullOrWhiteSpace(u)) return null;
+//			return new Uri(u).ToString();   // 會補上結尾 '/'
+//		}
 
-//			endpoint = new AmqpCFXEndpoint();
-//			endpoint.Open(endpointName, new Uri(endpointUri));
-//			endpoint.AddPublishChannel(new Uri(publishChannelUri), "event");
+//		private void AddExpectedUri(string u)
+//		{
+//			var n = Normalize(u);
+//			if (!string.IsNullOrWhiteSpace(n))
+//				_expectedUris.Add(n);
+//		}
 
-//			// 發布連接消息
-//			endpoint.Publish(new EndpointConnected());
-//			Console.WriteLine($"AMQP endpoint \"{endpointName}\" connected.");
+//		private volatile bool _modbusHealthy = false;
+//		public void SetModbusHealthy(bool healthy)
+//		{
+//			if (_modbusHealthy != healthy)
+//			_modbusHealthy = healthy;
+//		}
 
-//			// Request/Response 處理邏輯
-//			endpoint.OnRequestReceived += (req) => OnRequestReceivedHandler(req);
 
-//			// 狀態檢查過程（用於定期發佈消息）
-//			Task.Run(async () =>
+
+//		/// <summary>
+//		/// 若 AMQP 尚未連線則自動重試，直到成功或達到上限。
+//		/// </summary>
+//		public async Task EnsureConnectedAsync(string endpointName, CancellationToken ct = default)
+//		{
+//			if (_amqpConnected) return;
+
+//			_amqpRetryCts?.Cancel();
+//			_amqpRetryCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+
+//			_ = Task.Run(async () =>
 //			{
-//				Dictionary<byte, int> lastStatus = new Dictionary<byte, int>();
-//				DateTime lastEnergyPublishTime = DateTime.MinValue; // 記錄上次能源消耗發佈的時間
-
-//				while (true)
+//				while (!_amqpConnected &&
+//					   _retryCount < _maxAttempts &&
+//					   !_amqpRetryCts.IsCancellationRequested)
 //				{
+//					_retryCount++;
 //					try
 //					{
-//						List<Task> tasks = new List<Task>();
+//						StartAmqpEndpoint(endpointName);     // 啟端點，真正握手後會在事件裡把 _amqpConnected 設為 true
 
-//						// 發佈故障狀態
-//						foreach (var stationNumber in slaveData.Keys)
-//						{
-//							if (slaveData[stationNumber].TryGetValue("Fault_WarningCode", out var faultObj))
-//							{
-//								// 將 object 轉為 int
-//								int currentStatus = Convert.ToInt32(faultObj);
+//						// 等待握手真正完成
+//						bool ok = await SpinWaitUntilConnectedAsync(TimeSpan.FromSeconds(60), _amqpRetryCts.Token);
+//						if (!ok) throw new Exception("handshake timeout");
 
-//								// 若該站已有紀錄且狀態改變，就發布故障狀態
-//								if (lastStatus.ContainsKey(stationNumber) && lastStatus[stationNumber] != currentStatus)
-//								{
-//									tasks.Add(PublishFaultOccurredMessages(stationNumber, endpoint));
-//								}
-//								lastStatus[stationNumber] = currentStatus;
-//							}
-//						}
-
-//						// 每 60 秒(1mins)定期發佈一次空開相關訊息
-//						if ((DateTime.Now - lastEnergyPublishTime).TotalSeconds >= 60)
-//						{
-//							foreach (var stationNumber in slaveData.Keys)
-//							{
-//								PublishStationParametersModifiedMessages(stationNumber, endpoint);
-//								PublishEnergyConsumedMessages(stationNumber, endpoint);
-//							}
-//							lastEnergyPublishTime = DateTime.Now;
-//						}
-
-//						// 等待所有發佈任務完成
-//						await Task.WhenAll(tasks);
-
-//						// 延遲 1 秒後再進行下一次檢查
-//						await Task.Delay(1000);
+//						modbusViewer.AppendLog($"AMQP 連線成功（第 {_retryCount}/{_maxAttempts} 次）");
 //					}
 //					catch (Exception ex)
 //					{
-//						Console.WriteLine($"Error in publish task: {ex.Message}");
+//						_amqpConnected = false;              // 確保失敗時為 false
+//						modbusViewer.AppendLog($"AMQP 連線失敗（第 {_retryCount}/{_maxAttempts} 次，1分鐘後再試）: {ex.Message}");
+//						await Task.Delay(_retryInterval, _amqpRetryCts.Token);
 //					}
 //				}
-//			});
+
+//				if (!_amqpConnected)
+//					modbusViewer.AppendLog("AMQP 重試已達上限，請檢查 PublishAddress / MyRequestUri");
+//			},
+//			_amqpRetryCts.Token);
 //		}
 
+//		/// <summary>
+//		/// 初始化並啟動 AMQP 端點。
+//		/// </summary>
+//		public void StartAmqpEndpoint(string endpointName)
+//		{
+//			if (string.IsNullOrWhiteSpace(endpointName))
+//				throw new ArgumentException("endpointName 不能為空白", nameof(endpointName));
+
+//			try { endpoint?.Close(); } catch { }
+
+
+//			//這邊是設定心跳頻率
+//			endpoint = new AmqpCFXEndpoint
+//			{
+//				HeartbeatFrequency = TimeSpan.FromSeconds(60)
+//			};
+
+//			// 統一使用單一事件處理
+//			endpoint.OnConnectionEvent += HandleConnectionEvent;
+//			endpoint.OnRequestReceived += OnRequestReceivedHandler;
+
+//			// 重新整理 _expectedUris（只保留這次真的會用到的）
+//			_expectedUris.Clear();
+//			//AddExpectedUri(endpointUri);
+//			AddExpectedUri(publishChannelUri);
+//			if (!string.IsNullOrWhiteSpace(subscribeChannelUri))
+//				AddExpectedUri(subscribeChannelUri);
+
+//			// 先都標 false
+//			foreach (var u in _expectedUris)
+//				_uriState[u] = false;
+
+//			// 開 RequestUri
+//			endpoint.Open(endpointName, new Uri(endpointUri));
+
+//			// Publish channel
+//			endpoint.AddPublishChannel(new Uri(publishChannelUri), "event");
+
+//			// Subscribe（如果需要）
+//			if (!string.IsNullOrWhiteSpace(subscribeChannelUri))
+//				endpoint.AddSubscribeChannel(new Uri(subscribeChannelUri), "subscribe");
+
+//			modbusViewer.AppendLog("AMQP 端點已啟動，等待通道握手…");
+//		}
+
+//		// 統一事件處理
+//		private void HandleConnectionEvent(ConnectionEvent evt, Uri uri, int spool, string info, Exception ex)
+//		{
+//			string key = Normalize(uri.ToString());
+//			bool isUp = evt == ConnectionEvent.ConnectionEstablished;
+
+//			_uriState[key] = isUp;
+
+//			bool allOk = _expectedUris.All(u => _uriState.TryGetValue(u, out var ok) && ok);
+
+//			if (allOk && !_amqpConnected)
+//			{
+//				_amqpConnected = true;
+//				modbusViewer.AppendLog($"✓ AMQP 所有通道握手完成：\n  └ {string.Join("\n  └ ", _expectedUris)}");
+
+//				endpoint.Publish(new EndpointConnected());
+
+//				if (!_publishLoopStarted)
+//				{
+//					_publishLoopStarted = true;
+//					_ = Task.Run(StartPublishLoop);
+//				}
+//			}
+//			else if (!allOk && _amqpConnected &&
+//					(evt == ConnectionEvent.ConnectionInterrupted || evt == ConnectionEvent.ConnectionClosed || evt == ConnectionEvent.ConnectionFailed))
+//			{
+//				_amqpConnected = false;
+//				_publishLoopStarted = false;   // 讓下次連回來能再啟 PublishLoop
+//				modbusViewer.AppendLog($"✘ AMQP 通道中斷：{evt} → {key}，準備重試…");
+
+//				// 再次進入重連
+//				_ = EnsureConnectedAsync(endpoint.CFXHandle);
+//			}
+//		}
+
+//		private async Task<bool> SpinWaitUntilConnectedAsync(TimeSpan timeout, CancellationToken ct)
+//		{
+//			var start = DateTime.UtcNow;
+//			while (DateTime.UtcNow - start < timeout && !_amqpConnected && !ct.IsCancellationRequested)
+//				await Task.Delay(500, ct);
+//			return _amqpConnected;
+//		}
+
+//		// --------------------------------------------------------
+//		//  背景發佈循環
+//		// --------------------------------------------------------
+//		private async Task StartPublishLoop()
+//		{
+//			var lastFault = new Dictionary<byte, int>();
+//			var lastEnergy = DateTime.MinValue;
+
+//			modbusViewer.AppendLog("CFX PublishLoop 啟動");
+
+//			while (_amqpConnected)
+//			{
+
+
+//				//這邊不注解掉就沒辦法發布錯誤和能源消息
+//				if (!_modbusHealthy)
+//				{
+//					await Task.Delay(1000);     // Modbus 掛了就暫停
+//					continue;
+//				}
+
+//				try
+//				{
+//					// 1) Fault
+//					foreach (var stn in slaveData.Keys)
+//					{
+//						if (slaveData[stn].TryGetValue("Fault_WarningCode", out var obj))
+//						{
+//							int cur = Convert.ToInt32(obj);
+//							if (lastFault.TryGetValue(stn, out var prev) && prev != cur)
+//								await PublishFaultOccurredMessages(stn, endpoint);
+//							lastFault[stn] = cur;
+//						}
+//					}
+
+//					// 2) 每 60 秒能源 / 參數
+//					if ((DateTime.Now - lastEnergy).TotalSeconds >= 60)
+//					{
+//						foreach (var stn in slaveData.Keys)
+//						{
+//							PublishStationParametersModifiedMessages(stn, endpoint);
+//							PublishEnergyConsumedMessages(stn, endpoint);
+//						}
+//						lastEnergy = DateTime.Now;
+//					}
+//				}
+//				catch (Exception ex)
+//				{
+//					modbusViewer.AppendLog($"發布循環錯誤：{ex.Message}");
+//				}
+
+//				await Task.Delay(1000);
+//			}
+
+//			modbusViewer.AppendLog("PublishLoop 結束");
+//		}
+
+//		// --------------------------------------------------------
+//		//  Request Handler
+//		// --------------------------------------------------------
 //		private CFXEnvelope OnRequestReceivedHandler(CFXEnvelope request)
 //		{
 //			try
@@ -157,37 +314,26 @@
 //				{
 //					Console.WriteLine($"收到 ModifyStationParametersRequest: {JsonConvert.SerializeObject(modifyRequest, Formatting.Indented)}");
 
-//					// 解析站號列表
 //					var stationNumbers = modifyRequest.NewParameters
 //						.OfType<GenericParameter>()
 //						.Where(g => g.Name == "站號")
 //						.Select(g =>
 //						{
 //							if (byte.TryParse(g.Value.ToString(), out var stn))
-//							{
-//								Console.WriteLine($"成功轉換站號為: {stn}");
 //								return (byte?)stn;
-//							}
-//							Console.WriteLine($"站號轉換失敗: {g.Value}");
-//							return (byte?)null;
+//							return null;
 //						})
 //						.Where(p => p.HasValue)
 //						.Select(p => p.Value)
 //						.ToList();
 
 //					if (!stationNumbers.Any())
-//					{
-//						Console.WriteLine("無有效的站號列表，請求無法執行。");
 //						return CreateErrorResponse(request.RequestID, "No valid station numbers provided.");
-//					}
 
 //					bool hasProcessed = false;
 //					bool hasError = false;
-
-//					// 檢查是否需要發送 StationStateChanged
 //					bool shouldPublishStateChanged = false;
 
-//					// 逐一解析參數
 //					foreach (var param in modifyRequest.NewParameters.OfType<GenericParameter>())
 //					{
 //						switch (param.Name)
@@ -197,29 +343,22 @@
 //								{
 //									foreach (var stn in stationNumbers)
 //									{
-//										if (!slaveData.ContainsKey(stn))
-//										{
-//											hasError = true;
-//											continue;
-//										}
-
+//										if (!slaveData.ContainsKey(stn)) { hasError = true; continue; }
 //										try
 //										{
 //											modbusViewer.ExecuteSetTemperature(stn, tempVal);
-//											Console.WriteLine($"溫度設定成功: 站號 {stn}, 溫度 {tempVal}");
 //											hasProcessed = true;
 //										}
 //										catch (Exception ex)
 //										{
 //											hasError = true;
-//											Console.WriteLine($"設置溫度操作失敗，站號: {stn}，錯誤: {ex.Message}");
+//											Console.WriteLine($"設置溫度失敗，站號 {stn}：{ex.Message}");
 //										}
 //									}
 //								}
 //								break;
 
 //							case "EnergyMode":
-//								// 只要是 0/1/2 才是有效數值
 //								if (param.Value.ToString() == "0" ||
 //									param.Value.ToString() == "1" ||
 //									param.Value.ToString() == "2")
@@ -227,108 +366,77 @@
 //									int mode = int.Parse(param.Value.ToString());
 //									foreach (var stn in stationNumbers)
 //									{
-//										if (!slaveData.ContainsKey(stn))
-//										{
-//											hasError = true;
-//											continue;
-//										}
-
+//										if (!slaveData.ContainsKey(stn)) { hasError = true; continue; }
 //										try
 //										{
 //											slaveData[stn]["EnergyMode"] = mode;
-//											Console.WriteLine($"節能模式設定成功: 站號 {stn}, 模式 {mode}");
 //											hasProcessed = true;
-
-//											// 如果 mode != 0 則需要發布 StationStateChanged
-//											if (mode != 0)
-//												shouldPublishStateChanged = true;
+//											if (mode != 0) shouldPublishStateChanged = true;
 //										}
 //										catch (Exception ex)
 //										{
 //											hasError = true;
-//											Console.WriteLine($"設置節能模式失敗，站號: {stn}，錯誤: {ex.Message}");
+//											Console.WriteLine($"設置節能模式失敗，站號 {stn}：{ex.Message}");
 //										}
 //									}
 //								}
 //								break;
 
 //							case "PowerSwitch":
-//								// 1=開機,2=關機
 //								if (param.Value.ToString() == "1" || param.Value.ToString() == "2")
 //								{
 //									bool isSwitchOn = param.Value.ToString() == "1";
-
-
 //									foreach (var stn in stationNumbers)
 //									{
-//										if (!slaveData.ContainsKey(stn))
-//										{
-//											hasError = true;
-//											continue;
-//										}
-
+//										if (!slaveData.ContainsKey(stn)) { hasError = true; continue; }
 //										try
 //										{
 //											if (isSwitchOn)
 //											{
 //												modbusViewer.ExecuteSwitchCommand(ModbusHelper.SwitchON, new List<byte> { stn });
-//												Console.WriteLine($"開關操作成功: 合閘, 站號: {stn}");
-//												// 開機 => 發布狀態改變
 //												shouldPublishStateChanged = true;
 //											}
 //											else
 //											{
-//												modbusViewer.ExecuteSwitchCommand(ModbusHelper.SwitchON, new List<byte> { stn });
-//												Console.WriteLine($"開關操作成功: 分閘, 站號: {stn}");
+//												modbusViewer.ExecuteSwitchCommand(ModbusHelper.SwitchOFF, new List<byte> { stn });
 //											}
 //											hasProcessed = true;
 //										}
 //										catch (Exception ex)
 //										{
 //											hasError = true;
-//											Console.WriteLine($"開關操作失敗，站號: {stn}，錯誤: {ex.Message}");
+//											Console.WriteLine($"開關操作失敗，站號 {stn}：{ex.Message}");
 //										}
 //									}
 //								}
 //								break;
 
 //							default:
-//								// 其他未知參數
 //								break;
 //						}
 //					}
 
 //					if (hasError && !hasProcessed)
-//					{
 //						return CreateErrorResponse(request.RequestID, "No parameters were processed successfully.");
-//					}
 
 //					if (!hasProcessed)
-//					{
 //						return CreateErrorResponse(request.RequestID, "No valid actions were performed.");
-//					}
 
-//					// 產生成功回應
 //					var successEnvelope = CreateSuccessResponse(request.RequestID, "Parameters updated successfully.");
 
-//					// 如果需要，發送 StationStateChanged
 //					if (shouldPublishStateChanged)
 //					{
 //						var stateChangedMessage = new StationStateChanged
 //						{
-//							// 假設無法確定舊狀態 => 預設 ResourceState.NST
-//							NewState = ResourceState.NST_ShutdownAndStartup, // 6500
+//							NewState = ResourceState.NST_ShutdownAndStartup,
 //						};
-
 //						endpoint.Publish(stateChangedMessage);
-//						Console.WriteLine("Published StationStateChanged with state 6500.");
 //					}
 
 //					return successEnvelope;
 //				}
 //				else
 //				{
-//					Console.WriteLine("Received an unsupported request type.");
 //					return CreateErrorResponse(request.RequestID, "Unsupported request type.");
 //				}
 //			}
@@ -380,7 +488,6 @@
 //			if (!slaveData.TryGetValue(stationNumber, out var data) || !data.ContainsKey("Fault_WarningCode"))
 //				return;
 
-//			// 轉為 int, 以便位運算
 //			int statusRegister = Convert.ToInt32(data["Fault_WarningCode"]);
 
 //			for (int bitPosition = 0; bitPosition <= 27; bitPosition++)
@@ -407,35 +514,18 @@
 //		private void PublishStationParametersModifiedMessages(byte stationNumber, AmqpCFXEndpoint endpoint)
 //		{
 //			if (!slaveData.TryGetValue(stationNumber, out var data) || data == null || !data.Any())
-//			{
-//				Console.WriteLine($"No data available for station {stationNumber}.");
 //				return;
-//			}
 
-//			// 檢查：僅在有非零數值時才發送
-//			// => 需嘗試將object轉為 double 再檢查
 //			bool anyNonZero = data.Values.Any(obj =>
 //			{
-//				double val;
 //				if (obj == null) return false;
-//				// 盡量轉成 double
-//				if (obj is int i) val = i;
-//				else if (obj is double d) val = d;
-//				else
-//				{
-//					// 其餘型別暫時視為0
-//					return false;
-//				}
-//				return Math.Abs(val) > 0.000001;
+//				if (obj is int i) return i != 0;
+//				if (obj is double d) return Math.Abs(d) > 0.000001;
+//				return false;
 //			});
 
-//			if (!anyNonZero)
-//			{
-//				Console.WriteLine($"All data for station {stationNumber} is default (zero), skipping.");
-//				return;
-//			}
+//			if (!anyNonZero) return;
 
-//			// 構建報文
 //			var parameters = new List<Parameter>
 //			{
 //				new GenericParameter
@@ -443,11 +533,6 @@
 //					Name = "PowerSwitch",
 //					Value = ConvertPowerSwitchToState(data.ContainsKey("PowerSwitch") ? Convert.ToInt32(data["PowerSwitch"]) : 0).ToString()
 //				},
-//				//new GenericParameter
-//				//{
-//				//	Name = "TemperatureSV",
-//				//	Value = data.ContainsKey("TemperatureSV") ? data["TemperatureSV"].ToString() : "0"
-//				//},
 //				new GenericParameter
 //				{
 //					Name = "EnergyMode",
@@ -471,47 +556,32 @@
 //			};
 
 //			endpoint.Publish(new StationParametersModified { ModifiedParameters = parameters });
-//			Console.WriteLine($"Published StationParametersModified message for station {stationNumber}.");
 //		}
 
 //		private void PublishEnergyConsumedMessages(byte stationNumber, AmqpCFXEndpoint endpoint)
 //		{
 //			if (!slaveData.TryGetValue(stationNumber, out var data) || data == null || !data.Any())
-//			{
-//				Console.WriteLine($"No data available for station {stationNumber}.");
 //				return;
-//			}
 
-//			// 同樣檢查非零
 //			bool anyNonZero = data.Values.Any(obj =>
 //			{
 //				if (obj == null) return false;
-//				double val = 0;
-//				if (obj is int i) val = i;
-//				else if (obj is double d) val = d;
-//				else return false;
-//				return Math.Abs(val) > 0.000001;
+//				if (obj is int i) return i != 0;
+//				if (obj is double d) return Math.Abs(d) > 0.000001;
+//				return false;
 //			});
-//			if (!anyNonZero)
-//			{
-//				Console.WriteLine($"All data for station {stationNumber} is default (zero), skipping.");
-//				return;
-//			}
+//			if (!anyNonZero) return;
 
-//			// 提取 RYB 電流
 //			double currentA = ConvertToDouble(data, "CurrentRYB_A");
 //			double currentB = ConvertToDouble(data, "CurrentRYB_B");
 //			double currentC = ConvertToDouble(data, "CurrentRYB_C");
 //			var currentRYB = new List<double> { currentA, currentB, currentC };
 
-//			// 提取 RYB 功率
 //			double powerA = ConvertToDouble(data, "PowerRYB_A");
 //			double powerB = ConvertToDouble(data, "PowerRYB_B");
 //			double powerC = ConvertToDouble(data, "PowerRYB_C");
 //			var powerRYB = new List<double> { powerA, powerB, powerC };
 
-
-//			// 提取總電能
 //			double energyUsed = ConvertToDouble(data, "EnergyUsed");
 
 //			var energyConsumed = new EnergyConsumed
@@ -524,40 +594,30 @@
 //			};
 
 //			endpoint.Publish(energyConsumed);
-//			Console.WriteLine($"Published EnergyConsumed message for station {stationNumber}.");
-//			modbusViewer.AppendLog($"Publish EnergyConsumed: {energyUsed:F2}kWh to st.{stationNumber}");
+//			modbusViewer.AppendLog($"Publish st.{stationNumber} CFX EnergyConsumed Msgs: {energyUsed:F2}kWh to LM");
 //		}
 
-//		// 轉換 object -> double (若無法轉換就回傳 0)
 //		private double ConvertToDouble(Dictionary<string, object> data, string key)
 //		{
 //			if (!data.ContainsKey(key)) return 0.0;
-
 //			var obj = data[key];
-//			if (obj is null) return 0.0;
+//			if (obj == null) return 0.0;
 //			if (obj is double dd) return dd;
 //			if (obj is int ii) return ii;
-//			// 其他嘗試
-//			double result;
-//			return double.TryParse(obj.ToString(), out result) ? result : 0.0;
+//			return double.TryParse(obj.ToString(), out var result) ? result : 0.0;
 //		}
 
-//		// 將實際空開狀態轉換成LM上監控的總體空開狀態
 //		public static int ConvertPowerSwitchToState(int powerSwitchValue)
 //		{
 //			if (powerSwitchValue == 1)
-//			{
-//				return 1; // 設備開機
-//			}
-//			else if (powerSwitchValue == 0)
-//			{
-//				return 2; // 設備關機
-//			}
-//			else
-//			{
-//				Console.WriteLine($"無效的 PowerSwitch 值: {powerSwitchValue}");
-//				return -1; // 錯誤處理
-//			}
+//				return 1;
+//			if (powerSwitchValue == 0)
+//				return 2;
+
+//			return -1;
 //		}
 //	}
 //}
+
+
+

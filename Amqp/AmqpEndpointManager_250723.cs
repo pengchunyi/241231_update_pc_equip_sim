@@ -1,16 +1,17 @@
-﻿
-//using System;
-//using System.Collections.Generic;
-//using System.IO.Ports;
-//using System.Linq;
-//using System.Net;
-//using System.Threading.Tasks;
-//using CFX;
+﻿//using CFX;
 //using CFX.Production;
 //using CFX.ResourcePerformance;
 //using CFX.Structures;
 //using CFX.Transport;
 //using Newtonsoft.Json;
+//using System;
+//using System.Collections.Concurrent;
+//using System.Collections.Generic;
+//using System.IO.Ports;
+//using System.Linq;
+//using System.Net;
+//using System.Threading;
+//using System.Threading.Tasks;
 
 //namespace AmqpModbusIntegration
 //{
@@ -19,14 +20,30 @@
 //		private readonly string endpointUri;
 //		private readonly string publishChannelUri;
 //		private readonly string subscribeChannelUri;
+
 //		private readonly ModbusViewer modbusViewer;
 //		private readonly SerialPort serialPort;
 //		private readonly Dictionary<byte, Dictionary<string, object>> slaveData;
 
+
+//		// === 重連LM機制相關變數===
+//		private bool _amqpConnected = false;
+//		private int _retryCount = 0;
+//		private const int _maxAttempts = 999;
+//		private readonly TimeSpan _retryInterval = TimeSpan.FromMinutes(1);
+//		private CancellationTokenSource _amqpRetryCts;
+
+//		private bool _publishLoopStarted = false;   // ★ 新增
+
+
 //		// 供其他方法共用
 //		private AmqpCFXEndpoint endpoint;
+//		private readonly HashSet<string> _expectedUris;
+//		private readonly ConcurrentDictionary<string, bool> _uriState = new ConcurrentDictionary<string, bool>();
 
-//		public static readonly object serialPortLock = new object(); // 用於串口操作的執行緒安全鎖
+//		//private readonly ConcurrentDictionary<string, bool> _uriState = new();
+//		// 用於串口操作的執行緒安全鎖 // 給 ModbusHelper 用
+//		public static readonly object serialPortLock = new object();
 
 //		private static readonly Dictionary<int, (string Code, string ErrorDescription)> faultDictionary = new Dictionary<int, (string Code, string ErrorDescription)>
 //		{
@@ -59,8 +76,9 @@
 //			{ 26, ("EGY_1_WARN27", "過溫預警") }
 //		};
 
-//		public AmqpEndpointManager(
 
+//		// ===== ctor =====
+//		public AmqpEndpointManager(
 //			string endpointUri,
 //			string publishChannelUri,
 //			string subscribeChannelUri,
@@ -68,86 +86,210 @@
 //			ModbusViewer modbusViewer,
 //			SerialPort serialPort,
 //			Dictionary<byte, Dictionary<string, object>> slaveData
-
-//			){
+//			)
+//		{
 //			this.endpointUri = endpointUri;
 //			this.publishChannelUri = publishChannelUri;
 //			this.subscribeChannelUri = subscribeChannelUri;
+
 //			this.modbusViewer = modbusViewer;
 //			this.serialPort = serialPort;
 //			this.slaveData = slaveData;
 
+//			_expectedUris = new HashSet<string> { endpointUri, publishChannelUri };
+
 //		}
 
-//		public void StartAmqpEndpoint(string endpointName)
+//		/// <summary>
+//		/// 若 AMQP 尚未連線則自動重試，直到成功或達到上限。
+//		/// </summary>
+//		public async Task EnsureConnectedAsync(string endpointName, CancellationToken ct = default)
 //		{
-//			if (string.IsNullOrEmpty(endpointName))
-//				throw new ArgumentException("Endpoint name cannot be null or empty", nameof(endpointName));
+//			if (_amqpConnected) return;
+//			_amqpRetryCts?.Cancel();                    // 若之前有重連 loop 先取消
+//			_amqpRetryCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
 
-//			endpoint = new AmqpCFXEndpoint();
-//			endpoint.Open(endpointName, new Uri(endpointUri));
-//			endpoint.AddPublishChannel(new Uri(publishChannelUri), "event");
-
-//			// 發布連接消息
-//			endpoint.Publish(new EndpointConnected());
-//			Console.WriteLine($"AMQP endpoint \"{endpointName}\" connected.");
-
-//			// Request/Response 處理邏輯
-//			endpoint.OnRequestReceived += (req) => OnRequestReceivedHandler(req);
-
-//			// 狀態檢查過程（用於定期發佈消息）
-//			Task.Run(async () =>
+//			_ = Task.Run(async () =>
 //			{
-//				Dictionary<byte, int> lastStatus = new Dictionary<byte, int>();
-//				DateTime lastEnergyPublishTime = DateTime.MinValue; // 記錄上次能源消耗發佈的時間
-
-//				while (true)
+//				while (!_amqpConnected &&
+//					   _retryCount < _maxAttempts &&
+//					   !_amqpRetryCts.IsCancellationRequested)
 //				{
+//					_retryCount++;
 //					try
 //					{
-//						List<Task> tasks = new List<Task>();
-
-//						// 發佈故障狀態
-//						foreach (var stationNumber in slaveData.Keys)
-//						{
-//							if (slaveData[stationNumber].TryGetValue("Fault_WarningCode", out var faultObj))
-//							{
-//								// 將 object 轉為 int
-//								int currentStatus = Convert.ToInt32(faultObj);
-
-//								// 若該站已有紀錄且狀態改變，就發布故障狀態
-//								if (lastStatus.ContainsKey(stationNumber) && lastStatus[stationNumber] != currentStatus)
-//								{
-//									tasks.Add(PublishFaultOccurredMessages(stationNumber, endpoint));
-//								}
-//								lastStatus[stationNumber] = currentStatus;
-//							}
-//						}
-
-//						// 每 60 秒(1mins)定期發佈一次空開相關訊息
-//						if ((DateTime.Now - lastEnergyPublishTime).TotalSeconds >= 60)
-//						{
-//							foreach (var stationNumber in slaveData.Keys)
-//							{
-//								PublishStationParametersModifiedMessages(stationNumber, endpoint);
-//								PublishEnergyConsumedMessages(stationNumber, endpoint);
-//							}
-//							lastEnergyPublishTime = DateTime.Now;
-//						}
-
-//						// 等待所有發佈任務完成
-//						await Task.WhenAll(tasks);
-
-//						// 延遲 1 秒後再進行下一次檢查
-//						await Task.Delay(1000);
+//						StartAmqpEndpoint(endpointName); // 真正啟動 endpoint
+//						//_amqpConnected = true;  // 只有這裡設 true
+//						// 給 10 秒讓握手跑完；成功就把 _amqpConnected 設 true
+//						_amqpConnected = await SpinWaitUntilConnectedAsync(
+//											 TimeSpan.FromSeconds(10), _amqpRetryCts.Token);
+//						modbusViewer.AppendLog($"AMQP 連線成功（第 {_retryCount} 次）");
 //					}
 //					catch (Exception ex)
 //					{
-//						Console.WriteLine($"Error in publish task: {ex.Message}");
+//						_amqpConnected = false; // 關鍵：失敗要設回 false
+//						modbusViewer.AppendLog($"AMQP 連線失敗（第 {_retryCount}/{_maxAttempts} 次）: {ex.Message}");
+//						await Task.Delay(_retryInterval, _amqpRetryCts.Token);
 //					}
 //				}
-//			});
+
+//				if (!_amqpConnected)
+//					modbusViewer.AppendLog(" AMQP 重試已達上限，請檢查 PublishAddress / MyrequestUri");
+//			},
+//			_amqpRetryCts.Token);
 //		}
+
+//		/// <summary>
+//		/// 初始化並啟動 AMQP 端點。
+//		/// 1. 建立 AmqpCFXEndpoint
+//		/// 2. 掛事件（連線成功 / 中斷、RequestReceived…）
+//		/// 3. Open  RequestUri
+//		/// 4. 加入 Publish / Subscribe Channel
+//		/// 5. 由事件決定何時 _amqpConnected = true
+//		/// </summary>
+//		public void StartAmqpEndpoint(string endpointName)
+//		{
+//			if (string.IsNullOrWhiteSpace(endpointName))
+//				throw new ArgumentException("endpointName 不能為空白", nameof(endpointName));
+
+//			// 若之前已建立過端點，先關閉
+//			try { endpoint?.Close(); } catch { /* 忽略 */ }
+
+//			// ---------- 1) 建立新的 AmqpCFXEndpoint ----------
+//			endpoint = new AmqpCFXEndpoint();
+
+//			// ---------- 2) 事件：監聽通道連線狀態 ----------
+//			endpoint.OnConnectionEvent += (evt, uri, spool, info, ex) =>
+//			{
+//				// 只要收到 ConnectionEstablished 就標記此 URI = true，其餘事件視為 false
+//				bool isUp = (evt == ConnectionEvent.ConnectionEstablished);
+//				_uriState[uri.ToString()] = isUp;          // _uriState 為 ConcurrentDictionary<string,bool>
+
+//				// 檢查所有通道是否都已連線
+//				bool allOk = _expectedUris.All(u => _uriState.TryGetValue(u, out bool ok) && ok);
+
+//				if (allOk && !_amqpConnected)
+//				{
+//					_amqpConnected = true;
+//					modbusViewer.AppendLog("✓ AMQP 所有通道已連線成功：\n  └ " + string.Join("\n  └ ", _expectedUris));
+
+//					// 連線成功可發布一次 EndpointConnected
+//					endpoint.Publish(new EndpointConnected());
+
+//					if (!_publishLoopStarted)              // ★ 只啟動一次
+//					{
+//						_publishLoopStarted = true;
+//						_ = Task.Run(StartPublishLoop);
+//					}
+//				}
+//				else if (!allOk && _amqpConnected)
+//				{
+//					_amqpConnected = false;
+//					modbusViewer.AppendLog($"✘ AMQP 通道中斷：{evt} @ {uri}");
+//				}
+//			};
+
+//			// 事件：處理對方 Request
+//			endpoint.OnRequestReceived += OnRequestReceivedHandler;
+
+//			// ---------- 3) 開啟 RequestUri ----------
+//			endpoint.Open(endpointName, new Uri(endpointUri));   // endpointUri 來自建構子
+
+//			// ---------- 4) 加入 Publish Channel ----------
+//			endpoint.AddPublishChannel(new Uri(publishChannelUri), "event");
+
+//			// 若需要訂閱，可取消下行註解
+//			// endpoint.AddSubscribeChannel(new Uri(subscribeChannelUri), null, null);
+
+//			// ---------- 5) 提示已啟動 (真正成功由事件判定) ----------
+//			modbusViewer.AppendLog("AMQP 端點已啟動，等待通道握手…");
+//		}
+
+
+
+//		// =========================================================================
+//		//  連線事件：全部 Established 才算成功
+//		// =========================================================================
+//		private void HandleConnectionEvent(ConnectionEvent evt, Uri uri, int spool, string info, Exception ex)
+//		{
+//			bool isUp = evt == ConnectionEvent.ConnectionEstablished;
+//			_uriState[uri.ToString()] = isUp;
+
+//			bool allOk = _expectedUris.All(u => _uriState.TryGetValue(u, out bool ok) && ok);
+
+//			if (allOk && !_amqpConnected)
+//			{
+//				_amqpConnected = true;
+//				modbusViewer.AppendLog($"✓ AMQP 所有通道已握手成功：\n  └ {string.Join("\n  └ ", _expectedUris)}");
+
+//				// 發布 EndpointConnected
+//				endpoint.Publish(new EndpointConnected());
+
+//				// 啟動後台發佈
+//				_ = Task.Run(StartPublishLoop);
+//			}
+//			else if (!allOk && _amqpConnected)
+//			{
+//				_amqpConnected = false;
+//				modbusViewer.AppendLog($"✘ AMQP 通道中斷（{evt} @ {uri}），等待 ConnectionManager 重試…");
+//			}
+//		}
+
+//		private async Task<bool> SpinWaitUntilConnectedAsync(TimeSpan timeout, CancellationToken ct)
+//		{
+//			var start = DateTime.UtcNow;
+//			while (DateTime.UtcNow - start < timeout && !_amqpConnected && !ct.IsCancellationRequested)
+//				await Task.Delay(500, ct);
+//			return _amqpConnected;
+//		}
+
+//		// =========================================================================
+//		//  背景發佈循環（同你原本邏輯）
+//		// =========================================================================
+//		private async Task StartPublishLoop()
+//		{
+//			var lastFault = new Dictionary<byte, int>();
+//			var lastEnergy = DateTime.MinValue;
+
+//			while (_amqpConnected)
+//			{
+//				try
+//				{
+//					// --- 1) Fault 發佈 ---
+//					foreach (var stn in slaveData.Keys)
+//					{
+//						if (slaveData[stn].TryGetValue("Fault_WarningCode", out var obj))
+//						{
+//							int cur = Convert.ToInt32(obj);
+//							if (lastFault.TryGetValue(stn, out var prev) && prev != cur)
+//								await PublishFaultOccurredMessages(stn, endpoint);
+//							lastFault[stn] = cur;
+//						}
+//					}
+
+//					// --- 2) 每 60 秒能源 / 參數 ---
+//					if ((DateTime.Now - lastEnergy).TotalSeconds >= 60)
+//					{
+//						foreach (var stn in slaveData.Keys)
+//						{
+//							PublishStationParametersModifiedMessages(stn, endpoint);
+//							PublishEnergyConsumedMessages(stn, endpoint);
+//						}
+//						lastEnergy = DateTime.Now;
+//					}
+//				}
+//				catch (Exception ex)
+//				{
+//					modbusViewer.AppendLog($"發布循環錯誤：{ex.Message}");
+//				}
+
+//				await Task.Delay(1000);
+//			}
+//		}
+
+
+
+
 
 //		private CFXEnvelope OnRequestReceivedHandler(CFXEnvelope request)
 //		{

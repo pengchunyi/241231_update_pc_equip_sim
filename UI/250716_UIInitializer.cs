@@ -75,7 +75,7 @@ namespace AmqpModbusIntegration
 			testFaultButton = new Button { Text = "故障測試", Location = new Point(500, 50), Width = 120 };
 			viewer.Controls.Add(testFaultButton);
 
-			// =============== 溫度設定 ===============
+			// =============== 右側溫度設定 ===============
 			var tempLabel = new Label { Text = "保護溫度(℃):", Location = new Point(500, 10), AutoSize = true };
 			viewer.Controls.Add(tempLabel);
 
@@ -88,9 +88,9 @@ namespace AmqpModbusIntegration
 			// =============== DataGridView ===============
 			dataGridView = new DataGridView
 			{
-				Location = new Point(10, 100),
+				Location = new Point(10, 80),
 				Width = 850,
-				Height = 400,
+				Height = 320,
 				AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
 				ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize,
 				AllowUserToAddRows = false,
@@ -110,7 +110,7 @@ namespace AmqpModbusIntegration
 				View = View.Details,
 				Location = new Point(880, 10),
 				Width = 300,
-				Height = 510,
+				Height = 400,
 				GridLines = true,
 				FullRowSelect = true,
 				Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom,
@@ -145,9 +145,9 @@ namespace AmqpModbusIntegration
 			// =============== LOG 區（底部） ===============
 			logTextBox = new TextBox
 			{
-				Location = new Point(10, 560),
+				Location = new Point(10, 420),
 				Width = 1170,
-				Height = 140,
+				Height = 270,
 				Multiline = true,
 				ScrollBars = ScrollBars.Vertical,
 				ReadOnly = true,

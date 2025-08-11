@@ -12,7 +12,6 @@
 //using System.Linq;
 //using System.Threading;
 //using System.IO;
-//using System.Drawing;
 
 //namespace AmqpModbusIntegration
 //{
@@ -106,22 +105,8 @@
 //			// 建構式最後呼叫
 //			RefreshIniView();
 
+			
 
-
-//			// 2) 這裡補回：把 ini 設定顯示到 UI 上
-//			if (!string.IsNullOrWhiteSpace(SwitchDeviceConfig.ComPort))
-//			{
-//				portSelector.Items.Clear();
-//				portSelector.Items.Add(SwitchDeviceConfig.ComPort);
-//				portSelector.SelectedItem = SwitchDeviceConfig.ComPort;
-//			}
-
-//			if (SwitchDeviceConfig.StationNumber != null &&
-//				SwitchDeviceConfig.StationNumber.Count > 0 &&
-//				SwitchDeviceConfig.StationNumber.All(stn => stn > 0))
-//			{
-//				stationNumberTextBox.Text = string.Join(",", SwitchDeviceConfig.StationNumber);
-//			}
 
 
 //			connectButton.Click += (s, e) => InitializeSerialPort(portSelector.SelectedItem?.ToString());
@@ -205,102 +190,33 @@
 //			};
 
 
-
-//			// ← 這裡改成 controlsToLock，並且改用 Control 型別，
-//			//    一次收集所有要鎖住的按鈕／下拉／輸入框
-//			var controlsToLock = new List<Control>
+//			//250710新增=============================
+//			// 設定 COM 口（顯示灰色且不可改）
+//			if (!string.IsNullOrWhiteSpace(SwitchDeviceConfig.ComPort))
 //			{
-//				connectButton,
-//				readButton,
-//				tempSetButton,
-//				testFaultButton,
-//				switchOnButton,
-//				switchOffButton,
-//				refreshButton,
-//				portSelector,            // COM 口下拉
-//				stationNumberTextBox,     // 站號輸入
-//				tempTextBox//溫度輸入框
-//			};
-
-
-//			// 2) 記錄當前模式
-//			bool isDevMode = false;
-
-//			// 4) 新增開發者模式切換按鈕
-//			var devModeButton = new Button
-//			{
-//				Text = "開發者模式",
-//				Location = new Point(700, 50),
-//				Size = new Size(100, 25)
-//			};
-//			this.Controls.Add(devModeButton);
-
-//			// 3) 建兩個小方法：切換到使用者模式、開發者模式
-//			void SetUserMode()
-//			{
-//				foreach (var ctl in controlsToLock)
+//				// 若 ComboBox 尚未包含 ini 設定的 port，則自動加入
+//				if (!portSelector.Items.Contains(SwitchDeviceConfig.ComPort))
 //				{
-//					ctl.Enabled = false;
-//					ctl.BackColor = SystemColors.ControlLight;
+//					portSelector.Items.Add(SwitchDeviceConfig.ComPort);
 //				}
-//				devModeButton.Text = "開發者模式";
-//				isDevMode = false;
-//			}
-//			void SetDevMode()
-//			{
-//				foreach (var ctl in controlsToLock)
-//				{
-//					ctl.Enabled = true;
-//					ctl.BackColor = Color.White; // 解鎖時為白底
-//				}
-//				devModeButton.Text = "使用者模式";
-//				isDevMode = true;
+//				portSelector.SelectedItem = SwitchDeviceConfig.ComPort;
+//				portSelector.Enabled = false; // 禁止用戶選擇
+//				portSelector.BackColor = System.Drawing.Color.LightGray; // 顯示灰色
 //			}
 
 
-
-//			// 5) 一開始先套用「使用者模式」
-//			SetUserMode();
-
-//			// 6) 綁定按鈕事件：密碼正確就切 DevMode，再點一次就切回 UserMode
-//			devModeButton.Click += (s, e) =>
+//			// 設定站號（顯示灰色且不可改）
+//			if (SwitchDeviceConfig.StationNumber != 0)
 //			{
-//				if (!isDevMode)
-//				{
-//					// 以對話框要求密碼
-//					string pwd = "";
-//					using (var prompt = new Form())
-//					{
-//						prompt.Width = 300;
-//						prompt.Height = 150;
-//						prompt.Text = "開發者模式";
-//						prompt.FormBorderStyle = FormBorderStyle.FixedDialog;
-//						prompt.StartPosition = FormStartPosition.CenterParent;
+//				stationNumberTextBox.Text = SwitchDeviceConfig.StationNumber.ToString();
+//				stationNumberTextBox.ReadOnly = true; // 禁止編輯
+//				stationNumberTextBox.BackColor = System.Drawing.Color.LightGray;
+//			}
 
-//						var lbl = new Label() { Left = 10, Top = 10, Text = "請輸入密碼：" };
-//						var txt = new TextBox() { Left = 10, Top = 40, Width = 260, PasswordChar = '●' };
-//						var btnOk = new Button() { Text = "確定", Left = 200, Top = 70, DialogResult = DialogResult.OK };
-
-//						prompt.Controls.Add(lbl);
-//						prompt.Controls.Add(txt);
-//						prompt.Controls.Add(btnOk);
-//						prompt.AcceptButton = btnOk;
-
-//						if (prompt.ShowDialog(this) == DialogResult.OK)
-//							pwd = txt.Text;
-//					}
-//					if (pwd == "pengchunyi")
-//						SetDevMode();
-//					else
-//						MessageBox.Show("密碼錯誤", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-//				}
-//				else
-//				{
-//					// 已在開發者模式，點一下就恢復使用者模式
-//					SetUserMode();
-//				}
-//			};
-
+//			//鎖住「分閘」按鈕（顯示灰色且不可改）
+//			switchOffButton.Enabled = false;
+//			switchOffButton.BackColor = System.Drawing.Color.LightGray;
+//			//250710新增=============================
 
 //			// ========================
 //			// 下面這段是自動重啟自己，請一定放最後！
@@ -437,6 +353,10 @@
 
 //		private void InitializeTimer()
 //		{
+//			//updateTimer = new System.Windows.Forms.Timer();
+//			//updateTimer.Interval = 1000;
+//			//updateTimer.Tick += (s, e) => UpdateValues();
+//			//updateTimer.Start();
 
 //			//250714更新
 //			updateTimer = new System.Windows.Forms.Timer { Interval = 1000 };
@@ -536,7 +456,8 @@
 //			slaveData.Clear();
 //			foreach (var st in stationNumberTextBox.Text.Split(','))
 //			{
-//				if (byte.TryParse(st.Trim(), out var stationNumber))
+//				if (byte.TryParse(
+//				Trim(), out var stationNumber))
 //				{
 //					slaveData[stationNumber] = new Dictionary<string, object>();
 //				}
@@ -644,8 +565,8 @@
 //				// ===== 先讀取 CFX.ini 設定 =====
 //				try
 //				{
-//					ConfigHelper.LoadConfiguration();
-//					Console.WriteLine("讀取到的 CFX.ini COM = " + SwitchDeviceConfig.ComPort);
+//				ConfigHelper.LoadConfiguration();
+//				Console.WriteLine("讀取到的 CFX.ini COM = " + SwitchDeviceConfig.ComPort);
 
 //				}
 //				catch (Exception ex)
@@ -675,18 +596,18 @@
 //				//amqpManager.StartAmqpEndpoint("CFX.A00.S056421215");
 //				//I01插件機
 //				//amqpManager.StartAmqpEndpoint("CFX.A00.ST07220001");
-//				amqpManager.StartAmqpEndpoint(SystemConfig.MachineSN ?? "failed to load CFX.ini MachineSN");
+//				amqpManager.StartAmqpEndpoint(SystemConfig.MachineSN ?? "failed to read CFX.ini MachineSN");
 
 
 
 //				Application.Run(modbusViewer);
-//				//結束釋放 Mutex
+//				 //結束釋放 Mutex
 //				mutex.ReleaseMutex();
-//			}
-
 //		}
 
 //	}
+
+//}
 
 
 
@@ -695,15 +616,12 @@
 //	// 加入在 AmqpModbusIntegration namespace 內
 //	public static class ConfigHelper
 //	{
-
-//		//配置檔路徑
 //		private static readonly string IniPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "CFX.ini");
-
 
 //		public static void LoadConfiguration()
 //		{
 
-//			Console.WriteLine("讀取的配置檔路徑: " + IniPath);
+//			Console.WriteLine("現在要讀的 ini 檔路徑是: " + IniPath );
 
 //			if (!File.Exists(IniPath))
 //				throw new FileNotFoundException("找不到配置檔: " + IniPath);
@@ -720,17 +638,14 @@
 //					continue;
 //				}
 
-//				int idx = line.IndexOf('=');  // 查找等号的位置(从0开始起算)
-//				if (idx < 0) continue;       // 如果没有等号，跳过当前行
+//				int idx = line.IndexOf('=');
+//				if (idx < 0) continue;
 
 //				string key = line.Substring(0, idx).Trim();
 //				string val = line.Substring(idx + 1).Trim();
 
-//				//這邊這樣寫，是為了依照參數去做對應的函數處理
 //				if (section.Equals("Configuration", StringComparison.OrdinalIgnoreCase))
 //					ApplyConfiguration(key, val);
-
-//				//這邊這樣寫，是為了依照參數去做對應的函數處理
 //				else if (section.Equals("SwitchDevice", StringComparison.OrdinalIgnoreCase))
 //					ApplySwitchDevice(key, val);
 //			}
@@ -740,21 +655,19 @@
 //		{
 //			switch (key)
 //			{
-//				case "EquipmentName": 
-//					SystemConfig.EquipmentName = value; 
-//					break;
-
-//				case "MachineSN": 
-//					SystemConfig.MachineSN = value; 
-//					break;
-
-//				case "PublishAddress": 
-//					SystemConfig.PublishAddress = value; 
-//					break;
-
-//				case "MyrequestUri": 
-//					SystemConfig.MyRequestUri = value; 
-//					break;
+//				//case "Factory": SystemConfig.Factory = value; break;
+//				//case "Line": SystemConfig.Line = value; break;
+//				//case "Station": SystemConfig.Station = value; break;
+//				case "MachineSN": SystemConfig.MachineSN = value; break;
+//				//case "MC_IP": SystemConfig.IpAddress = value; break;
+//				//case "MC_Port": int port; if (int.TryParse(value, out port)) SystemConfig.Port = port; break;
+//				//case "Remote_IP": SystemConfig.RemoteIp = value; break;
+//				//case "Remote_Port": int rport; if (int.TryParse(value, out rport)) SystemConfig.RemotePort = rport; break;
+//				case "PublishAddress": SystemConfig.PublishAddress = value; break;
+//				case "MyrequestUri": SystemConfig.MyRequestUri = value; break;
+//				//case "ModelName": SystemConfig.ModelName = value; break;
+//				//case "MC_Name": SystemConfig.MachineName = value; break;
+//				//case "UseCFX": bool cfx; if (bool.TryParse(value, out cfx)) SystemConfig.UseCfx = cfx; break;
 //			}
 //		}
 
@@ -762,37 +675,40 @@
 //		{
 //			switch (key)
 //			{
-//				case "COM": 
-//					SwitchDeviceConfig.ComPort = value; 
-//					break;
-
-//				//case "StationNumber": byte stn; if (byte.TryParse(value, out stn)) SwitchDeviceConfig.StationNumber = stn; break;
-//				case "StationNumber":
-//					// 支援用英文逗號分隔多個站號
-//					var stationList = value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-//					SwitchDeviceConfig.StationNumber = stationList
-//						.Select(s => s.Trim())
-//						.Where(s => byte.TryParse(s, out _))
-//						.Select(byte.Parse)
-//						.ToList();
-//					break;
+//				case "COM": SwitchDeviceConfig.ComPort = value; break;
+//				case "StationNumber": byte stn; if (byte.TryParse(value, out stn)) SwitchDeviceConfig.StationNumber = stn; break;
+//				//case "fTemperature": float ft; if (float.TryParse(value, out ft)) SwitchDeviceConfig.FTemperature = ft; break;
+//				//case "bEnergyConsumption": bool be; if (bool.TryParse(value, out be)) SwitchDeviceConfig.BEnergyConsumption = be; break;
 //			}
 //		}
 //	}
 
 //	public static class SystemConfig
 //	{
-//		public static string EquipmentName { get; set; }
+//		//public static string Factory { get; set; }
+//		//public static string Line { get; set; }
+//		//public static string Station { get; set; }
 //		public static string MachineSN { get; set; }
+//		//public static string IpAddress { get; set; }
+//		//public static int Port { get; set; }
+//		//public static string RemoteIp { get; set; }
+//		//public static int RemotePort { get; set; }
 //		public static string PublishAddress { get; set; }
 //		public static string MyRequestUri { get; set; }
+//		//public static string ModelName { get; set; }
+//		//public static string MachineName { get; set; }
+//		//public static bool UseCfx { get; set; }
 //	}
 
 //	public static class SwitchDeviceConfig
 //	{
 //		public static string ComPort { get; set; }
-//		//public static byte StationNumber { get; set; }
-//		public static List<byte> StationNumber { get; set; } = new List<byte>();
+//		public static byte StationNumber { get; set; }
+//		//public static float FTemperature { get; set; }
+//		//public static bool BEnergyConsumption { get; set; }
 //	}
+
+
+
 
 //}
